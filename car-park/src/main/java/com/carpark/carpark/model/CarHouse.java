@@ -11,7 +11,7 @@ public class CarHouse {
     @Id
     @GeneratedValue
     private long id;
-    private String typeName;
+    private String houseName;
     private String address;
     private long capacity;
 
@@ -23,9 +23,9 @@ public class CarHouse {
 
     }
 
-    public CarHouse(long id, String typeName, String address, long capacity) {
+    public CarHouse(long id, String houseName, String address, long capacity) {
         this.id = id;
-        this.typeName = typeName;
+        this.houseName = houseName;
         this.address = address;
         this.capacity = capacity;
     }
@@ -38,12 +38,12 @@ public class CarHouse {
         this.id = id;
     }
 
-    public String getTypeName() {
-        return typeName;
+    public String getHouseName() {
+        return houseName;
     }
 
-    public void setTypeName(String typeName) {
-        this.typeName = typeName;
+    public void setHouseName(String typeName) {
+        this.houseName = typeName;
     }
 
     public String getAddress() {

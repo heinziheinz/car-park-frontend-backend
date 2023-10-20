@@ -4,6 +4,7 @@ package com.carpark.carpark.controller;
 import com.carpark.carpark.model.Car;
 import com.carpark.carpark.model.CarHouse;
 import com.carpark.carpark.repository.CarHouseRepository;
+import com.carpark.carpark.repository.CarRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
@@ -15,14 +16,16 @@ import java.util.Optional;
 @RequestMapping("carhouses")
 public class CarHouseController {
     private final CarHouseRepository carHouseRepository;
+    private final CarRepository carRepository;
 
-    public CarHouseController(CarHouseRepository carHouseRepository) {
+    public CarHouseController(CarHouseRepository carHouseRepository, CarRepository carRepository) {
         this.carHouseRepository = carHouseRepository;
+        this.carRepository = carRepository;
     }
 
     @GetMapping
-    List<CarHouse> findAll(Pageable pageable) {
-        return carHouseRepository.findAll();
+    Page<CarHouse> findAll(Pageable pageable) {
+        return carHouseRepository.findAll(pageable);
     }
 
     @PostMapping
@@ -41,7 +44,7 @@ public class CarHouseController {
 
         if (existingCarHouse.isPresent()) {
             CarHouse carHouse = existingCarHouse.get();
-            carHouse.setTypeName(updatedCarHouse.getTypeName());
+            carHouse.setHouseName(updatedCarHouse.getHouseName());
             carHouse.setCapacity(updatedCarHouse.getCapacity());
             carHouse.setAddress(updatedCarHouse.getAddress());
 
@@ -49,5 +52,24 @@ public class CarHouseController {
         } else {
             throw new RescourceNotFoundException();
         }
+    }
+
+    @PostMapping("/{carhouseId}/cars/{carId}")
+    CarHouse addCarToCarHouse(
+            @PathVariable long carhouseId,
+            @PathVariable long carId
+    ) throws RescourceNotFoundException {
+
+        CarHouse carHouse = carHouseRepository.findById(carhouseId)
+                .orElseThrow(RescourceNotFoundException::new);
+        Car car = carRepository.findById(carId)
+                .orElseThrow(RescourceNotFoundException::new);
+
+        carHouse.getCars().add(car);
+        car.setCarHouse( carHouse);
+        carHouseRepository.save(carHouse);
+        carRepository.save(car);
+
+        return carHouse;
     }
 }
