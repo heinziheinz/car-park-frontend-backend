@@ -7,6 +7,7 @@ import Login from "./Pages/Login.jsx";
 import CarForm from "./Components/CarForm.jsx";
 import CarList from "./Pages/CarList.jsx";
 import UserList from "./Pages/UserList.jsx";
+import CarCreator from "./Pages/CarCreator.jsx";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 
@@ -24,7 +25,7 @@ const router = createBrowserRouter([
             },
             {
                 path: "/add-a-car",
-                element: <CarForm />,
+                element: <CarCreator/>,
             },
             {
                 path: "/show-all-cars",

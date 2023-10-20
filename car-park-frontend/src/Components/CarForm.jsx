@@ -1,17 +1,17 @@
 import {useState} from "react";
-import {loadJson} from "../Utilities/fetch.js"
+import {loadJson} from "../Utilities/loadJson.js"
 
-const CarForm = () => {
-
+const CarForm = ({onSave}) => {
     const [car, setCar] = useState(null);
 
     const [typeName, setTypeName] = useState("");
     const [price, setPrice] = useState("");
 
-    const onSubmit = async (e) => {
+    const onSubmit = (e) => {
         e.preventDefault();
+        return onSave({typeName, price});
 
-        const option = {
+        /*const option = {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -23,7 +23,7 @@ const CarForm = () => {
         };
 
         const data = await loadJson(`/cars`, option)
-        console.log(data);
+        console.log(data);*/
 
     }
 
@@ -45,7 +45,7 @@ const CarForm = () => {
                     id="price"
                 />
             </div>
-            <input type="submit" value={"Push"} />
+            <input type="submit" value={"Push"}/>
         </form>
     );
 
