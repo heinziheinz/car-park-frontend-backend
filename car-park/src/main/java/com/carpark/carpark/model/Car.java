@@ -1,6 +1,7 @@
 package com.carpark.carpark.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.HashSet;
@@ -19,6 +20,10 @@ public class Car {
 //    @OneToMany(mappedBy = "car")
     @OneToMany(mappedBy = "car", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Reservation> reservations = new HashSet<>();
+
+    @ManyToOne
+    @JsonIgnore // Add @JsonIgnore to prevent infinite loop
+    private CarHouse carHouse; // Establishes the Many-to-One relationship with Car
 
     public Car() {
 
