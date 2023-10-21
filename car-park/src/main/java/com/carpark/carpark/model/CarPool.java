@@ -1,33 +1,34 @@
 package com.carpark.carpark.model;
 
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-public class CarHouse {
+public class CarPool {
     @Id
     @GeneratedValue
     private long id;
-    private String houseName;
+    private String CarReserve;
     private String address;
     private long capacity;
 
-    @OneToMany(mappedBy = "carHouse")
+    @OneToMany(mappedBy = "carPool")
     private Set<Car> cars = new HashSet<>();
 
-
-    public CarHouse() {
-
+    public CarPool() {
     }
 
-    public CarHouse(long id, String houseName, String address, long capacity) {
-        this.id = id;
-        this.houseName = houseName;
+    public CarPool(String carReserve, String address, long capacity, Set<Car> cars) {
+        CarReserve = carReserve;
         this.address = address;
         this.capacity = capacity;
+        this.cars = cars;
     }
 
     public long getId() {
@@ -38,12 +39,12 @@ public class CarHouse {
         this.id = id;
     }
 
-    public String getHouseName() {
-        return houseName;
+    public String getCarReserve() {
+        return CarReserve;
     }
 
-    public void setHouseName(String typeName) {
-        this.houseName = typeName;
+    public void setCarReserve(String carReserve) {
+        CarReserve = carReserve;
     }
 
     public String getAddress() {

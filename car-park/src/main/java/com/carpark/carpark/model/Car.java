@@ -25,6 +25,10 @@ public class Car {
     @JsonIgnore // Add @JsonIgnore to prevent infinite loop
     private CarHouse carHouse; // Establishes the Many-to-One relationship with Car
 
+    @ManyToOne
+    @JsonIgnore // Add @JsonIgnore to prevent infinite loop
+    private CarPool carPool; // Establishes the Many-to-One relationship with Car
+
     public CarHouse getCarHouse() {
         return carHouse;
     }
