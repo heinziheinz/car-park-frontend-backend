@@ -16,6 +16,10 @@ public class Reservation {
     private  LocalDate startDate;
     private LocalDate endDate;
 
+    @ManyToOne
+    @JsonIgnore // Add @JsonIgnore to prevent infinite loop
+    private Car car; // Establishes the Many-to-One relationship with Car
+
     public Reservation() {
 
     }
@@ -26,9 +30,7 @@ public class Reservation {
         this.endDate = endDate;
     }
 
-    @ManyToOne
-    @JsonIgnore // Add @JsonIgnore to prevent infinite loop
-    private Car car; // Establishes the Many-to-One relationship with Car
+
 
     // Getter for car
     public Car getCar() {

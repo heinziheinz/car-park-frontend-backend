@@ -23,8 +23,19 @@ public class ReservationController {
 
     @GetMapping
     Page<Reservation> findAll(Pageable pageable) {
-        return reservationRepository.findAll(pageable);
+
+        Page<Reservation> reservations = reservationRepository.findAll(pageable);
+        System.out.println("reservations = " + reservations);
+        return reservations;
     }
+
+    @GetMapping("/id/{id}")
+    Reservation findById(@PathVariable long id) throws RescourceNotFoundException {
+        Reservation reservation = reservationRepository.findById(id).orElseThrow(RescourceNotFoundException::new);
+        System.out.println("reservation = " + reservation.getCar());
+        return reservation;
+    }
+
 
     @DeleteMapping("/{id}")
     void delete(@PathVariable long id) {

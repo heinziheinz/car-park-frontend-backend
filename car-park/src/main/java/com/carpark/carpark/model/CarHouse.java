@@ -23,8 +23,7 @@ public class CarHouse {
 
     }
 
-    public CarHouse(long id, String houseName, String address, long capacity) {
-        this.id = id;
+    public CarHouse( String houseName, String address, long capacity) {
         this.houseName = houseName;
         this.address = address;
         this.capacity = capacity;

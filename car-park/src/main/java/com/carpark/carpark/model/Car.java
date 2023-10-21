@@ -29,6 +29,14 @@ public class Car {
     @JsonIgnore // Add @JsonIgnore to prevent infinite loop
     private CarPool carPool; // Establishes the Many-to-One relationship with Car
 
+    public CarPool getCarPool() {
+        return carPool;
+    }
+
+    public void setCarPool(CarPool carPool) {
+        this.carPool = carPool;
+    }
+
     public CarHouse getCarHouse() {
         return carHouse;
     }

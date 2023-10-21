@@ -14,21 +14,22 @@ public class CarPool {
     @Id
     @GeneratedValue
     private long id;
-    private String CarReserve;
+    private String carPoolName;
     private String address;
     private long capacity;
 
     @OneToMany(mappedBy = "carPool")
     private Set<Car> cars = new HashSet<>();
 
+
     public CarPool() {
+
     }
 
-    public CarPool(String carReserve, String address, long capacity, Set<Car> cars) {
-        CarReserve = carReserve;
+    public CarPool(String carPoolName, String address, long capacity) {
+        this.carPoolName = carPoolName;
         this.address = address;
         this.capacity = capacity;
-        this.cars = cars;
     }
 
     public long getId() {
@@ -39,12 +40,12 @@ public class CarPool {
         this.id = id;
     }
 
-    public String getCarReserve() {
-        return CarReserve;
+    public String getCarPoolName() {
+        return carPoolName;
     }
 
-    public void setCarReserve(String carReserve) {
-        CarReserve = carReserve;
+    public void setCarPoolName(String carReserve) {
+        this.carPoolName = carReserve;
     }
 
     public String getAddress() {

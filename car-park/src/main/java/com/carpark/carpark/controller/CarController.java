@@ -2,8 +2,10 @@ package com.carpark.carpark.controller;
 
 
 import com.carpark.carpark.model.Car;
+import com.carpark.carpark.model.CarPool;
 import com.carpark.carpark.model.Reservation;
 import com.carpark.carpark.model.User;
+import com.carpark.carpark.repository.CarPoolRepository;
 import com.carpark.carpark.repository.CarRepository;
 import com.carpark.carpark.repository.ReservationRepository;
 import com.carpark.carpark.repository.UserRepository;
@@ -24,12 +26,14 @@ public class CarController {
     private final UserRepository userRepository;
     private final ReservationRepository reservationRepository;
     private final CarReservationService carReservationService;
+    private final CarPoolRepository carPoolRepository;
 
-    public CarController(CarRepository carRepository, UserRepository userRepository, ReservationRepository reservationRepository, CarReservationService carReservationService) {
+    public CarController(CarRepository carRepository, UserRepository userRepository, ReservationRepository reservationRepository, CarReservationService carReservationService, CarPoolRepository carPoolRepository) {
         this.carRepository = carRepository;
         this.userRepository = userRepository;
         this.reservationRepository = reservationRepository;
         this.carReservationService = carReservationService;
+        this.carPoolRepository = carPoolRepository;
     }
 
 //    @GetMapping
@@ -50,8 +54,19 @@ public class CarController {
 
     @PostMapping
     Car save(@RequestBody Car car) {
+        Car carSaved = carRepository.save(car);
+        System.out.println("carSaved = " + carSaved);
+        //TODO: aufräumen!!
+        CarPool carPool = carPoolRepository.findCarPoolById(1);
 
-        return carRepository.save(car);
+        carSaved.setCarPool(carPool);
+        Set<Car> cars = carPool.getCars();
+        System.out.println("cars = " + cars);
+        cars.add(carSaved);
+        carPool.setCars(cars);
+        carPoolRepository.save(carPool);
+        System.out.println("cars = " + cars);
+        return carSaved;
     }
 
     @DeleteMapping("/{id}")
@@ -87,6 +102,8 @@ public class CarController {
             @PathVariable LocalDate startDate,
             @PathVariable LocalDate endDate
     ) throws RescourceNotFoundException {
+
+        //TODO: carRepository and userRepository should be in the constructor
 
         Car car = carReservationService.getRequestedCar(carId, carRepository);
         User user = carReservationService.getUser(userId, userRepository);
