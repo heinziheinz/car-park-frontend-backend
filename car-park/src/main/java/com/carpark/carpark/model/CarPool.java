@@ -7,6 +7,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -70,5 +71,30 @@ public class CarPool {
 
     public void setCars(Set<Car> cars) {
         this.cars = cars;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        CarPool carPool = (CarPool) o;
+        return id == carPool.id && capacity == carPool.capacity && Objects.equals(carPoolName, carPool.carPoolName) && Objects.equals(address, carPool.address) && Objects.equals(cars, carPool.cars);
+    }
+
+    @Override
+    public String toString() {
+        return "CarPool{" +
+                "id=" + id +
+                ", carPoolName='" + carPoolName + '\'' +
+                ", address='" + address + '\'' +
+                ", capacity=" + capacity +
+                ", cars=" + cars +
+                '}';
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, carPoolName, address, capacity, cars);
+
     }
 }

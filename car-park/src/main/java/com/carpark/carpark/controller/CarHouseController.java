@@ -7,11 +7,13 @@ import com.carpark.carpark.model.CarPool;
 import com.carpark.carpark.repository.CarHouseRepository;
 import com.carpark.carpark.repository.CarPoolRepository;
 import com.carpark.carpark.repository.CarRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
+import java.util.Set;
 
 @RestController
 @RequestMapping("carhouses")
@@ -29,6 +31,8 @@ public class CarHouseController {
 
     @GetMapping
     Page<CarHouse> findAll(Pageable pageable) {
+        //TODO: erweitern; es muss nach Carhouse und anfangsdatum, siewie enddatum gesucht werden können
+
         return carHouseRepository.findAll(pageable);
     }
 
@@ -58,6 +62,8 @@ public class CarHouseController {
         }
     }
 
+
+
     @PostMapping("/{carhouseId}/cars/{carId}")
     CarHouse addCarToCarHouse(
             @PathVariable long carhouseId,
@@ -68,16 +74,8 @@ public class CarHouseController {
                 .orElseThrow(RescourceNotFoundException::new);
         Car car = carRepository.findById(carId)
                 .orElseThrow(RescourceNotFoundException::new);
-        long poolId = 1;
-        Optional<CarPool> carPool = carPoolRepository.findById(poolId);
-        CarPool carPool1;
-        System.out.println("carPool1 = " + carPool);
-        if (carPool.isPresent()) {
-            System.out.println("ERROR");
-            carPool1 = carPool.get();
-        }else{
-            throw new RescourceNotFoundException();
-        }
+
+        CarPool carPool = carPoolRepository.findCarPoolById(1);
 
 
         carHouse.getCars().add(car);
@@ -85,10 +83,17 @@ public class CarHouseController {
         carHouseRepository.save(carHouse);
         carRepository.save(car);
 
-        carPool1.getCars().remove(car);
-        System.out.println("carPool1 = " + carPool1);
+        Set<Car> cars = carPool.getCars();
+        cars.remove(car);
+        carPool.setCars(cars);
+        //TODO:  carPoolRepository.save(carPool); does not work!!
+//        carPoolRepository.save(carPool);
+        carPoolRepository.saveAndFlush(carPool);
+
 
 
         return carHouse;
     }
+
+
 }
