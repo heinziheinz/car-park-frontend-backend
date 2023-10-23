@@ -26,8 +26,9 @@ public class Populator {
         return args -> {
             CarPool carPool = cerateCarPool(carPoolRepository);
             createUsers(userRepository);
+            List<Car> listCars = createCars(carRepository);
             List<Car> carlist = carRepository.findAll();
-            Set<Car> setOfCars1 = new HashSet<>(carlist);
+            Set<Car> setOfCars1 = new HashSet<>(listCars);
             System.out.println("setOfCars = " + setOfCars1);
             carlist.forEach((car)->{
                 car.setCarPool(carPool);
