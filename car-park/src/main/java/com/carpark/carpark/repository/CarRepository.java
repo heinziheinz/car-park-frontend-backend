@@ -31,6 +31,16 @@ public interface CarRepository extends JpaRepository<Car, Long> {
     );
 
 
+    //TODO check if this works
+    @Query("SELECT COUNT(r) FROM Reservation r " +
+            "WHERE r.car = :car " +
+            "AND (r.startDate <= :endDate) " +
+            "AND (r.endDate >= :startDate)")
+    int countOverlappingReservations(@Param("car") Car car,
+                                     @Param("startDate") LocalDate startDate,
+                                     @Param("endDate") LocalDate endDate);
+
+
 
 }
 

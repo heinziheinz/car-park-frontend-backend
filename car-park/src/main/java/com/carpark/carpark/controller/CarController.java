@@ -1,7 +1,10 @@
 package com.carpark.carpark.controller;
 
 
-import com.carpark.carpark.model.*;
+import com.carpark.carpark.model.Car;
+import com.carpark.carpark.model.CarHouse;
+import com.carpark.carpark.model.CarPool;
+import com.carpark.carpark.model.User;
 import com.carpark.carpark.repository.*;
 import com.carpark.carpark.service.CarReservationService;
 import org.springframework.data.domain.Page;
@@ -104,13 +107,25 @@ public class CarController {
 
         Car car = carReservationService.getRequestedCar(carId, carRepository);
         User user = carReservationService.getUser(userId, userRepository);
-        boolean carAvailable = carReservationService.isCarAvailableDuringTimePeriod(car, startDate, endDate);
-        System.out.println("carAvailable = " + carAvailable);
 
-        if (!carAvailable) {
+        //TODO: Variante
+//        boolean carAvailable = carReservationService.isCarAvailableDuringTimePeriod(car, startDate, endDate);
+//        System.out.println("carAvailable = " + carAvailable);
+//
+//        if (!carAvailable) {
+//            throw new RescourceNotFoundException();
+//        }
+        
+        //TODO: here to do: Check ob funktioniert
+        boolean carAvailableSQl = carReservationService.isCarAvailableDuringTimePeriodSQLQuery(car, startDate, endDate);
+        System.out.println("carAvailableSQl = " + carAvailableSQl);
+        if (!carAvailableSQl) {
             throw new RescourceNotFoundException();
         }
-        carReservationService.carGetsReserved(car, user, startDate, endDate, reservationRepository);
+
+
+
+        carReservationService.carGetsReserved(car, user, startDate, endDate);
 
         return car;
 
@@ -126,7 +141,7 @@ public class CarController {
             @PathVariable Long carHouseId,
             @PathVariable LocalDate startDate,
             @PathVariable LocalDate endDate
-    ) throws RescourceNotFoundException{
+    ) throws RescourceNotFoundException {
         CarHouse carHouse = carHouseRepository.findById(carHouseId)
                 .orElseThrow(RescourceNotFoundException::new);
 

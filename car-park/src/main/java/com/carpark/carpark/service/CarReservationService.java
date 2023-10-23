@@ -17,10 +17,14 @@ import java.util.Set;
 public class CarReservationService {
 
     private final DateTimeService dateTimeService;
+    private final ReservationRepository reservationRepository;
+    private  final CarRepository carRepository;
 
-    public CarReservationService(DateTimeService dateTimeService) {
+    public CarReservationService(DateTimeService dateTimeService, ReservationRepository reservationRepository, CarRepository carRepository) {
 
         this.dateTimeService = dateTimeService;
+        this.reservationRepository = reservationRepository;
+        this.carRepository = carRepository;
     }
 
     public Car getRequestedCar(long carId, CarRepository carRepository) throws RescourceNotFoundException {
@@ -41,12 +45,20 @@ public class CarReservationService {
 
     }
 
-    public void carGetsReserved(Car car, User user, LocalDate startDate, LocalDate endDate, ReservationRepository reservationRepository) {
+    public boolean isCarAvailableDuringTimePeriodSQLQuery(Car car, LocalDate startDate, LocalDate endDate) {
+        int overlappingCount = carRepository.countOverlappingReservations(car, startDate, endDate);
+        return overlappingCount == 0;
+    }
+
+
+
+    public void carGetsReserved(Car car, User user, LocalDate startDate, LocalDate endDate) {
 
         Reservation reservation = new Reservation(user, startDate, endDate);
         reservation.setCar(car); // Set the car for the reservation
         Reservation reservationInst = reservationRepository.save(reservation);
         Set<Reservation> reservations = car.getReservations();
         reservations.add(reservationInst);
+        //TODO: why does this work??
     }
 }
