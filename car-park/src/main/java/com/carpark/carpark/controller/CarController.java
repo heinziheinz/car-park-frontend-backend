@@ -1,14 +1,8 @@
 package com.carpark.carpark.controller;
 
 
-import com.carpark.carpark.model.Car;
-import com.carpark.carpark.model.CarPool;
-import com.carpark.carpark.model.Reservation;
-import com.carpark.carpark.model.User;
-import com.carpark.carpark.repository.CarPoolRepository;
-import com.carpark.carpark.repository.CarRepository;
-import com.carpark.carpark.repository.ReservationRepository;
-import com.carpark.carpark.repository.UserRepository;
+import com.carpark.carpark.model.*;
+import com.carpark.carpark.repository.*;
 import com.carpark.carpark.service.CarReservationService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -28,12 +22,15 @@ public class CarController {
     private final CarReservationService carReservationService;
     private final CarPoolRepository carPoolRepository;
 
-    public CarController(CarRepository carRepository, UserRepository userRepository, ReservationRepository reservationRepository, CarReservationService carReservationService, CarPoolRepository carPoolRepository) {
+    private final CarHouseRepository carHouseRepository;
+
+    public CarController(CarRepository carRepository, UserRepository userRepository, ReservationRepository reservationRepository, CarReservationService carReservationService, CarPoolRepository carPoolRepository, CarHouseRepository carHouseRepository) {
         this.carRepository = carRepository;
         this.userRepository = userRepository;
         this.reservationRepository = reservationRepository;
         this.carReservationService = carReservationService;
         this.carPoolRepository = carPoolRepository;
+        this.carHouseRepository = carHouseRepository;
     }
 
 //    @GetMapping
@@ -122,5 +119,17 @@ public class CarController {
     @GetMapping("find-available-cars-for-rent/{startDate}/{endDate}")
     List<Car> getAllAvailableCars(@PathVariable LocalDate startDate, @PathVariable LocalDate endDate) {
         return carRepository.findAvailableCars(startDate, endDate);
+    }
+
+    @GetMapping("find-available-cars-for-rent/{carHouseId}/{startDate}/{endDate}")
+    List<Car> getAllAvailableCars(
+            @PathVariable Long carHouseId,
+            @PathVariable LocalDate startDate,
+            @PathVariable LocalDate endDate
+    ) throws RescourceNotFoundException{
+        CarHouse carHouse = carHouseRepository.findById(carHouseId)
+                .orElseThrow(RescourceNotFoundException::new);
+
+        return carRepository.findAvailableCarsPlusCarHouse(startDate, endDate, carHouse);
     }
 }

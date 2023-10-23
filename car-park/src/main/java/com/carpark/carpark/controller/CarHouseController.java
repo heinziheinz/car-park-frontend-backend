@@ -80,12 +80,15 @@ public class CarHouseController {
 
         carHouse.getCars().add(car);
         car.setCarHouse(carHouse);
+
         carHouseRepository.save(carHouse);
-        carRepository.save(car);
 
         Set<Car> cars = carPool.getCars();
         cars.remove(car);
         carPool.setCars(cars);
+        //TODO:take car.setCarPool(null);
+        car.setCarPool(null);
+        carRepository.save(car);
         //TODO:  carPoolRepository.save(carPool); does not work!!
 //        carPoolRepository.save(carPool);
         carPoolRepository.saveAndFlush(carPool);

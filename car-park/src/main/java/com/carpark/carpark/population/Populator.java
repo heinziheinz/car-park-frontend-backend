@@ -26,11 +26,21 @@ public class Populator {
         return args -> {
             CarPool carPool = cerateCarPool(carPoolRepository);
             createUsers(userRepository);
-            List<Car> listCars = createCars(carRepository);
-            Set<Car> setOfCars1 = new HashSet<>(listCars);
-            System.out.println("setOfCars1KKKKKK = " + setOfCars1);
+            List<Car> carlist = carRepository.findAll();
+            Set<Car> setOfCars1 = new HashSet<>(carlist);
+            System.out.println("setOfCars = " + setOfCars1);
+            carlist.forEach((car)->{
+                car.setCarPool(carPool);
+
+            });
             carPool.setCars(setOfCars1);
             carPoolRepository.save(carPool);
+            carRepository.saveAll( carlist);
+            //TODO: cars don`t get set in CarPool
+
+//            carRepository.saveAll(listCars);
+
+
         };
     }
 

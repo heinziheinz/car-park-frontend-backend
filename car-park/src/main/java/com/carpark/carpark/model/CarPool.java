@@ -1,10 +1,7 @@
 package com.carpark.carpark.model;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 
 import java.util.HashSet;
 import java.util.Objects;
@@ -19,7 +16,8 @@ public class CarPool {
     private String address;
     private long capacity;
 
-    @OneToMany(mappedBy = "carPool")
+
+    @OneToMany(mappedBy = "carPool")//TODO: can`t add without crashing: cascade = CascadeType.ALL, orphanRemoval = true
     private Set<Car> cars = new HashSet<>();
 
 
@@ -69,7 +67,8 @@ public class CarPool {
         return cars;
     }
 
-    public void setCars(Set<Car> cars) {
+    public void
+    setCars(Set<Car> cars) {
         this.cars = cars;
     }
 

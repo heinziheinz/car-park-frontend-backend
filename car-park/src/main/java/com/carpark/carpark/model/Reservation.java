@@ -16,6 +16,7 @@ public class Reservation {
     private  LocalDate startDate;
     private LocalDate endDate;
 
+    //TODO:  @JsonIgnore prevents infinite loop but car is not returned
     @ManyToOne
     @JsonIgnore // Add @JsonIgnore to prevent infinite loop
     private Car car; // Establishes the Many-to-One relationship with Car
