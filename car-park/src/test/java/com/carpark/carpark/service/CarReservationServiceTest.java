@@ -3,7 +3,10 @@ package com.carpark.carpark.service;
 import com.carpark.carpark.model.Car;
 import com.carpark.carpark.model.Reservation;
 import com.carpark.carpark.model.User;
+import com.carpark.carpark.repository.CarPoolRepository;
+import com.carpark.carpark.repository.CarRepository;
 import com.carpark.carpark.repository.ReservationRepository;
+import com.carpark.carpark.repository.UserRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -23,7 +26,10 @@ class CarReservationServiceTest {
 
     DateTimeService mockDateTimeService = mock(DateTimeService.class);
     ReservationRepository mockreservationRepository = mock(ReservationRepository.class);
-    CarReservationService carReservationService = new CarReservationService(mockDateTimeService, mockreservationRepository, carRepository);
+    CarRepository mockCarRepository = mock(CarRepository.class);
+    CarPoolRepository mockCarPoolRepository = mock(CarPoolRepository.class);
+    UserRepository userRepository = mock(UserRepository.class);
+    CarReservationService carReservationService = new CarReservationService(mockDateTimeService, mockreservationRepository, mockCarRepository ,mockCarPoolRepository, userRepository, carHouseRepository);
 
     public static Stream<Arguments> arguments() {
         //empty array = true

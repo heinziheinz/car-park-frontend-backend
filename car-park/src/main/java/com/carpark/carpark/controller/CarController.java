@@ -3,7 +3,6 @@ package com.carpark.carpark.controller;
 
 import com.carpark.carpark.model.Car;
 import com.carpark.carpark.model.CarHouse;
-import com.carpark.carpark.model.CarPool;
 import com.carpark.carpark.model.User;
 import com.carpark.carpark.repository.*;
 import com.carpark.carpark.service.CarReservationService;
@@ -14,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 @RestController
 @RequestMapping("cars")
@@ -44,29 +42,18 @@ public class CarController {
 
     @GetMapping
     Page<Car> findAll(Pageable pageable) {
-        return carRepository.findAll(pageable);
+        return carReservationService.findAllPaginated(pageable);
     }
 
     @GetMapping("/type/{name}")
     List<Car> findAllByType(@PathVariable String name) {
-        return carRepository.findAllByTypeName(name);
+        return carReservationService.findAllByTypeName(name);
     }
 
     @PostMapping
     Car save(@RequestBody Car car) {
-        Car carSaved = carRepository.save(car);
-        System.out.println("carSaved = " + carSaved);
-        //TODO: aufräumen!!
-        CarPool carPool = carPoolRepository.findCarPoolById(1);
-
-        carSaved.setCarPool(carPool);
-        Set<Car> cars = carPool.getCars();
-        System.out.println("cars = " + cars);
-        cars.add(carSaved);
-        carPool.setCars(cars);
-        carPoolRepository.save(carPool);
-        System.out.println("cars = " + cars);
-        return carSaved;
+        long carPoolId = 1;
+        return carReservationService.saveCarService(car, carPoolId);
     }
 
     @DeleteMapping("/{id}")
@@ -82,17 +69,7 @@ public class CarController {
     //    Why do I have to do it that way with throw
     @PutMapping("/{id}")
     Car update(@PathVariable long id, @RequestBody Car updatedCar) throws RescourceNotFoundException {
-        Optional<Car> existingCar = carRepository.findById(id);
-
-        if (existingCar.isPresent()) {
-            Car car = existingCar.get();
-            car.setTypeName(updatedCar.getTypeName());
-            car.setPrice(updatedCar.getPrice());
-
-            return carRepository.save(car);
-        } else {
-            throw new RescourceNotFoundException();
-        }
+        return carReservationService.updateCar(id, updatedCar);
     }
 
     @PostMapping("/{carId}/user/{userId}/{startDate}/{endDate}")
@@ -102,32 +79,7 @@ public class CarController {
             @PathVariable LocalDate startDate,
             @PathVariable LocalDate endDate
     ) throws RescourceNotFoundException {
-
-        //TODO: carRepository and userRepository should be in the constructor
-
-        Car car = carReservationService.getRequestedCar(carId, carRepository);
-        User user = carReservationService.getUser(userId, userRepository);
-
-        //TODO: Variante
-//        boolean carAvailable = carReservationService.isCarAvailableDuringTimePeriod(car, startDate, endDate);
-//        System.out.println("carAvailable = " + carAvailable);
-//
-//        if (!carAvailable) {
-//            throw new RescourceNotFoundException();
-//        }
-        
-        //TODO: here to do: Check ob funktioniert
-        boolean carAvailableSQl = carReservationService.isCarAvailableDuringTimePeriodSQLQuery(car, startDate, endDate);
-        System.out.println("carAvailableSQl = " + carAvailableSQl);
-        if (!carAvailableSQl) {
-            throw new RescourceNotFoundException();
-        }
-
-
-
-        carReservationService.carGetsReserved(car, user, startDate, endDate);
-
-        return car;
+        return carReservationService.rentACar(carId, userId,startDate,endDate);
 
     }
 
@@ -142,9 +94,6 @@ public class CarController {
             @PathVariable LocalDate startDate,
             @PathVariable LocalDate endDate
     ) throws RescourceNotFoundException {
-        CarHouse carHouse = carHouseRepository.findById(carHouseId)
-                .orElseThrow(RescourceNotFoundException::new);
-
-        return carRepository.findAvailableCarsPlusCarHouse(startDate, endDate, carHouse);
+        return carReservationService.getAvailableCars(carHouseId, startDate,endDate);
     }
 }
