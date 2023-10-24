@@ -7,6 +7,7 @@ import com.carpark.carpark.model.CarPool;
 import com.carpark.carpark.repository.CarHouseRepository;
 import com.carpark.carpark.repository.CarPoolRepository;
 import com.carpark.carpark.repository.CarRepository;
+import com.carpark.carpark.service.CarHouseService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
@@ -23,10 +24,13 @@ public class CarHouseController {
 
     private final CarPoolRepository carPoolRepository;
 
-    public CarHouseController(CarHouseRepository carHouseRepository, CarRepository carRepository, CarPoolRepository carPoolRepository) {
+    private final CarHouseService carHouseService;
+
+    public CarHouseController(CarHouseRepository carHouseRepository, CarRepository carRepository, CarPoolRepository carPoolRepository, CarHouseService carHouseService) {
         this.carHouseRepository = carHouseRepository;
         this.carRepository = carRepository;
         this.carPoolRepository = carPoolRepository;
+        this.carHouseService = carHouseService;
     }
 
     @GetMapping
@@ -43,42 +47,8 @@ public class CarHouseController {
 
     @DeleteMapping("/{id}")
     void delete(@PathVariable long id) throws RescourceNotFoundException {
-        //When a carHouse get deleted all Cars get added to carPool
-//        carHouseRepository.
-
-        Optional<CarHouse> carHouseOptional = carHouseRepository.findById(id);
-        long carPoolID = 1;
-        Optional<CarPool> carPoolOptional = carPoolRepository.findById(carPoolID);
-
-
-        CarPool carPool;
-        if (carPoolOptional.isPresent()) {
-            carPool = carPoolOptional.get();
-        } else {
-            throw new RescourceNotFoundException();
-        }
-
-        CarHouse carHouse;
-        if (carHouseOptional.isPresent()) {
-            carHouse = carHouseOptional.get();
-        } else {
-            throw new RescourceNotFoundException();
-        }
-        Set<Car> carHouseCars = carHouse.getCars();
-
-        carHouseCars.forEach((car) -> {
-            car.setCarHouse(null);
-            car.setCarPool(carPool);
-        });
-
-        Set<Car> carPoolCars = carPool.getCars();
-
-        carPoolCars.addAll(carHouseCars);
-        carPool.setCars(carPoolCars);
-        carPoolRepository.save(carPool);
-
-
-        carHouseRepository.deleteById(id);
+        
+        carHouseService.deleteCarHouse(id);
     }
 
     @PutMapping("/{id}")
