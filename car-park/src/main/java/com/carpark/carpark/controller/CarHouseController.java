@@ -35,8 +35,6 @@ public class CarHouseController {
 
     @GetMapping
     Page<CarHouse> findAll(Pageable pageable) {
-        //TODO: erweitern; es muss nach Carhouse und anfangsdatum, siewie enddatum gesucht werden können
-
         return carHouseRepository.findAll(pageable);
     }
 
@@ -47,24 +45,12 @@ public class CarHouseController {
 
     @DeleteMapping("/{id}")
     void delete(@PathVariable long id) throws RescourceNotFoundException {
-        
         carHouseService.deleteCarHouse(id);
     }
 
     @PutMapping("/{id}")
     CarHouse update(@PathVariable long id, @RequestBody CarHouse updatedCarHouse) throws RescourceNotFoundException {
-        Optional<CarHouse> existingCarHouse = carHouseRepository.findById(id);
-
-        if (existingCarHouse.isPresent()) {
-            CarHouse carHouse = existingCarHouse.get();
-            carHouse.setHouseName(updatedCarHouse.getHouseName());
-            carHouse.setCapacity(updatedCarHouse.getCapacity());
-            carHouse.setAddress(updatedCarHouse.getAddress());
-
-            return carHouseRepository.save(carHouse);
-        } else {
-            throw new RescourceNotFoundException();
-        }
+        return carHouseService.update(id, updatedCarHouse);
     }
 
 
@@ -73,32 +59,8 @@ public class CarHouseController {
             @PathVariable long carhouseId,
             @PathVariable long carId
     ) throws RescourceNotFoundException {
-
-        CarHouse carHouse = carHouseRepository.findById(carhouseId)
-                .orElseThrow(RescourceNotFoundException::new);
-        Car car = carRepository.findById(carId)
-                .orElseThrow(RescourceNotFoundException::new);
-
-        CarPool carPool = carPoolRepository.findCarPoolById(1);
-
-
-        carHouse.getCars().add(car);
-        car.setCarHouse(carHouse);
-
-        carHouseRepository.save(carHouse);
-
-        Set<Car> cars = carPool.getCars();
-        cars.remove(car);
-        carPool.setCars(cars);
-        //TODO:take car.setCarPool(null);
-        car.setCarPool(null);
-        carRepository.save(car);
-        //TODO:  does work
-//        carPoolRepository.save(carPool);
-        carPoolRepository.saveAndFlush(carPool);
-
-
-        return carHouse;
+        long carPoolId = 1;
+        return carHouseService.addCarToCarHouse(carhouseId, carId, carPoolId);
     }
 
     @PostMapping("/{carhouseId}/remove-car/{carId}")
