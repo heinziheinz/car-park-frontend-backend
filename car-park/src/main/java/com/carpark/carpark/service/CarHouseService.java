@@ -10,6 +10,7 @@ import com.carpark.carpark.repository.CarRepository;
 import org.springframework.stereotype.Component;
 
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Component
 public class CarHouseService {
@@ -99,11 +100,27 @@ public class CarHouseService {
         return carRepository.save(car);
     }
 
-//    private CarPool saveCarPool(CarPool carPool) {
-//        //TODO:  does work
-////        carPoolRepository.save(carPool);
-//        return carPoolRepository.saveAndFlush(carPool);
-//    }
+
+    private Set<Car> filterCars(CarHouse carHouse, long carId) {
+        return carHouse.getCars().stream()
+                .filter((car) -> {
+                    return car.getId() != carId;
+                }).collect(Collectors.toSet());
+    }
+
+    private void setCarsInCarHouse(CarHouse carHouse, Set<Car> removedCars) {
+        carHouse.setCars(removedCars);
+    }
+
+    private void deleteCarHouseSetAndSetCarPoolCarSet(Car addedCarToCarPool, CarPool carPool){
+
+        addedCarToCarPool.setCarHouse(null);
+        addedCarToCarPool.setCarPool(carPool);
+    }
+
+    private void addCarToCarPool(Set<Car> carPoolCars, Car addedCarToCarPool){
+        carPoolCars.add(addedCarToCarPool);
+    }
 
     public void deleteCarHouse(long id) throws RescourceNotFoundException {
         CarHouse carHouse = findById(id);
@@ -140,5 +157,22 @@ public class CarHouseService {
 
 
         return carHouse;
+    }
+
+    public Car removeCarFromCarHouse(long carhouseId, long carPoolId, long carId) throws RescourceNotFoundException {
+        CarHouse carHouse = findById(carhouseId);
+        CarPool carPool = findByIdCarPool(carPoolId);
+        Set<Car> removedCars = filterCars(carHouse, carId);
+        setCarsInCarHouse(carHouse, removedCars);
+        Car addedCarToCarPool = findCarById(carId);
+        Set<Car> carPoolCars = getCarsForCarPool(carPool);
+        deleteCarHouseSetAndSetCarPoolCarSet(addedCarToCarPool, carPool);
+        addCarToCarPool(carPoolCars, addedCarToCarPool);
+        carPool.setCars(carPoolCars);
+        saveCarHouse(carHouse);
+        saveCarPool( carPool);
+
+
+        return addedCarToCarPool;
     }
 }
