@@ -16,53 +16,42 @@ import java.util.Optional;
 @RequestMapping("users")
 public class UserController {
 
-    private final UserRepository userRepository;
     private final UserService userService;
 
-    public UserController(UserRepository userRepository, UserService userService) {
-        this.userRepository = userRepository;
+    public UserController( UserService userService) {
         this.userService =  userService;
     }
 
-//    @GetMapping
-//    List<User> findAll() {
-//        return userRepository.findAll();
-//    }
 
     @GetMapping
     Page<User> findAll(Pageable pageable) {
-        return userRepository.findAll(pageable);
+        return userService.findAllUsersEntry(pageable);
     }
 
     @GetMapping("/name/{name}")
-    List<User> findAllByType(@PathVariable String name) {
-        return userRepository.findAllByName(name);
+    List<User> findAllByName(@PathVariable String name) {
+
+        return userService.findByNameEntry(name);
     }
 
     @PostMapping
     User save(@RequestBody User user) {
-        return userRepository.save(user);
+        return userService.saveUserEntry(user);
     }
 
     @DeleteMapping("/{id}")
     void delete(@PathVariable long id) {
-        userRepository.deleteById(id);
+        userService.deleteUserEntry(id);
     }
 
     @GetMapping("/id/{id}")
     User findById(@PathVariable long id) throws RescourceNotFoundException {
-        return userRepository.findById(id).orElseThrow(RescourceNotFoundException::new);
+        return userService.findByIdEntry(id);
     }
 
     @PutMapping("/{id}")
     User update(@PathVariable long id, @RequestBody User updatedUser) throws RescourceNotFoundException {
-        Optional<User> existingUser = userRepository.findById(id);
-
-        return updateExistingUser(updatedUser, existingUser);
-    }
-
-    private User updateExistingUser(User updatedUser, Optional<User> existingUser) throws RescourceNotFoundException {
-        return userService.updateExistingUser(updatedUser,existingUser);
+        return  userService.updateExistingUser(updatedUser,id);
     }
 
 }

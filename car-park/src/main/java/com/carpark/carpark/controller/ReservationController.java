@@ -11,11 +11,9 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("reservation")
 public class ReservationController {
-    private final ReservationRepository reservationRepository;
     private final ReservationService reservationService;
 
-    public ReservationController(ReservationRepository reservationRepository, ReservationService reservationService) {
-        this.reservationRepository = reservationRepository;
+    public ReservationController( ReservationService reservationService) {
         this.reservationService = reservationService;
     }
 
