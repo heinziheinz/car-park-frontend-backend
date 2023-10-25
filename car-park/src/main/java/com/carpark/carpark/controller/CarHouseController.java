@@ -3,9 +3,6 @@ package com.carpark.carpark.controller;
 
 import com.carpark.carpark.model.Car;
 import com.carpark.carpark.model.CarHouse;
-import com.carpark.carpark.repository.CarHouseRepository;
-import com.carpark.carpark.repository.CarPoolRepository;
-import com.carpark.carpark.repository.CarRepository;
 import com.carpark.carpark.service.CarHouseService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -14,28 +11,20 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("carhouses")
 public class CarHouseController {
-    private final CarHouseRepository carHouseRepository;
-    private final CarRepository carRepository;
-
-    private final CarPoolRepository carPoolRepository;
-
     private final CarHouseService carHouseService;
 
-    public CarHouseController(CarHouseRepository carHouseRepository, CarRepository carRepository, CarPoolRepository carPoolRepository, CarHouseService carHouseService) {
-        this.carHouseRepository = carHouseRepository;
-        this.carRepository = carRepository;
-        this.carPoolRepository = carPoolRepository;
+    public CarHouseController(CarHouseService carHouseService) {
         this.carHouseService = carHouseService;
     }
 
     @GetMapping
     Page<CarHouse> findAll(Pageable pageable) {
-        return carHouseRepository.findAll(pageable);
+        return carHouseService.findAllCarHousesEntry(pageable);
     }
 
     @PostMapping
     CarHouse save(@RequestBody CarHouse carHouse) {
-        return carHouseRepository.save(carHouse);
+        return carHouseService.carHouseSaveEntry(carHouse);
     }
 
     @DeleteMapping("/{id}")

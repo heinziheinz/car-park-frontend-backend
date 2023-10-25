@@ -8,8 +8,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Optional;
-
 @RestController
 @RequestMapping("reservation")
 public class ReservationController {
@@ -24,28 +22,23 @@ public class ReservationController {
     @GetMapping
     Page<Reservation> findAll(Pageable pageable) {
 
-        Page<Reservation> reservations = reservationRepository.findAll(pageable);
-        System.out.println("reservations = " + reservations);
-        return reservations;
+        return reservationService.findAllReservationEntry(pageable);
     }
 
     @GetMapping("/id/{id}")
     Reservation findById(@PathVariable long id) throws RescourceNotFoundException {
-        Reservation reservation = reservationRepository.findById(id).orElseThrow(RescourceNotFoundException::new);
-        System.out.println("reservation = " + reservation.getCar());
-        return reservation;
+        return reservationService.findReservationByIdEntry(id);
     }
 
 
     @DeleteMapping("/{id}")
     void delete(@PathVariable long id) {
-        reservationRepository.deleteById(id);
+        reservationService.deleteReservationEntry(id);
     }
 
     @PutMapping("/{id}")
     Reservation update(@PathVariable long id, @RequestBody Reservation updatedReservation) throws RescourceNotFoundException {
-        Optional<Reservation> existingReservation = reservationRepository.findById(id);
-        return reservationService.updateExistingReservation(existingReservation, updatedReservation);
+        return reservationService.updateReservationEntry( id,  updatedReservation);
     }
 
 }

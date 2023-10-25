@@ -7,6 +7,8 @@ import com.carpark.carpark.model.CarPool;
 import com.carpark.carpark.repository.CarHouseRepository;
 import com.carpark.carpark.repository.CarPoolRepository;
 import com.carpark.carpark.repository.CarRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 import java.util.Set;
@@ -122,6 +124,10 @@ public class CarHouseService {
         carPoolCars.add(addedCarToCarPool);
     }
 
+    private Page<CarHouse> findAllCarHouses(Pageable pageable){
+        return carHouseRepository.findAll(pageable);
+    }
+
     public void deleteCarHouse(long id) throws RescourceNotFoundException {
         CarHouse carHouse = findById(id);
 
@@ -174,5 +180,12 @@ public class CarHouseService {
 
 
         return addedCarToCarPool;
+    }
+
+    public  Page<CarHouse> findAllCarHousesEntry(Pageable pageable){
+        return findAllCarHouses(pageable);
+    }
+    public CarHouse carHouseSaveEntry(CarHouse carHouse){
+        return saveCarHouse(carHouse);
     }
 }
