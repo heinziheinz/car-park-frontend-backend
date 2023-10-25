@@ -2,15 +2,12 @@ package com.carpark.carpark.controller;
 
 
 import com.carpark.carpark.model.User;
-import com.carpark.carpark.repository.UserRepository;
-import com.carpark.carpark.service.ReservationService;
 import com.carpark.carpark.service.UserService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("users")
@@ -18,8 +15,8 @@ public class UserController {
 
     private final UserService userService;
 
-    public UserController( UserService userService) {
-        this.userService =  userService;
+    public UserController(UserService userService) {
+        this.userService = userService;
     }
 
 
@@ -40,7 +37,7 @@ public class UserController {
     }
 
     @DeleteMapping("/{id}")
-    void delete(@PathVariable long id) {
+    void delete(@PathVariable long id) throws RescourceNotFoundException {
         userService.deleteUserEntry(id);
     }
 
@@ -51,7 +48,7 @@ public class UserController {
 
     @PutMapping("/{id}")
     User update(@PathVariable long id, @RequestBody User updatedUser) throws RescourceNotFoundException {
-        return  userService.updateExistingUser(updatedUser,id);
+        return userService.updateExistingUser(updatedUser, id);
     }
 
 }

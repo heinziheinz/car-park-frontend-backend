@@ -148,6 +148,11 @@ public class CarReservationService {
                 .orElseThrow(RescourceNotFoundException::new);
     }
 
+    private Reservation getReservationById(long id) throws RescourceNotFoundException {
+        return reservationRepository
+                .findById(id).orElseThrow(RescourceNotFoundException::new);
+    }
+
     private List<Car> findAvailableCars(LocalDate startDate, LocalDate endDate, CarHouse carHouse) {
         return carRepository.findAvailableCarsPlusCarHouse(startDate, endDate, carHouse);
     }
@@ -173,8 +178,18 @@ public class CarReservationService {
         return carRepository.findAvailableCars(startDate, endDate);
     }
 
-    public void deleteCar(long id) {
+    private void deleteAllReservations(Set<Reservation> reservations) {
+        reservationRepository.deleteAll(reservations);
+    }
+    private void deleteCarById(long id){
         carRepository.deleteById(id);
+    }
+
+    public void deleteCar(long id) throws RescourceNotFoundException {
+        Car car = findById(id);
+        Set<Reservation> reservations = car.getReservations();
+        deleteAllReservations(reservations);
+        deleteCarById(id);
     }
 
 }

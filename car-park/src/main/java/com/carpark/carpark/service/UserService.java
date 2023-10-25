@@ -1,7 +1,9 @@
 package com.carpark.carpark.service;
 
 import com.carpark.carpark.controller.RescourceNotFoundException;
+import com.carpark.carpark.model.Reservation;
 import com.carpark.carpark.model.User;
+import com.carpark.carpark.repository.ReservationRepository;
 import com.carpark.carpark.repository.UserRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -12,9 +14,11 @@ import java.util.List;
 @Component
 public class UserService {
     private final UserRepository userRepository;
+    private final ReservationRepository reservationRepository;
 
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, ReservationRepository reservationRepository) {
         this.userRepository = userRepository;
+        this.reservationRepository = reservationRepository;
     }
 
 
@@ -38,6 +42,14 @@ public class UserService {
         return userRepository.findById(id).orElseThrow(RescourceNotFoundException::new);
     }
 
+    private void deleteSeveralReservations(List<Reservation> reservations) {
+        reservationRepository.deleteAll(reservations);
+    }
+
+    private List<Reservation> findReservationsByUser(User user) {
+        return reservationRepository.findByUser(user);
+    }
+
 
     public Page<User> findAllUsersEntry(Pageable pageable) {
         return finAllUsers(pageable);
@@ -51,8 +63,11 @@ public class UserService {
         return saveUser(user);
     }
 
-    public void deleteUserEntry(long id) {
-        deleteUser(id);
+    public void deleteUserEntry(long id) throws RescourceNotFoundException {
+        User user = findById(id);
+        List<Reservation> reservations = findReservationsByUser(user);
+        deleteSeveralReservations(reservations);
+        deleteUser(user.getId());
     }
 
     public User findByIdEntry(long id) throws RescourceNotFoundException {

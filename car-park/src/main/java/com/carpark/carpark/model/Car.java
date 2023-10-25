@@ -17,8 +17,8 @@ public class Car {
     private double price;
 
 
-//    @OneToMany(mappedBy = "car")
-    @OneToMany(mappedBy = "car", cascade = CascadeType.ALL, orphanRemoval = true)
+//    @OneToMany(mappedBy = "car", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "car")
     private Set<Reservation> reservations = new HashSet<>();
 
     @ManyToOne
