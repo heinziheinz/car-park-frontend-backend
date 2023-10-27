@@ -4,12 +4,15 @@ import com.carpark.carpark.model.Car;
 import com.carpark.carpark.model.Reservation;
 import com.carpark.carpark.model.User;
 import com.carpark.carpark.repository.*;
+import com.carpark.carpark.service.checkCarAvailablility.CarAvailable;
+import com.carpark.carpark.service.checkCarAvailablility.CheckCarAvailabilitySQLQuery;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Stream;
 
@@ -27,7 +30,10 @@ class CarReservationServiceTest {
     CarPoolRepository mockCarPoolRepository = mock(CarPoolRepository.class);
     UserRepository userRepository = mock(UserRepository.class);
     CarHouseRepository mockCarHouseRepository = mock(CarHouseRepository.class);
-    CarReservationService carReservationService = new CarReservationService(mockDateTimeService, mockreservationRepository, mockCarRepository ,mockCarPoolRepository, userRepository, mockCarHouseRepository);
+
+    List<CarAvailable> mockCheckCarAvailability = List.of(mock(CheckCarAvailabilitySQLQuery.class));
+
+    CarReservationService carReservationService = new CarReservationService(mockDateTimeService, mockreservationRepository, mockCarRepository ,mockCarPoolRepository, userRepository, mockCarHouseRepository, mockCheckCarAvailability );
 
     public static Stream<Arguments> arguments() {
         //empty array = true

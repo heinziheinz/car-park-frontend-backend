@@ -3,6 +3,7 @@ package com.carpark.carpark.service;
 import com.carpark.carpark.controller.RescourceNotFoundException;
 import com.carpark.carpark.model.*;
 import com.carpark.carpark.repository.*;
+import com.carpark.carpark.service.checkCarAvailablility.CarAvailable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
@@ -24,7 +25,9 @@ public class CarReservationService {
 
     private final CarHouseRepository carHouseRepository;
 
-    public CarReservationService(DateTimeService dateTimeService, ReservationRepository reservationRepository, CarRepository carRepository, CarPoolRepository carPoolRepository, UserRepository userRepository, CarHouseRepository carHouseRepository) {
+    private final List<CarAvailable> checkCarAvailabilitys;
+
+    public CarReservationService(DateTimeService dateTimeService, ReservationRepository reservationRepository, CarRepository carRepository, CarPoolRepository carPoolRepository, UserRepository userRepository, CarHouseRepository carHouseRepository, List<CarAvailable> checkCarAvailabilitys) {
 
         this.dateTimeService = dateTimeService;
         this.reservationRepository = reservationRepository;
@@ -32,6 +35,8 @@ public class CarReservationService {
         this.carPoolRepository = carPoolRepository;
         this.userRepository = userRepository;
         this.carHouseRepository = carHouseRepository;
+
+        this.checkCarAvailabilitys = checkCarAvailabilitys;
     }
 
     private Car findById(long carId) throws RescourceNotFoundException {
@@ -134,9 +139,19 @@ public class CarReservationService {
         Car car = findById(carId);
         User user = getUser(userId);
 
-        if (!isCarAvailableDuringTimePeriodSQLQuery(car, startDate, endDate)) {
-            throw new RescourceNotFoundException();
-        }
+        checkCarAvailabilitys.forEach((carAvailable -> {
+            if (!carAvailable.isCarAvailable(car, startDate, endDate)){
+                try {
+                    throw new RescourceNotFoundException();
+                } catch (RescourceNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }));
+
+//        if (!isCarAvailableDuringTimePeriodSQLQuery(car, startDate, endDate)) {
+//            throw new RescourceNotFoundException();
+//        }
 
         carGetsReserved(car, user, startDate, endDate);
 
@@ -181,7 +196,8 @@ public class CarReservationService {
     private void deleteAllReservations(Set<Reservation> reservations) {
         reservationRepository.deleteAll(reservations);
     }
-    private void deleteCarById(long id){
+
+    private void deleteCarById(long id) {
         carRepository.deleteById(id);
     }
 
