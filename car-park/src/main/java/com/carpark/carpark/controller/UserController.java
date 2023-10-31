@@ -33,6 +33,8 @@ public class UserController {
 
     @PostMapping
     User save(@RequestBody User user) {
+        System.out.println("user SOSOSO = " + user);
+        
         return userService.saveUserEntry(user);
     }
 

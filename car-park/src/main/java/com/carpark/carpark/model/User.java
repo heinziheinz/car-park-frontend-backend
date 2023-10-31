@@ -3,10 +3,11 @@ package com.carpark.carpark.model;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.util.Set;
 
 
 @Entity
-@Table(name="usertable")
+@Table(name="_user")
 public class User {
 
     @Id
@@ -15,14 +16,20 @@ public class User {
     private String name;
     private LocalDate birthdate;
     private String address;
+    private String password;
+
+    @ElementCollection(fetch = FetchType.EAGER)
+    private Set<String> authorities;
 
     public User() {
     }
 
-    public User(String name, LocalDate birthdate, String address) {
+    public User(String name, LocalDate birthdate, String address, String password, Set<String> authorities) {
         this.name = name;
         this.birthdate = birthdate;
         this.address = address;
+        this.password = password;
+        this.authorities = authorities;
     }
 
     public long getId() {
@@ -55,5 +62,21 @@ public class User {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public Set<String> getAuthorities() {
+        return authorities;
+    }
+
+    public void setAuthorities(Set<String> authorities) {
+        this.authorities = authorities;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }
