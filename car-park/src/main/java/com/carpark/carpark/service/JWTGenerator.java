@@ -1,6 +1,7 @@
 package com.carpark.carpark.service;
 
 
+import com.carpark.carpark.model.User;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
@@ -31,6 +32,7 @@ public class JWTGenerator {
                 .expiresAt(now.plus(1, ChronoUnit.HOURS))
                 .subject(authentication.getName())
                 .claim("scope", scope)
+                .claim("yx","scope")
                 .build();
         return jwtEncoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
     }

@@ -43,6 +43,7 @@ public class SecurityConfiguration {
                 .cors(cors->cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(auth -> {
 //                    auth.requestMatchers("/users").hasAuthority("SCOPE_USER");
+                    auth.requestMatchers(HttpMethod.POST,"/users/get-user").hasAuthority("SCOPE_USER");
                     auth.requestMatchers(HttpMethod.POST,"/users").permitAll();
                     auth.requestMatchers("/users").hasAuthority("SCOPE_ADMIN");
 

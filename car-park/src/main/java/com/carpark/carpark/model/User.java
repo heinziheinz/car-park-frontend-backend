@@ -13,6 +13,7 @@ public class User {
     @Id
     @GeneratedValue
     private long id;
+    @Column(unique = true)
     private String name;
     private LocalDate birthdate;
     private String address;

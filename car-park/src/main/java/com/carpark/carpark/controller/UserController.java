@@ -2,9 +2,11 @@ package com.carpark.carpark.controller;
 
 
 import com.carpark.carpark.model.User;
+import com.carpark.carpark.model.UserData;
 import com.carpark.carpark.service.UserService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -51,6 +53,13 @@ public class UserController {
     @PutMapping("/{id}")
     User update(@PathVariable long id, @RequestBody User updatedUser) throws RescourceNotFoundException {
         return userService.updateExistingUser(updatedUser, id);
+    }
+
+    @GetMapping("get-user")
+    String customized(Authentication authentication){
+
+
+        return "hallo " + authentication.getName();
     }
 
 }

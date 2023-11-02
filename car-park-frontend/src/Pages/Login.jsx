@@ -1,5 +1,77 @@
+import {useState, useEffect, useContext} from "react";
+import {jswTokenFetch} from "../Utilities/jswTokenFetch.js";
+import {Buffer} from "buffer";
+import {useNavigate} from "react-router-dom";
+
 const Login = () => {
-    return <div>This is a Login</div>;
+    const navigate = useNavigate();
+    const inputValues = {
+        username: "",
+        password: ""
+    }
+
+    const [submitted, setSubmitted] = useState(false);
+    const [inputValue, setInputValue] = useState(inputValues);
+
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+
+        setSubmitted(true);
+        const options = {
+            method: "GET",
+        };
+        const auth = Buffer.from(inputValue.username + ":" + inputValue.password)
+            .toString("base64");
+
+        const methodPlusToken = `Basic ${auth}`;
+        try {
+            const data = await jswTokenFetch("/login", options, methodPlusToken);
+            if (data.ok) {
+                const myData = await data.json();
+                localStorage.setItem("userdata",JSON.stringify(myData));
+                navigate("/")
+            }
+
+        } catch (err) {
+            console.log(err)
+        }
+
+    }
+
+    const handleLogin = (event) => {
+        event.preventDefault();
+        const headers = new Headers();
+        const auth = Buffer.from("Paul" + ":" + "123")
+            .toString("base64");
+        headers.set("Authorization", "Basic " + auth);
+        return fetch("http://localhost:8080/login", {method: "GET", headers: headers})
+            .then((response) => response.text())
+            .then(jwt => {
+                console.log('JWT ' + jwt)
+
+            })
+            .catch((error) => console.log("ERROR: " + error))
+
+    }
+
+
+    const onChangeHandler = (event) => {
+        console.log(event.target.value)
+        console.log(event.target.name)
+        setInputValue({
+            ...inputValue,
+            [event.target.name]: event.target.value,
+        });
+    }
+
+    return (
+        <form onSubmit={handleSubmit}>
+            <input type="text" name="username" onChange={onChangeHandler} placeholder={'name'}/>
+            <input type="password" name="password" onChange={onChangeHandler} placeholder={'password'}/>
+            <input type="submit" value={'submit'}/>
+        </form>
+    )
+    //return <div>This is a Login</div>;
 }
 
 export default Login;

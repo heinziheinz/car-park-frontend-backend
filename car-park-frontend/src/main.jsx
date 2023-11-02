@@ -9,6 +9,7 @@ import CarList from "./Pages/CarList.jsx";
 import UserList from "./Pages/UserList.jsx";
 import CarCreator from "./Pages/CarCreator.jsx";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import FetchUser from "./Pages/FetchUser.jsx";
 
 
 
@@ -28,12 +29,16 @@ const router = createBrowserRouter([
                 element: <CarCreator/>,
             },
             {
-                path: "/show-all-cars",
+                path: "/",
                 element: <CarList />,
             },
             {
                 path: "/show-all-users",
                 element: <UserList />,
+            },
+            {
+                path:"/fetch-user",
+                element:<FetchUser/>
             }
 
         ],
