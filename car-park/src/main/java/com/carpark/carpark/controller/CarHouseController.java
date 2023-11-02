@@ -8,6 +8,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+
 @RestController
 @RequestMapping("carhouses")
 public class CarHouseController {
@@ -54,6 +58,19 @@ public class CarHouseController {
     ) throws RescourceNotFoundException {
         long carPoolId = 1;
         return carHouseService.removeCarFromCarHouse(carhouseId, carPoolId, carId);
+    }
+
+    @GetMapping("get-carhouse-names")
+    List<String> getAllCarHouseNames() {
+//        return carHouseService
+        List<CarHouse> carHouseList = carHouseService.getAllCarHouses();
+        List<String> namesOfCarHouses = new ArrayList<>();
+        carHouseList.forEach((carHouse -> {
+            namesOfCarHouses.add(carHouse.getHouseName());
+
+        }));
+
+        return namesOfCarHouses;
     }
 
 

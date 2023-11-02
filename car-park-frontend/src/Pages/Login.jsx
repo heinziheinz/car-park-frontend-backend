@@ -2,9 +2,14 @@ import {useState, useEffect, useContext} from "react";
 import {jswTokenFetch} from "../Utilities/jswTokenFetch.js";
 import {Buffer} from "buffer";
 import {useNavigate} from "react-router-dom";
+import {LogginInContext} from "../main.jsx";
+import {UserRoleContext} from "../main.jsx";
+import {findRole} from "../Utilities/findRole.js";
 
 const Login = () => {
     const navigate = useNavigate();
+    const {loggedIn, setLoggedIn} = useContext(LogginInContext);
+    const {userRole, setUserRole} = useContext(UserRoleContext);
     const inputValues = {
         username: "",
         password: ""
@@ -23,13 +28,21 @@ const Login = () => {
         const auth = Buffer.from(inputValue.username + ":" + inputValue.password)
             .toString("base64");
 
-        const methodPlusToken = `Basic ${auth}`;
+        const headers = {
+            "Authorization":  `Basic ${auth}`,
+            "Content-Type": "application/json" };
+
         try {
-            const data = await jswTokenFetch("/login", options, methodPlusToken);
+            const data = await jswTokenFetch("/login", options, headers);
             if (data.ok) {
                 const myData = await data.json();
-                localStorage.setItem("userdata",JSON.stringify(myData));
+                localStorage.setItem("userdata", JSON.stringify(myData));
+                const roleContext = findRole(myData.authorities);
+                console.log(roleContext)
+                setUserRole(roleContext);
+                setLoggedIn(true);
                 navigate("/")
+
             }
 
         } catch (err) {

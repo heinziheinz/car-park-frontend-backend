@@ -45,6 +45,7 @@ public class SecurityConfiguration {
 //                    auth.requestMatchers("/users").hasAuthority("SCOPE_USER");
                     auth.requestMatchers(HttpMethod.POST,"/users/get-user").hasAuthority("SCOPE_USER");
                     auth.requestMatchers(HttpMethod.POST,"/users").permitAll();
+                    auth.requestMatchers("/carhouses/get-carhouse-names").permitAll();
                     auth.requestMatchers("/users").hasAuthority("SCOPE_ADMIN");
 
                     auth.anyRequest().authenticated();

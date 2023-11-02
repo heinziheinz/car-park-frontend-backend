@@ -1,21 +1,29 @@
-import { Outlet, Link } from "react-router-dom";
+import {Outlet, Link} from "react-router-dom";
+import {useContext} from "react";
+import {LogginInContext} from "../../main.jsx";
+import {UserRoleContext} from "../../main.jsx";
+
 const Layout = () => {
+    const {loggedIn} = useContext(LogginInContext);
+    const {userRole} = useContext(UserRoleContext);
     return (<div>
-    <h2>Car Park</h2>
+        <h2>Car Park</h2>
         <nav>
             <li>
-                <Link to="/login">
-                    <button type="button">Login</button>
-                </Link>
-                <Link to="/add-a-car">
+                {loggedIn ? <Link to="/logout">
+                    <button type="button">LoginOut</button>
+                </Link> : <Link to="/login">
+                    <button type="button">LogIn </button>
+                </Link>}
+                {loggedIn && userRole === "ADMIN" ? <Link to="/add-a-car">
                     <button type="button">Add Car</button>
-                </Link>
-                <Link to="/show-all-cars">
+                </Link> : ""}
+                {loggedIn  && userRole === "ADMIN"? <Link to="/show-all-cars">
                     <button type="button">Show all cars</button>
-                </Link>
-                <Link to="/show-all-users">
+                </Link> : ""}
+                {loggedIn  && userRole === "ADMIN"? <Link to="/show-all-users">
                     <button type="button">Show all users</button>
-                </Link>
+                </Link> : ""}
             </li>
         </nav>
 

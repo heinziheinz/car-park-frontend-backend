@@ -140,7 +140,7 @@ public class CarReservationService {
         User user = getUser(userId);
 
         checkCarAvailabilitys.forEach((carAvailable -> {
-            if (!carAvailable.isCarAvailable(car, startDate, endDate)){
+            if (!carAvailable.isCarAvailable(car, startDate, endDate)) {
                 try {
                     throw new RescourceNotFoundException();
                 } catch (RescourceNotFoundException e) {
@@ -163,6 +163,11 @@ public class CarReservationService {
                 .orElseThrow(RescourceNotFoundException::new);
     }
 
+    private CarHouse findCarHouseByName(String carHouseName) throws RescourceNotFoundException {
+        return carHouseRepository.findCarHouseByHouseName(carHouseName);
+    }
+
+
     private Reservation getReservationById(long id) throws RescourceNotFoundException {
         return reservationRepository
                 .findById(id).orElseThrow(RescourceNotFoundException::new);
@@ -174,6 +179,12 @@ public class CarReservationService {
 
     public List<Car> getAvailableCars(long id, LocalDate startDate, LocalDate endDate) throws RescourceNotFoundException {
         CarHouse carHouse = findCarHouseById(id);
+        return findAvailableCars(startDate, endDate, carHouse);
+    }
+
+    public List<Car> getAvailableCarsByCarHouseName(String carHouseName, LocalDate startDate, LocalDate endDate) throws RescourceNotFoundException {
+        CarHouse carHouse = findCarHouseByName(carHouseName);
+        System.out.println("carHouse22 = " + carHouse);
         return findAvailableCars(startDate, endDate, carHouse);
     }
 

@@ -80,4 +80,14 @@ public class CarController {
     ) throws RescourceNotFoundException {
         return carReservationService.getAvailableCars(carHouseId, startDate, endDate);
     }
+
+    @GetMapping("find-available-cars-for-rent-by-name/{carHouseName}/{startDate}/{endDate}")
+    List<Car> getAllAvailableCarsByName(
+            @PathVariable String carHouseName,
+            @PathVariable LocalDate startDate,
+            @PathVariable LocalDate endDate
+    ) throws RescourceNotFoundException {
+        System.out.println("carHouseName = " + carHouseName);
+        return carReservationService.getAvailableCarsByCarHouseName(carHouseName, startDate, endDate);
+    }
 }

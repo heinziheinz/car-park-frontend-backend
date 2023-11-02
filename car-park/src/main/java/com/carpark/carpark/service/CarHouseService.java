@@ -11,6 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -110,21 +111,25 @@ public class CarHouseService {
                 }).collect(Collectors.toSet());
     }
 
+    private List<CarHouse> findAllCarHouses() {
+        return carHouseRepository.findAll();
+    }
+
     private void setCarsInCarHouse(CarHouse carHouse, Set<Car> removedCars) {
         carHouse.setCars(removedCars);
     }
 
-    private void deleteCarHouseSetAndSetCarPoolCarSet(Car addedCarToCarPool, CarPool carPool){
+    private void deleteCarHouseSetAndSetCarPoolCarSet(Car addedCarToCarPool, CarPool carPool) {
 
         addedCarToCarPool.setCarHouse(null);
         addedCarToCarPool.setCarPool(carPool);
     }
 
-    private void addCarToCarPool(Set<Car> carPoolCars, Car addedCarToCarPool){
+    private void addCarToCarPool(Set<Car> carPoolCars, Car addedCarToCarPool) {
         carPoolCars.add(addedCarToCarPool);
     }
 
-    private Page<CarHouse> findAllCarHouses(Pageable pageable){
+    private Page<CarHouse> findAllCarHouses(Pageable pageable) {
         return carHouseRepository.findAll(pageable);
     }
 
@@ -176,16 +181,22 @@ public class CarHouseService {
         addCarToCarPool(carPoolCars, addedCarToCarPool);
         carPool.setCars(carPoolCars);
         saveCarHouse(carHouse);
-        saveCarPool( carPool);
+        saveCarPool(carPool);
 
 
         return addedCarToCarPool;
     }
 
-    public  Page<CarHouse> findAllCarHousesEntry(Pageable pageable){
+    public Page<CarHouse> findAllCarHousesEntry(Pageable pageable) {
         return findAllCarHouses(pageable);
     }
-    public CarHouse carHouseSaveEntry(CarHouse carHouse){
+
+    public CarHouse carHouseSaveEntry(CarHouse carHouse) {
         return saveCarHouse(carHouse);
     }
+
+    public List<CarHouse> getAllCarHouses() {
+        return findAllCarHouses();
+    }
+
 }
