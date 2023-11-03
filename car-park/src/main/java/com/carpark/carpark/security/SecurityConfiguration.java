@@ -46,6 +46,7 @@ public class SecurityConfiguration {
                     auth.requestMatchers(HttpMethod.POST,"/users/get-user").hasAuthority("SCOPE_USER");
                     auth.requestMatchers(HttpMethod.POST,"/users").permitAll();
                     auth.requestMatchers("/carhouses/get-carhouse-names").permitAll();
+                    auth.requestMatchers("/cars/find-available-cars-for-rent-by-name/{carHouseName}/{startDate}/{endDate}").permitAll();
                     auth.requestMatchers("/users").hasAuthority("SCOPE_ADMIN");
 
                     auth.anyRequest().authenticated();

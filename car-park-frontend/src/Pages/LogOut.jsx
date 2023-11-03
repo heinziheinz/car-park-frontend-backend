@@ -7,9 +7,9 @@ const LogOut = () => {
     const {loggedIn, setLoggedIn} = useContext(LogginInContext);
     const {userRole, setUserRole} = useContext(UserRoleContext);
     useEffect(()=>{
-        setLoggedIn(false);
-        setUserRole("USER");
-        localStorage.clear();
+       setLoggedIn(false);
+       setUserRole("USER");
+       localStorage.clear();
 
     }, []);
 

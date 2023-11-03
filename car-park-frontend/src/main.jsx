@@ -11,6 +11,9 @@ import UserList from "./Pages/UserList.jsx";
 import CarCreator from "./Pages/CarCreator.jsx";
 import {createBrowserRouter, RouterProvider} from "react-router-dom";
 import FetchUser from "./Pages/FetchUser.jsx";
+import CarBooker from "./Pages/CarBooker.jsx";
+import AllReservedCars from "./Pages/AllReservedCars.jsx";
+import BookingConfirmation from "./Pages/BookingConfirmation.jsx";
 
 
 const router = createBrowserRouter([
@@ -42,7 +45,20 @@ const router = createBrowserRouter([
             {
                 path: "/fetch-user",
                 element: <FetchUser/>
-            }
+            },
+            {
+                path: "/car/book/:id",
+                element: <CarBooker />,
+            },
+            {
+                path: "/all-reserved-cars",
+                element: <AllReservedCars />,
+            },
+            {
+                path: "/booking-confirmation/:id",
+                element: <BookingConfirmation />,
+            },
+
 
         ],
     },
@@ -70,3 +86,5 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <App/>
     </React.StrictMode>,
 )
+
+

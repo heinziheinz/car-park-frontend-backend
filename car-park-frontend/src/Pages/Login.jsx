@@ -37,6 +37,8 @@ const Login = () => {
             if (data.ok) {
                 const myData = await data.json();
                 localStorage.setItem("userdata", JSON.stringify(myData));
+                const userData = JSON.parse(localStorage.getItem("userdata"));
+                console.log(userData)
                 const roleContext = findRole(myData.authorities);
                 console.log(roleContext)
                 setUserRole(roleContext);
