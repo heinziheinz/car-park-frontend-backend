@@ -1,5 +1,6 @@
-import { Link } from "react-router-dom";
-const CarTable =({ cars, onDelete })=>{
+import {Link} from "react-router-dom";
+
+const CarTable = ({cars, startDate, endDate, onDelete}) => {
     return (
         <div className="EmployeeTable">
             <table>
@@ -7,7 +8,7 @@ const CarTable =({ cars, onDelete })=>{
                 <tr>
                     <th name="name">name</th>
                     <th name="type">price</th>
-                    <th />
+                    <th/>
                 </tr>
                 </thead>
                 <tbody>
@@ -17,7 +18,7 @@ const CarTable =({ cars, onDelete })=>{
                         <td>{car.price}</td>
                         <td>
                             {/* /equipment/update/:id */}
-                            <Link to={`/car/book/${car.id}`}>
+                            <Link to={`/booking-confirmation/${car.id}/${startDate}/${endDate}`}>
                                 <button type="button">Book Car</button>
                             </Link>
                         </td>

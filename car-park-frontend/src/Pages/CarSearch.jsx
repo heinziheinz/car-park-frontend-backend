@@ -92,7 +92,7 @@ const CarSearch = () => {
             </form>
         );
     } else {
-        return <CarTable cars={cars}/>
+        return <CarTable cars={cars} startDate={startDate} endDate={endDate}/>
     }
 }
 export default CarSearch;
