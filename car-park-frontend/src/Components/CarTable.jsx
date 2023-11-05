@@ -1,9 +1,7 @@
 import {Link} from "react-router-dom";
 
-const CarTable = ({cars, startDate, endDate, onDelete}) => {
-    console.log(cars)
-    console.log(startDate)
-    console.log(endDate)
+const CarTable = ({cars, startDate, endDate}) => {
+ //TODO: table funktionalisieren
     return (
         <div className="EmployeeTable">
             <table>
@@ -21,7 +19,7 @@ const CarTable = ({cars, startDate, endDate, onDelete}) => {
                         <td>{car.price}</td>
                         <td>
                             {/* /equipment/update/:id */}
-                            <Link to={`/booking-confirmation/${car.id}/${startDate}/${endDate}`}>
+                            <Link to={`/booking-confirmation/${car.id}/${startDate}/${endDate}/${car.typeName}/${car.price}`}>
                                 <button type="button">Book Car</button>
                             </Link>
                         </td>

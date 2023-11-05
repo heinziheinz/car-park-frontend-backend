@@ -55,7 +55,7 @@ const router = createBrowserRouter([
                 element: <AllReservedCars />,
             },
             {
-                path: "/booking-confirmation/:id/:startDate/:endDate",
+                path: "/booking-confirmation/:id/:startDate/:endDate/:carTypename/:carPrice",
                 element: <BookingConfirmation />,
             },
 

@@ -3,7 +3,7 @@ import {useNavigate, useParams} from "react-router-dom";
 import {jswTokenFetch} from "../Utilities/jswTokenFetch.js";
 
 const BookingConfirmation = () => {
-    const {id, startDate, endDate} = useParams();
+    const {id, startDate, endDate, carTypename, carPrice} = useParams();
     console.log(id)
     console.log(startDate)
     console.log(endDate)
@@ -62,7 +62,9 @@ const BookingConfirmation = () => {
     return (
         <>
             <h2>Booking Confírmation</h2>
-            <p>Please confirm your Booking</p>
+            <h4> {carTypename}</h4>
+            <h5> {carPrice}</h5>
+            <p>Please confirm your Booking for</p>
             <button onClick={bookCarHandler}>Yes I want to rent the car</button>
         </>
     );

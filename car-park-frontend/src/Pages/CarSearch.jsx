@@ -2,6 +2,7 @@ import {useEffect, useState} from "react";
 import {jswTokenFetch} from "../Utilities/jswTokenFetch.js";
 import Loading from "../Components/Loading/Loading.jsx";
 import CarTable from "../Components/CarTable.jsx";
+import SubmitButton from "../Components/SubmitButton.jsx";
 
 const CarSearch = () => {
     const [carHouses, setCarHouses] = useState([]);
@@ -42,9 +43,6 @@ const CarSearch = () => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        console.log(location)
-        console.log(startDate)
-        console.log(endDate)
         try {
             const headers = {
                 "Content-Type": "application/json"
@@ -77,9 +75,10 @@ const CarSearch = () => {
         return (
             <form onSubmit={handleSubmit}>
                 <label htmlFor="location">Select a location:</label>
-                <select id="location" name="location" onChange={onCarHouseHandler}>
+                <select id="location" name="location" onChange={onCarHouseHandler} defaultValue="">
+                    <option value="" disabled>Select a location</option>
                     {carHouses.map((value, index) => {
-                        return <option key={value}>{value}</option>
+                        return <option key={index} value={value}>{value}</option>
                     })}
                 </select>
                 <label htmlFor="start">Start date:</label>
@@ -88,7 +87,8 @@ const CarSearch = () => {
                 <label htmlFor="end">End date:</label>
                 <input type="date" id="end" name="trip-send" onChange={endDateHandler} value={endDate}
                        min={currentDate}/>
-                <input type="submit" value={'Show cars'}/>
+                <input type="submit" value={'Show cars'}
+                       disabled={location.length <= 0 || startDate.length <= 0 || endDate.length <= 0}/>
             </form>
         );
     } else {
