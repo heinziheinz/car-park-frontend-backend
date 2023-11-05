@@ -1,6 +1,6 @@
-const SubmitButton = ({disabled}) => {
+const SubmitButton = ({disabled, value}) => {
     return (
-        <input type="submit" value={props.value} disabled={disabled}/>
+        <input type="submit" value={value} disabled={disabled}/>
     )
 }
 

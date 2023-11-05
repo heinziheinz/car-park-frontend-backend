@@ -2,6 +2,8 @@ import {Link} from "react-router-dom";
 
 const CarTable = ({cars, startDate, endDate}) => {
  //TODO: table funktionalisieren
+
+  console.log("HELLO CARS")
     return (
         <div className="EmployeeTable">
             <table>

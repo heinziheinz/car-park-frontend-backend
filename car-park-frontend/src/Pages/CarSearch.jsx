@@ -5,10 +5,14 @@ import CarTable from "../Components/CarTable.jsx";
 import SubmitButton from "../Components/SubmitButton.jsx";
 
 const CarSearch = () => {
+
+    const inputStartDateEndDateAndLocation = {
+        startDate: "",
+        endDate: "",
+        location:""
+    }
+    const [startDateEndDateAndLocation, setStartDateEndDateAndLocation] = useState(inputStartDateEndDateAndLocation);
     const [carHouses, setCarHouses] = useState([]);
-    const [location, setLocation] = useState("");
-    const [startDate, setStartDate] = useState("");
-    const [endDate, setEndDate] = useState("");
     const [carSearch, setCarSearch] = useState(true);
     const [cars, setCars] = useState(null);
     const today = new Date();
@@ -43,12 +47,13 @@ const CarSearch = () => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
+        console.log(inputStartDateEndDateAndLocation)
         try {
             const headers = {
                 "Content-Type": "application/json"
             };
 
-            const availableCars = await jswTokenFetch(`/cars/find-available-cars-for-rent-by-name/${location}/${startDate}/${endDate}`, {}, headers);
+            const availableCars = await jswTokenFetch(`/cars/find-available-cars-for-rent-by-name/${startDateEndDateAndLocation.location}/${startDateEndDateAndLocation.startDate}/${startDateEndDateAndLocation.endDate}`, {}, headers);
 
             if (availableCars.ok) {
                 const availableCarsParsed = await availableCars.json()
@@ -59,40 +64,42 @@ const CarSearch = () => {
             console.log(err)
         }
     }
-    const onCarHouseHandler = (event) => {
-        setLocation(event.target.value)
-    }
 
-    const startDateHandler = (event) => {
-        setStartDate(event.target.value)
-    }
+    useEffect(()=>{
+        console.log("startDateEndDate");
+        console.log(startDateEndDateAndLocation);
+    }, [startDateEndDateAndLocation])
 
-    const endDateHandler = (event) => {
-        setEndDate(event.target.value);
+    const startDateEndDateHandler = (event) => {
+        setStartDateEndDateAndLocation({
+            ...startDateEndDateAndLocation,
+            [event.target.name]: event.target.value,
+        });
     }
 
     if (carSearch) {
         return (
             <form onSubmit={handleSubmit}>
                 <label htmlFor="location">Select a location:</label>
-                <select id="location" name="location" onChange={onCarHouseHandler} defaultValue="">
+                <select id="location" name="location" onChange={startDateEndDateHandler} defaultValue="">
                     <option value="" disabled>Select a location</option>
                     {carHouses.map((value, index) => {
                         return <option key={index} value={value}>{value}</option>
                     })}
                 </select>
                 <label htmlFor="start">Start date:</label>
-                <input type="date" id="start" name="trip-start" onChange={startDateHandler} value={startDate}
+                <input type="date" id="start" name="startDate" onChange={startDateEndDateHandler} value={startDateEndDateAndLocation.startDate}
                        min={currentDate}/>
                 <label htmlFor="end">End date:</label>
-                <input type="date" id="end" name="trip-send" onChange={endDateHandler} value={endDate}
+                <input type="date" id="end" name="endDate" onChange={startDateEndDateHandler} value={startDateEndDateAndLocation.endDate}
                        min={currentDate}/>
-                <input type="submit" value={'Show cars'}
-                       disabled={location.length <= 0 || startDate.length <= 0 || endDate.length <= 0}/>
+
+                <SubmitButton value={"Submit"}
+                              disabled={startDateEndDateAndLocation.location.length <= 0 || startDateEndDateAndLocation.startDate.length <= 0 || startDateEndDateAndLocation.endDate.length <= 0}/>
             </form>
         );
     } else {
-        return <CarTable cars={cars} startDate={startDate} endDate={endDate}/>
+        return <CarTable cars={cars} startDate={startDateEndDateAndLocation.startDate} endDate={startDateEndDateAndLocation.endDate}/>
     }
 }
 export default CarSearch;
