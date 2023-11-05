@@ -1,6 +1,9 @@
 import {Link} from "react-router-dom";
 
 const CarTable = ({cars, startDate, endDate, onDelete}) => {
+    console.log(cars)
+    console.log(startDate)
+    console.log(endDate)
     return (
         <div className="EmployeeTable">
             <table>

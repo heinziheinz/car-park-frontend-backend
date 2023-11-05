@@ -13,17 +13,19 @@ const Layout = () => {
                 {loggedIn ? <Link to="/logout">
                     <button type="button">LoginOut</button>
                 </Link> : <Link to="/login">
-                    <button type="button">LogIn </button>
+                    <button type="button">LogIn</button>
                 </Link>}
                 {loggedIn && userRole === "ADMIN" ? <Link to="/add-a-car">
                     <button type="button">Add Car</button>
                 </Link> : ""}
-                {loggedIn  && userRole === "ADMIN"? <Link to="/show-all-cars">
+                {loggedIn && userRole === "ADMIN" ? <Link to="/show-all-cars">
                     <button type="button">Show all cars</button>
                 </Link> : ""}
-                {loggedIn  && userRole === "ADMIN"? <Link to="/show-all-users">
+                {loggedIn && userRole === "ADMIN" ? <Link to="/show-all-users">
                     <button type="button">Show all users</button>
-                </Link> : ""}
+                </Link> : ""} {loggedIn && userRole === "ADMIN" || userRole === "USER" ? <Link to="/all-reserved-cars">
+                <button type="button">All reserved cars</button>
+            </Link> : ""}
             </li>
         </nav>
 
