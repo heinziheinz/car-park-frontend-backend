@@ -1,25 +1,31 @@
 import InputField from "./InputField.jsx";
 import SubmitButton from "./SubmitButton.jsx";
-const Form = ({ handleSubmit, inputFields, onChangeHandler }) => {
+
+const Form = ({handleSubmit, inputFields, onChangeHandler, children, disabled}) => {
+    console.log(children)
     return (
         <form onSubmit={handleSubmit}>
+            {children}
             {
                 inputFields.map((fields, index) => {
                     return (
-                        <InputField
-                            key={index}
-                            name={fields.name}
-                            className={fields.className}
-                            label={fields.label}
-                            type={fields.type}
-                            placeholder={fields.placeholder}
-                            onChangeHandler={onChangeHandler}
-                            value={fields.value}
-                        />
+                        <div key={"wrapper" + index}>
+                            {Option ? Option : ""}
+                            <InputField
+                                key={index}
+                                name={fields.name}
+                                className={fields.className}
+                                label={fields.label}
+                                type={fields.type}
+                                placeholder={fields.placeholder}
+                                onChangeHandler={onChangeHandler}
+                                value={fields.value}
+                            />
+                        </div>
                     );
                 })
             }
-            <SubmitButton value={"Submit"} />
+            <SubmitButton value={"Submit"} disabled={disabled}/>
         </form>
     );
 }

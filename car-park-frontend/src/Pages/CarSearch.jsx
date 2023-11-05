@@ -3,23 +3,23 @@ import {jswTokenFetch} from "../Utilities/jswTokenFetch.js";
 import Loading from "../Components/Loading/Loading.jsx";
 import CarTable from "../Components/CarTable.jsx";
 import SubmitButton from "../Components/SubmitButton.jsx";
+import Form from "../Components/form.jsx";
+import {currentDate} from "../Utilities/CurrentDate.js";
+import {initializeInputFieldsForKalender} from "./initializeInputFieldsForKalender.js";
 
 const CarSearch = () => {
 
     const inputStartDateEndDateAndLocation = {
         startDate: "",
         endDate: "",
-        location:""
+        location: ""
     }
     const [startDateEndDateAndLocation, setStartDateEndDateAndLocation] = useState(inputStartDateEndDateAndLocation);
     const [carHouses, setCarHouses] = useState([]);
     const [carSearch, setCarSearch] = useState(true);
     const [cars, setCars] = useState(null);
-    const today = new Date();
-    const dd = String(today.getDate()).padStart(2, "0");
-    const mm = String(today.getMonth() + 1).padStart(2, "0"); // January is 0!
-    const yyyy = today.getFullYear();
-    const currentDate = yyyy + "-" + mm + "-" + dd;
+    const [invalidDate, setInvalidDate] = useState(false);
+    const inputFieldsKalender = initializeInputFieldsForKalender(startDateEndDateAndLocation.startDate, startDateEndDateAndLocation.endDate);
 
 
     useEffect(() => {
@@ -29,7 +29,6 @@ const CarSearch = () => {
                 const headers = {
                     "Content-Type": "application/json"
                 };
-
                 const listOfCarHouseNames = await jswTokenFetch("/carhouses/get-carhouse-names", {}, headers);
 
                 if (listOfCarHouseNames.ok) {
@@ -52,9 +51,7 @@ const CarSearch = () => {
             const headers = {
                 "Content-Type": "application/json"
             };
-
             const availableCars = await jswTokenFetch(`/cars/find-available-cars-for-rent-by-name/${startDateEndDateAndLocation.location}/${startDateEndDateAndLocation.startDate}/${startDateEndDateAndLocation.endDate}`, {}, headers);
-
             if (availableCars.ok) {
                 const availableCarsParsed = await availableCars.json()
                 setCars(availableCarsParsed);
@@ -65,41 +62,60 @@ const CarSearch = () => {
         }
     }
 
-    useEffect(()=>{
-        console.log("startDateEndDate");
-        console.log(startDateEndDateAndLocation);
-    }, [startDateEndDateAndLocation])
 
-    const startDateEndDateHandler = (event) => {
+    const startDateEndDateLocationHandler = (event) => {
+        if (event.target.name === "startDate" || event.target.name === "endDate") {
+            if (event.target.value < currentDate) {
+                console.log("NOT VALID")
+                setInvalidDate(true);
+                setTimeout(() => {
+                    setInvalidDate(false);
+                }, 2000)
+                return;
+            } else {
+                console.log("VALID")
+            }
+        }
         setStartDateEndDateAndLocation({
             ...startDateEndDateAndLocation,
             [event.target.name]: event.target.value,
         });
     }
 
+    const htmlElement = (
+        <div>
+            <label htmlFor="location">Select a location:</label>
+            <select id="location" name="location" onChange={startDateEndDateLocationHandler} defaultValue="">
+                <option value="" disabled>Select a location</option>
+                {carHouses.map((value, index) => {
+                    return <option key={index} value={value}>{value}</option>;
+                })}
+            </select>
+        </div>
+    );
+
+
     if (carSearch) {
         return (
-            <form onSubmit={handleSubmit}>
-                <label htmlFor="location">Select a location:</label>
-                <select id="location" name="location" onChange={startDateEndDateHandler} defaultValue="">
-                    <option value="" disabled>Select a location</option>
-                    {carHouses.map((value, index) => {
-                        return <option key={index} value={value}>{value}</option>
-                    })}
-                </select>
-                <label htmlFor="start">Start date:</label>
-                <input type="date" id="start" name="startDate" onChange={startDateEndDateHandler} value={startDateEndDateAndLocation.startDate}
-                       min={currentDate}/>
-                <label htmlFor="end">End date:</label>
-                <input type="date" id="end" name="endDate" onChange={startDateEndDateHandler} value={startDateEndDateAndLocation.endDate}
-                       min={currentDate}/>
-
-                <SubmitButton value={"Submit"}
-                              disabled={startDateEndDateAndLocation.location.length <= 0 || startDateEndDateAndLocation.startDate.length <= 0 || startDateEndDateAndLocation.endDate.length <= 0}/>
-            </form>
+            <>
+                {invalidDate ? <div>INVALID DATE: Time shouldn`t be in the past</div> : ""}
+                <Form handleSubmit={handleSubmit}
+                      inputFields={inputFieldsKalender}
+                      onChangeHandler={startDateEndDateLocationHandler}
+                      disabled={startDateEndDateAndLocation.location.length <= 0 ||
+                          startDateEndDateAndLocation.startDate.length <= 0 ||
+                          startDateEndDateAndLocation.endDate.length <= 0}
+                >
+                    {htmlElement}
+                </Form>
+            </>
         );
     } else {
-        return <CarTable cars={cars} startDate={startDateEndDateAndLocation.startDate} endDate={startDateEndDateAndLocation.endDate}/>
+        return <CarTable
+            cars={cars}
+            startDate={startDateEndDateAndLocation.startDate}
+            endDate={startDateEndDateAndLocation.endDate}
+        />
     }
 }
 export default CarSearch;
