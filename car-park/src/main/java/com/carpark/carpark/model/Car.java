@@ -16,6 +16,8 @@ public class Car {
     private String typeName;
     private double price;
 
+    private String image;
+
 
 //    @OneToMany(mappedBy = "car", cascade = CascadeType.ALL, orphanRemoval = true)
     @OneToMany(mappedBy = "car")
@@ -49,9 +51,20 @@ public class Car {
 
     }
 
-    public Car(String typeName, double price) {
+
+
+    public Car(String typeName, double price, String image) {
         this.typeName = typeName;
         this.price = price;
+        this.image = image;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 
     public long getId() {

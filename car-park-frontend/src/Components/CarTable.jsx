@@ -11,7 +11,6 @@ const CarTable = ({cars, startDate, endDate}) => {
                 <tr>
                     <th name="name">name</th>
                     <th name="type">price</th>
-                    <th/>
                 </tr>
                 </thead>
                 <tbody>
@@ -19,6 +18,7 @@ const CarTable = ({cars, startDate, endDate}) => {
                     <tr key={car.id}>
                         <td>{car.typeName}</td>
                         <td>{car.price}</td>
+                        <td><img  src={car.image} width="200" height="100"/></td>
                         <td>
                             {/* /equipment/update/:id */}
                             <Link to={`/booking-confirmation/${car.id}/${startDate}/${endDate}/${car.typeName}/${car.price}`}>

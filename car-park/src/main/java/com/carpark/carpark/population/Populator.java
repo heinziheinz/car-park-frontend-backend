@@ -74,14 +74,14 @@ public class Populator {
     }
 
     private List<Car> createCars(CarRepository carRepository) {
-        Car carOne = new Car("Skoda", 20000.00);
+        Car carOne = new Car("Skoda", 20000.00, "https://imgur.com/fEHghpS.jpeg");
         List<Car> setOfCars = List.of(
-                new Car("Skoda", 100.00),
-                new Car("Mercedes", 150.00),
-                new Car("Hyundai", 100.00),
-                new Car("Volvo", 300.00),
-                new Car("Rolls Royce", 400.00),
-                new Car("Mazda", 200.00)
+                new Car("Skoda", 100.00, "https://imgur.com/fEHghpS.jpeg"),
+                new Car("Mercedes", 150.00, "https://imgur.com/fEHghpS.jpeg"),
+                new Car("Hyundai", 100.00, "https://imgur.com/fEHghpS.jpeg"),
+                new Car("Volvo", 300.00, "https://imgur.com/fEHghpS.jpeg"),
+                new Car("Rolls Royce", 400.00, "https://imgur.com/fEHghpS.jpeg"),
+                new Car("Mazda", 200.00,"https://imgur.com/fEHghpS.jpeg")
         );
 
         return carRepository.saveAll(setOfCars);
