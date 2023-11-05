@@ -1,11 +1,10 @@
 import {useEffect, useState} from "react";
 import {jswTokenFetch} from "../Utilities/jswTokenFetch.js";
-import Loading from "../Components/Loading/Loading.jsx";
 import CarTable from "../Components/CarTable.jsx";
-import SubmitButton from "../Components/SubmitButton.jsx";
 import Form from "../Components/form.jsx";
 import {currentDate} from "../Utilities/CurrentDate.js";
 import {initializeInputFieldsForKalender} from "./initializeInputFieldsForKalender.js";
+import SelectElement from "../Components/SelectElement.jsx";
 
 const CarSearch = () => {
 
@@ -82,18 +81,6 @@ const CarSearch = () => {
         });
     }
 
-    const htmlElement = (
-        <div>
-            <label htmlFor="location">Select a location:</label>
-            <select id="location" name="location" onChange={startDateEndDateLocationHandler} defaultValue="">
-                <option value="" disabled>Select a location</option>
-                {carHouses.map((value, index) => {
-                    return <option key={index} value={value}>{value}</option>;
-                })}
-            </select>
-        </div>
-    );
-
 
     if (carSearch) {
         return (
@@ -106,7 +93,13 @@ const CarSearch = () => {
                           startDateEndDateAndLocation.startDate.length <= 0 ||
                           startDateEndDateAndLocation.endDate.length <= 0}
                 >
-                    {htmlElement}
+
+                    {<SelectElement
+                        elementArray={carHouses}
+                        onChangeHandler={startDateEndDateLocationHandler}
+                        defaultValue={"Select Location"}
+                            name={"location"}
+                        />}
                 </Form>
             </>
         );

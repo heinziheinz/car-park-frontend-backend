@@ -23,9 +23,10 @@ const Layout = () => {
                 </Link> : ""}
                 {loggedIn && userRole === "ADMIN" ? <Link to="/show-all-users">
                     <button type="button">Show all users</button>
-                </Link> : ""} {loggedIn && userRole === "ADMIN" || userRole === "USER" ? <Link to="/all-reserved-cars">
-                <button type="button">All reserved cars</button>
-            </Link> : ""}
+                </Link> : ""} {loggedIn && userRole === "ADMIN" || loggedIn && userRole === "USER" ?
+                <Link to="/all-reserved-cars">
+                    <button type="button">All reserved cars</button>
+                </Link> : ""}
             </li>
         </nav>
 
