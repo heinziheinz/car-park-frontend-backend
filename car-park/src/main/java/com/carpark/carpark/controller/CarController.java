@@ -2,6 +2,7 @@ package com.carpark.carpark.controller;
 
 
 import com.carpark.carpark.model.Car;
+import com.carpark.carpark.model.DeletedCar;
 import com.carpark.carpark.service.CarReservationService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -42,8 +43,8 @@ public class CarController {
 
     @DeleteMapping("/{id}")
         //TODO: delete instead of cascading
-    void delete(@PathVariable long id) throws RescourceNotFoundException {
-        carReservationService.deleteCar(id);
+    DeletedCar delete(@PathVariable long id) throws RescourceNotFoundException {
+        return carReservationService.deleteCar(id);
     }
 
     @GetMapping("/id/{id}")

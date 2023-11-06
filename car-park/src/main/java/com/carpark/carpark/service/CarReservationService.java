@@ -212,11 +212,12 @@ public class CarReservationService {
         carRepository.deleteById(id);
     }
 
-    public void deleteCar(long id) throws RescourceNotFoundException {
+    public DeletedCar deleteCar(long id) throws RescourceNotFoundException {
         Car car = findById(id);
         Set<Reservation> reservations = car.getReservations();
         deleteAllReservations(reservations);
         deleteCarById(id);
+        return new DeletedCar(id,car.getTypeName());
     }
 
 }

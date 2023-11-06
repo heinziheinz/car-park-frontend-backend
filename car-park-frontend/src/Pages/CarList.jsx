@@ -8,9 +8,35 @@ const CarList = () => {
     const [cars, setCars] = useState([]);
     const [totalPages, setTotalPages] = useState(0);
     const [currentPage, setCurrentPage] = useState(0);
+    const [carDeleted, setCarDeleted] = useState(false);
 
-    const handleDelete = (id) => {
+    const handleDelete = async (id) => {
         console.log("delete Car with id:" + id);
+        const options = {
+            method: "DELETE",
+        };
+        const userData = JSON.parse(localStorage.getItem("userdata"));
+        const headers = {
+            "Authorization": `Bearer ${userData.jwt}`,
+            "Content-Type": "application/json"
+        };
+        try {
+            const deletedCar = await jwtTokenFetch(`/cars/${id}`, options, headers)
+            console.log("deletedCar " + deletedCar);
+            console.log(deletedCar);
+            if (deletedCar.ok) {
+                console.log("Inside");
+                console.log(deletedCar);
+                const deletedCarParsed = await deletedCar.json();
+                console.log("After");
+                setCarDeleted(!carDeleted);
+
+                console.log(deletedCarParsed);
+            }
+        } catch (err) {
+            console.log(err);
+        }
+
     };
 
     useEffect(() => {
@@ -30,27 +56,22 @@ const CarList = () => {
                 if (allCars.ok) {
                     const allCarsParsed = await allCars.json();
                     setLoading(false);
-                    console.log(allCarsParsed?.totalPages);
                     setTotalPages(allCarsParsed?.totalPages);
-                    console.log(allCarsParsed);
                     setCars(allCarsParsed.content)
                 }
             } catch (err) {
                 console.log(err);
             }
         })();
-    }, [currentPage]);
+    }, [currentPage, carDeleted]);
 
     const flipThePage = (event) => {
         console.log(event.target.name)
-        // / api / employee - pagination ? page = 2
         let myCurrentPage;
         if (event.target.name === "plus") {
-            console.log("plus")
             myCurrentPage = currentPage + 1;
         }
         if (event.target.name === "minus") {
-            console.log("minus")
             myCurrentPage = currentPage - 1;
         }
         setCurrentPage(myCurrentPage);
