@@ -14,6 +14,7 @@ import FetchUser from "./Pages/FetchUser.jsx";
 import CarBooker from "./Pages/CarBooker.jsx";
 import AllReservedCars from "./Pages/AllReservedCars.jsx";
 import BookingConfirmation from "./Pages/BookingConfirmation.jsx";
+import CarList from "./Pages/CarList.jsx";
 
 
 const router = createBrowserRouter([
@@ -33,6 +34,10 @@ const router = createBrowserRouter([
             {
                 path: "/add-a-car",
                 element: <CarCreator/>,
+            },
+            {
+                path: "/car-list",
+                element: <CarList/>,
             },
             {
                 path: "/",

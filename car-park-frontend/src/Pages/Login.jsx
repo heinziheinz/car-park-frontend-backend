@@ -1,5 +1,5 @@
 import {useState, useEffect, useContext} from "react";
-import {jswTokenFetch} from "../Utilities/jswTokenFetch.js";
+import {jwtTokenFetch} from "../Utilities/jwtTokenFetch.js";
 import {Buffer} from "buffer";
 import {useNavigate} from "react-router-dom";
 import {LogginInContext} from "../main.jsx";
@@ -50,7 +50,7 @@ const Login = () => {
         };
 
         try {
-            const data = await jswTokenFetch("/login", options, headers);
+            const data = await jwtTokenFetch("/login", options, headers);
             if (data.ok) {
                 const myData = await data.json();
                 localStorage.setItem("userdata", JSON.stringify(myData));

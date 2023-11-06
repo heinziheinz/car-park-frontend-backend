@@ -1,5 +1,5 @@
 import {useEffect} from "react";
-import {jswTokenFetch} from "../Utilities/jswTokenFetch.js";
+import {jwtTokenFetch} from "../Utilities/jwtTokenFetch.js";
 
 const FetchUser = () => {
 

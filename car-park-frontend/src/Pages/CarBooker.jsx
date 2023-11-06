@@ -1,5 +1,5 @@
 import {useEffect} from "react";
-import {jswTokenFetch} from "../Utilities/jswTokenFetch.js";
+import {jwtTokenFetch} from "../Utilities/jwtTokenFetch.js";
 import {useNavigate, useParams} from "react-router-dom";
 import {Buffer} from "buffer";
 
@@ -18,7 +18,7 @@ const CarBooker = () => {
                 "Content-Type": "application/json"
             };
             try {
-                const bookedCar = await jswTokenFetch(`/cars/id/${id}`, options, headers)
+                const bookedCar = await jwtTokenFetch(`/cars/id/${id}`, options, headers)
                 console.log("Booked Car " + bookedCar);
                 console.log(bookedCar);
                 if (bookedCar.ok) {

@@ -1,6 +1,6 @@
 import {Buffer} from "buffer";
 
-export const jswTokenFetch = async (endpoint, options = {}, headers) => {
+export const jwtTokenFetch = async (endpoint, options = {}, headers) => {
     console.log("method")
     console.log(import.meta.env.VITE_BACKEND_URL + endpoint)
     console.log(headers)

@@ -3,7 +3,7 @@ import {useNavigate} from "react-router-dom";
 import CarForm from "../Components/CarForm.jsx";
 import Loading from "../Components/Loading/Loading.jsx";
 import {loadJson} from "../Utilities/loadJson.js"
-import {jswTokenFetch} from "../Utilities/jswTokenFetch.js";
+import {jwtTokenFetch} from "../Utilities/jwtTokenFetch.js";
 import {findRole} from "../Utilities/findRole.js";
 
 const CarCreator = () => {
@@ -21,14 +21,11 @@ const CarCreator = () => {
             "Content-Type": "application/json"
         };
         try {
-            const savedCar = await jswTokenFetch(`/cars`, options, headers)
+            const savedCar = await jwtTokenFetch(`/cars`, options, headers)
 
             if (savedCar.ok) {
                 const savedCarParsed = await savedCar.json();
-                console.log("savedCar" + savedCar);
-
-                //TODO: go to car list
-                //navigate(`/booking-confirmation/${savedCar.id}`)
+                navigate(`/car-list`)
             }
         } catch (err) {
             console.log(err);

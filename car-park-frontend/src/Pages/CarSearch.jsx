@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import {jswTokenFetch} from "../Utilities/jswTokenFetch.js";
+import {jwtTokenFetch} from "../Utilities/jwtTokenFetch.js";
 import CarTable from "../Components/CarTable.jsx";
 import Form from "../Components/form.jsx";
 import {currentDate} from "../Utilities/CurrentDate.js";
@@ -28,7 +28,7 @@ const CarSearch = () => {
                 const headers = {
                     "Content-Type": "application/json"
                 };
-                const listOfCarHouseNames = await jswTokenFetch("/carhouses/get-carhouse-names", {}, headers);
+                const listOfCarHouseNames = await jwtTokenFetch("/carhouses/get-carhouse-names", {}, headers);
 
                 if (listOfCarHouseNames.ok) {
                     const listOfCarHousesParsed = await listOfCarHouseNames.json()
@@ -49,7 +49,7 @@ const CarSearch = () => {
             const headers = {
                 "Content-Type": "application/json"
             };
-            const availableCars = await jswTokenFetch(`/cars/find-available-cars-for-rent-by-name/${startDateEndDateAndLocation.location}/${startDateEndDateAndLocation.startDate}/${startDateEndDateAndLocation.endDate}`, {}, headers);
+            const availableCars = await jwtTokenFetch(`/cars/find-available-cars-for-rent-by-name/${startDateEndDateAndLocation.location}/${startDateEndDateAndLocation.startDate}/${startDateEndDateAndLocation.endDate}`, {}, headers);
             if (availableCars.ok) {
                 const availableCarsParsed = await availableCars.json()
                 setCars(availableCarsParsed);

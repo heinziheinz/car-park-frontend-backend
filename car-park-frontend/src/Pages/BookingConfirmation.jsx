@@ -1,6 +1,6 @@
 import {useEffect} from "react";
 import {useNavigate, useParams} from "react-router-dom";
-import {jswTokenFetch} from "../Utilities/jswTokenFetch.js";
+import {jwtTokenFetch} from "../Utilities/jwtTokenFetch.js";
 
 const BookingConfirmation = () => {
     const {id, startDate, endDate, carTypename, carPrice} = useParams();
@@ -21,7 +21,7 @@ const BookingConfirmation = () => {
               };
               try {
                   //http://localhost:8080/cars/${id}/user/${userData.id}/2026-12-20/2026-12-21
-                  const bookedCar = await jswTokenFetch(`/cars/id/${id}`, options, headers)
+                  const bookedCar = await jwtTokenFetch(`/cars/id/${id}`, options, headers)
                   console.log("Booked Car " + bookedCar);
                   console.log(bookedCar);
                   if (bookedCar.ok) {
@@ -47,7 +47,7 @@ const BookingConfirmation = () => {
                 "Authorization": `Bearer ${userData.jwt}`,
                 "Content-Type": "application/json"
             };
-            const bookedCar = await jswTokenFetch(`/cars/${id}/user/1/${startDate}/${endDate}`, options, headers)
+            const bookedCar = await jwtTokenFetch(`/cars/${id}/user/1/${startDate}/${endDate}`, options, headers)
             if (bookedCar.ok) {
                 console.log("Your Car has been booked");
                 const bookedCarParsed = await bookedCar.json();

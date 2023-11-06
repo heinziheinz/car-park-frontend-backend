@@ -18,9 +18,6 @@ const Layout = () => {
                 {loggedIn && userRole === "ADMIN" ? <Link to="/add-a-car">
                     <button type="button">Add Car</button>
                 </Link> : ""}
-                {loggedIn && userRole === "ADMIN" ? <Link to="/show-all-cars">
-                    <button type="button">Show all cars</button>
-                </Link> : ""}
                 {loggedIn && userRole === "ADMIN" ? <Link to="/show-all-users">
                     <button type="button">Show all users</button>
                 </Link> : ""}
@@ -31,6 +28,10 @@ const Layout = () => {
                 {loggedIn && userRole === "ADMIN" ?
                 <Link to="/add-a-car">
                     <button type="button">Add a car</button>
+                </Link> : ""}
+                {loggedIn && userRole === "ADMIN" ?
+                <Link to="/car-list">
+                    <button type="button">Car List</button>
                 </Link> : ""}
             </li>
         </nav>

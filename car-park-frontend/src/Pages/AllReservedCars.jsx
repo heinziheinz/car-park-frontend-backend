@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import {jswTokenFetch} from "../Utilities/jswTokenFetch.js";
+import {jwtTokenFetch} from "../Utilities/jwtTokenFetch.js";
 import {Link} from "react-router-dom";
 
 const AllReservedCars = () => {
@@ -17,7 +17,7 @@ const AllReservedCars = () => {
                 "Authorization": `Bearer ${userData.jwt}`,
                 "Content-Type": "application/json"
             };///reservation/get-all-reserved-cars/id/
-            const responseAllReservedCars = await jswTokenFetch(`/reservation/get-all-reserved-cars/id/${userData.userId}`, options, headers);
+            const responseAllReservedCars = await jwtTokenFetch(`/reservation/get-all-reserved-cars/id/${userData.userId}`, options, headers);
             console.log("allReservedCars " + responseAllReservedCars);
             console.log(responseAllReservedCars);
             if (responseAllReservedCars.ok) {
