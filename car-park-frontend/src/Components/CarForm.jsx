@@ -1,31 +1,20 @@
 import {useState} from "react";
 import {loadJson} from "../Utilities/loadJson.js"
 
-const CarForm = ({onSave}) => {
-    const [car, setCar] = useState(null);
-
-    const [typeName, setTypeName] = useState("");
-    const [price, setPrice] = useState("");
-    const [image, setImage] = useState("");
+const CarForm = ({car, onSave}) => {
+    //const [car, setCar] = useState(null);
+    //car?.typeName ?? ""
+    //car?.price ?? ""
+    //car?.image ?? ""
+    const [typeName, setTypeName] = useState(car?.typeName ?? "");
+    const [price, setPrice] = useState(car?.price ?? "");
+    const [image, setImage] = useState(car?.image ?? "");
 
     const onSubmit = (e) => {
 
         e.preventDefault();
         return onSave({typeName, price, image});
 
-        /*const option = {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-Requested-With': 'XMLHttpRequest',
-            },
-            mode: 'cors',
-            cache: 'default',
-            body: JSON.stringify({typeName,price }),
-        };
-
-        const data = await loadJson(`/cars`, option)
-        console.log(data);*/
 
     }
 

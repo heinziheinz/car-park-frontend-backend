@@ -15,6 +15,7 @@ import CarBooker from "./Pages/CarBooker.jsx";
 import AllReservedCars from "./Pages/AllReservedCars.jsx";
 import BookingConfirmation from "./Pages/BookingConfirmation.jsx";
 import CarList from "./Pages/CarList.jsx";
+import CarUpdater from "./Pages/CarUpdater.jsx";
 
 
 const router = createBrowserRouter([
@@ -34,6 +35,10 @@ const router = createBrowserRouter([
             {
                 path: "/add-a-car",
                 element: <CarCreator/>,
+            },
+            {
+                path: "/car/update/:id",
+                element: <CarUpdater/>,
             },
             {
                 path: "/car-list",
