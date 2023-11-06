@@ -35,6 +35,7 @@ public class CarController {
 
     @PostMapping
     Car save(@RequestBody Car car) {
+        System.out.println("car saved= " + car);
         long carPoolId = 1;
         return carReservationService.saveCarService(car, carPoolId);
     }
