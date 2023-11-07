@@ -1,7 +1,7 @@
 import {useEffect, useState} from "react";
 import {jwtTokenFetch} from "../Utilities/jwtTokenFetch.js";
 import CarTableCompleteList from "../Components/CarTableCompleteList/CarTableCompleteList.jsx";
-import Login from "./Login.jsx";
+import Loading from "../Components/Loading/Loading.jsx";
 import {fetchAuthenticated} from "../Utilities/api.js";
 
 
@@ -80,7 +80,7 @@ const CarList = () => {
 
 
     if (loading) {
-        return <Login/>;
+        return <Loading/>;
     }
     return (
         <>

@@ -3,6 +3,7 @@ package com.carpark.carpark.controller;
 
 import com.carpark.carpark.model.Car;
 import com.carpark.carpark.model.CarHouse;
+import com.carpark.carpark.model.DeletedCarHouse;
 import com.carpark.carpark.service.CarHouseService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -32,8 +33,8 @@ public class CarHouseController {
     }
 
     @DeleteMapping("/{id}")
-    void delete(@PathVariable long id) throws RescourceNotFoundException {
-        carHouseService.deleteCarHouse(id);
+    DeletedCarHouse delete(@PathVariable long id) throws RescourceNotFoundException {
+        return carHouseService.deleteCarHouse(id);
     }
 
     @PutMapping("/{id}")

@@ -4,6 +4,7 @@ import com.carpark.carpark.controller.RescourceNotFoundException;
 import com.carpark.carpark.model.Car;
 import com.carpark.carpark.model.CarHouse;
 import com.carpark.carpark.model.CarPool;
+import com.carpark.carpark.model.DeletedCarHouse;
 import com.carpark.carpark.repository.CarHouseRepository;
 import com.carpark.carpark.repository.CarPoolRepository;
 import com.carpark.carpark.repository.CarRepository;
@@ -133,7 +134,7 @@ public class CarHouseService {
         return carHouseRepository.findAll(pageable);
     }
 
-    public void deleteCarHouse(long id) throws RescourceNotFoundException {
+    public DeletedCarHouse deleteCarHouse(long id) throws RescourceNotFoundException {
         CarHouse carHouse = findById(id);
 
         long carPoolID = 1;
@@ -145,6 +146,7 @@ public class CarHouseService {
         carPoolSetCars(carPool, carPoolCars);
         saveCarPool(carPool);
         deleteCarHouseById(id);
+        return new DeletedCarHouse(carHouse.getId(), carHouse.getHouseName());
     }
 
     public CarHouse update(long id, CarHouse updatedCarHouse) throws RescourceNotFoundException {

@@ -76,7 +76,7 @@ const CarUpdater = () => {
 
 
     return <CarForm
-        car={car}
+        carHouse={car}
         onSave={updateCarHandler}
     />;
 }

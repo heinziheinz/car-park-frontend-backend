@@ -11,6 +11,8 @@ public class CarHouse {
     @Id
     @GeneratedValue
     private long id;
+
+    @Column(unique = true)
     private String houseName;
     private String address;
     private long capacity;

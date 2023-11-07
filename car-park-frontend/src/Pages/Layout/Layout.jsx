@@ -22,17 +22,26 @@ const Layout = () => {
                     <button type="button">Show all users</button>
                 </Link> : ""}
                 {loggedIn && userRole === "ADMIN" || loggedIn && userRole === "USER" ?
-                <Link to="/all-reserved-cars">
-                    <button type="button">All reserved cars</button>
-                </Link> : ""}
+                    <Link to="/all-reserved-cars">
+                        <button type="button">All reserved cars</button>
+                    </Link> : ""}
                 {loggedIn && userRole === "ADMIN" ?
-                <Link to="/add-a-car">
-                    <button type="button">Add a car</button>
-                </Link> : ""}
+                    <Link to="/add-a-car">
+                        <button type="button">Add a car</button>
+                    </Link> : ""}
                 {loggedIn && userRole === "ADMIN" ?
-                <Link to="/car-list">
-                    <button type="button">Car List</button>
-                </Link> : ""}
+                    <Link to="/car-list">
+                        <button type="button">Car List</button>
+                    </Link> : ""}
+                {loggedIn && userRole === "ADMIN" ?
+                    <Link to="/car-house-creator">
+                        <button type="button">Add CarHouse</button>
+                    </Link> : ""}
+                {loggedIn && userRole === "ADMIN" ?
+                    <Link to="/car-house-list">
+                        <button type="button">All Car Houses</button>
+                    </Link> : ""}
+
             </li>
         </nav>
 

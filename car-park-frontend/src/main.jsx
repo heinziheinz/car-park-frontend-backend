@@ -17,6 +17,9 @@ import BookingConfirmation from "./Pages/BookingConfirmation.jsx";
 import CarList from "./Pages/CarList.jsx";
 import CarUpdater from "./Pages/CarUpdater.jsx";
 import CarHouseCreator from "./Pages/CarHouseCreator.jsx";
+import CarHouseTable from "./Components/CarHouseTable/CarHouseTable.jsx";
+import CarHouseList from "./Pages/CarHouseList.jsx";
+import CarHouseUpdate from "./Pages/CarHouseUpdate.jsx";
 
 
 const router = createBrowserRouter([
@@ -73,6 +76,14 @@ const router = createBrowserRouter([
                 path: "/car-house-creator",
                 element: <CarHouseCreator />,
             },
+            {
+                path: "/car-house-list",
+                element: <CarHouseList />,
+            },
+            {
+                path: "/car-house-update/:id",
+                element: <CarHouseUpdate />,
+            }
 
 
 
