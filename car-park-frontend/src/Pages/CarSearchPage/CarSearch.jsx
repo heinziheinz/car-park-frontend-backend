@@ -62,6 +62,7 @@ const CarSearch = () => {
 
 
     const startDateEndDateLocationHandler = (event) => {
+        console.log(event.target.value)
         if (event.target.name === "startDate" || event.target.name === "endDate") {
             if (event.target.value < currentDate) {
                 setInvalidDate(true);

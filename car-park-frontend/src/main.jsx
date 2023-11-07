@@ -20,6 +20,7 @@ import CarHouseCreator from "./Pages/CarHouseCreator.jsx";
 import CarHouseTable from "./Components/CarHouseTable/CarHouseTable.jsx";
 import CarHouseList from "./Pages/CarHouse/CarHouseList.jsx";
 import CarHouseUpdate from "./Pages/CarHouseUpdate.jsx";
+import Subscribe from "./Pages/Subcribe/Subscribe.jsx";
 
 
 const router = createBrowserRouter([
@@ -35,6 +36,10 @@ const router = createBrowserRouter([
             {
                 path: "/logout",
                 element: <LogOut/>,
+            },
+            {
+                path: "/subscribe",
+                element: <Subscribe/>,
             },
             {
                 path: "/add-a-car",

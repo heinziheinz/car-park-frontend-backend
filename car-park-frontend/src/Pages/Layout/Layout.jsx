@@ -15,6 +15,10 @@ const Layout = () => {
                 </Link> : <Link to="/login">
                     <button type="button">LogIn</button>
                 </Link>}
+                {!loggedIn ?
+                    <Link to="/subscribe">
+                        <button type="button">Subscribe</button>
+                    </Link> : ""}
                 {loggedIn && userRole === "ADMIN" ? <Link to="/add-a-car">
                     <button type="button">Add Car</button>
                 </Link> : ""}
@@ -41,7 +45,6 @@ const Layout = () => {
                     <Link to="/car-house-list">
                         <button type="button">All Car Houses</button>
                     </Link> : ""}
-
 
             </li>
         </nav>

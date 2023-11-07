@@ -18,7 +18,7 @@ const Login = () => {
     const [inputValue, setInputValue] = useState(inputValues);
     const inputFields = [
         {
-            type: "text",
+            type: "email",
             className: "first-name",
             name: "username",
             label: "User Name",

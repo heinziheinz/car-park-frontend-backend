@@ -9,7 +9,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Component
 public class UserService {
@@ -60,6 +62,12 @@ public class UserService {
     }
 
     public User saveUserEntry(User user) {
+        System.out.println("user.getAuthorities()");
+        System.out.println(user.getAuthorities() == null);
+        if(user.getAuthorities() == null){
+            user.setAuthorities(Set.of("USER"));
+        }
+
         return saveUser(user);
     }
 

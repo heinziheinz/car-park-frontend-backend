@@ -3,11 +3,13 @@ import SubmitButton from "../SubmitButton/SubmitButton.jsx";
 
 const Form = ({handleSubmit, inputFields, onChangeHandler, children, disabled}) => {
     console.log(children)
+
     return (
         <form onSubmit={handleSubmit}>
             {children}
             {
                 inputFields.map((fields, index) => {
+                    console.log(fields.value)
                     return (
                         <div key={"wrapper" + index}>
                             <InputField

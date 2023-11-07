@@ -57,12 +57,12 @@ public class Populator {
     private void createUsers(UserRepository userRepository,  PasswordEncoder passwordEncoder) {
         String password = passwordEncoder.encode("123");
 //        String name, LocalDate birthdate, String address, String password, Set<String> authorities
-        User user = new User("Paul", LocalDate.of(1999, 12, 1), "Daheim", password, Set.of("USER", "ADMIN"));
+        User user = new User("paul@gmx.at", LocalDate.of(1999, 12, 1), "Daheim", password, Set.of("USER", "ADMIN"));
         user = userRepository.save(user);
 
         String passwordTwo = passwordEncoder.encode("123");
 //        String name, LocalDate birthdate, String address, String password, Set<String> authorities
-        User userTwo = new User("Frank", LocalDate.of(1999, 12, 1), "Daheim", passwordTwo, Set.of("USER"));
+        User userTwo = new User("frank@gmx.at", LocalDate.of(1999, 12, 1), "Daheim", passwordTwo, Set.of("USER"));
         user = userRepository.save(userTwo);
 
 
