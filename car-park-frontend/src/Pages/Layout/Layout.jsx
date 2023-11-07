@@ -30,10 +30,6 @@ const Layout = () => {
                         <button type="button">All reserved cars</button>
                     </Link> : ""}
                 {loggedIn && userRole === "ADMIN" ?
-                    <Link to="/add-a-car">
-                        <button type="button">Add a car</button>
-                    </Link> : ""}
-                {loggedIn && userRole === "ADMIN" ?
                     <Link to="/car-list">
                         <button type="button">Car List</button>
                     </Link> : ""}

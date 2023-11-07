@@ -3,7 +3,8 @@ import {Buffer} from "buffer";
 import {jwtTokenFetch} from "../../Utilities/jwtTokenFetch.js";
 import {useNavigate} from "react-router-dom";
 import Form from "./../../Components/Form/Form.jsx";
-import{initializeInputFieldsForKalender} from "./initializeInputFieldsForCalender.js"
+import {initializeInputFieldsForKalender} from "./initializeInputFieldsForCalender.js"
+import {checkIfAllValuesAreDefined} from "./checkIfAllValuesAreDefined.js";
 
 const Subscribe = () => {
     const navigate = useNavigate();
@@ -18,15 +19,16 @@ const Subscribe = () => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        console.log(inputValue)
-        console.log(inputValue?.password)
+        const allowedToSubmit = checkIfAllValuesAreDefined(inputValue);
+        if(!allowedToSubmit){
+            return;
+        }
         const options = {
             method: "POST",
             body: JSON.stringify(inputValue)
         };
         const auth = Buffer.from(inputValue.username + ":" + inputValue.password)
             .toString("base64");
-
         const headers = {
             "Content-Type": "application/json"
         };
@@ -37,11 +39,12 @@ const Subscribe = () => {
             if (data.ok) {
                 const myData = await data.json();
                 navigate("/login")
-
+            } else {
+                throw new Error("CarHouseError");
             }
 
         } catch (err) {
-            console.log(err)
+            console.error(err)
         }
     }
     useEffect(() => {
