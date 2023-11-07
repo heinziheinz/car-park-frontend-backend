@@ -201,4 +201,8 @@ public class CarHouseService {
         return findAllCarHouses();
     }
 
+    public CarHouse findCarHouseById(long id) throws RescourceNotFoundException{
+        return  findById( id);
+    };
+
 }

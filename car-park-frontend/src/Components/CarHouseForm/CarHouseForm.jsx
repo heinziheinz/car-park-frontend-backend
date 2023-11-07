@@ -2,10 +2,16 @@ import {useState} from "react";
 import {loadJson} from "../../Utilities/loadJson.js"
 import Loading from "../Loading/Loading.jsx";
 
-const CarForm = ({carHouse, onSave}) => {
-    const [houseName, setHouseName] = useState(carHouse?.typeName ?? "");
-    const [address, setAddress] = useState(carHouse?.price ?? "");
-    const [capacity, setCapacity] = useState(carHouse?.image ?? "");
+const CarHouseForm = ({carHouse, onSave}) => {
+    console.log(carHouse?.houseName)
+    console.log(carHouse?.address)
+    console.log(carHouse?.capacity)
+    const [houseName, setHouseName] = useState(carHouse?.houseName ?? "");
+    const [address, setAddress] = useState(carHouse?.address ?? "");
+    const [capacity, setCapacity] = useState(carHouse?.capacity?? "");
+    console
+    console.log("capacity")
+    console.log(capacity)
 
     const onSubmit = (e) => {
         e.preventDefault();
@@ -43,4 +49,4 @@ const CarForm = ({carHouse, onSave}) => {
     );
 
 }
-export default CarForm;
+export default CarHouseForm;

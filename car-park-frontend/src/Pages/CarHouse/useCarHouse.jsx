@@ -1,10 +1,7 @@
 import {useEffect, useState} from "react";
-import {fetchAuthenticated} from "./../Utilities/api.js";
-import Loading from "../Components/Loading/Loading.jsx";
-import CarHouseTable from "../Components/CarHouseTable/CarHouseTable.jsx";
-import {jwtTokenFetch} from "../Utilities/jwtTokenFetch.js";
+import {fetchAuthenticated} from "../../Utilities/api.js";
 
-const CarHouseList = () => {
+const userCarHouse = () => {
     const [loading, setLoading] = useState(true);
     const [carHouses, setCarHouses] = useState([]);
     const [totalPages, setTotalPages] = useState(0);
@@ -61,14 +58,18 @@ const CarHouseList = () => {
 
     };
 
-    if (loading) {
-        return <Loading/>;
+    const flipThePage = (event) => {
+        console.log(event.target.name)
+        let myCurrentPage;
+        if (event.target.name === "plus") {
+            myCurrentPage = currentPage + 1;
+        }
+        if (event.target.name === "minus") {
+            myCurrentPage = currentPage - 1;
+        }
+        setCurrentPage(myCurrentPage);
     }
 
-    return <CarHouseTable
-        carHouses={carHouses}
-        onDelete={handleDelete}
-    />;
+    return {handleDelete, loading, carHouses, totalPages, currentPage, flipThePage};
 }
-
-export default CarHouseList;
+export default userCarHouse;

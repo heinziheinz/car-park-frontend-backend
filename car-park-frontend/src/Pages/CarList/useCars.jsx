@@ -1,8 +1,6 @@
 import {useEffect, useState} from "react";
-import {jwtTokenFetch} from "../Utilities/jwtTokenFetch.js";
-import CarTableCompleteList from "../Components/CarTableCompleteList/CarTableCompleteList.jsx";
-import Loading from "../Components/Loading/Loading.jsx";
-import {fetchAuthenticated} from "../Utilities/api.js";
+import {jwtTokenFetch} from "../../Utilities/jwtTokenFetch.js";
+import {fetchAuthenticated} from "../../Utilities/api.js";
 
 
 const useAllCars = () => {
@@ -75,28 +73,4 @@ const useAllCars = () => {
     return {handleDelete, loading, cars, totalPages, currentPage, flipThePage};
 }
 
-const CarList = () => {
-    const {cars, handleDelete, loading, totalPages, currentPage, flipThePage} = useAllCars();
-
-
-    if (loading) {
-        return <Loading/>;
-    }
-    return (
-        <>
-            <CarTableCompleteList cars={cars} onDelete={handleDelete}/>
-            <div>
-                <button
-                    onClick={flipThePage}
-                    name="minus"
-                    disabled={currentPage === 0}>Previous
-                </button>
-                <button
-                    onClick={flipThePage}
-                    name="plus" disabled={currentPage === totalPages - 1}>Next
-                </button>
-            </div>
-        </>
-    );
-}
-export default CarList;
+export default useAllCars;

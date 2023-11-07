@@ -27,6 +27,11 @@ public class CarHouseController {
         return carHouseService.findAllCarHousesEntry(pageable);
     }
 
+    @GetMapping("/id/{id}")
+    CarHouse findById(@PathVariable long id) throws RescourceNotFoundException {
+        return carHouseService.findCarHouseById(id);
+    }
+
     @PostMapping
     CarHouse save(@RequestBody CarHouse carHouse) {
         return carHouseService.carHouseSaveEntry(carHouse);
