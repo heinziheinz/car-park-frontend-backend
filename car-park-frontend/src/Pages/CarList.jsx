@@ -2,14 +2,36 @@ import {useEffect, useState} from "react";
 import {jwtTokenFetch} from "../Utilities/jwtTokenFetch.js";
 import CarTableCompleteList from "../Components/CarTableCompleteList.jsx";
 import Login from "./Login.jsx";
+import {fetchAuthenticated} from "../Utilities/api.js";
 
-const CarList = () => {
+
+const useAllCars = () => {
     const [loading, setLoading] = useState(true);
     const [cars, setCars] = useState([]);
     const [totalPages, setTotalPages] = useState(0);
     const [currentPage, setCurrentPage] = useState(0);
     const [carDeleted, setCarDeleted] = useState(false);
+    useEffect(() => {
 
+        (async () => {
+
+            try {
+                const allCars = await fetchAuthenticated(`/cars?page=${currentPage}&size=10`, {
+                    method: "GET"
+                });
+                if (allCars.ok) {
+                    const allCarsParsed = await allCars.json();
+                    setLoading(false);
+                    setTotalPages(allCarsParsed?.totalPages);
+                    setCars(allCarsParsed.content)
+                } else {
+                    throw new Error("All carts error");
+                }
+            } catch (err) {
+                console.error(err);
+            }
+        })();
+    }, [currentPage, carDeleted]);
     const handleDelete = async (id) => {
         console.log("delete Car with id:" + id);
         const options = {
@@ -39,32 +61,6 @@ const CarList = () => {
 
     };
 
-    useEffect(() => {
-        (async () => {
-            const options = {
-                method: "GET",
-            };
-            const userData = JSON.parse(localStorage.getItem("userdata"));
-            const headers = {
-                "Authorization": `Bearer ${userData.jwt}`,
-                "Content-Type": "application/json"
-            };
-            try {
-                const allCars = await jwtTokenFetch(`/cars?page=${currentPage}&size=10`, options, headers)
-                console.log("All Cars " + allCars);
-                console.log(allCars);
-                if (allCars.ok) {
-                    const allCarsParsed = await allCars.json();
-                    setLoading(false);
-                    setTotalPages(allCarsParsed?.totalPages);
-                    setCars(allCarsParsed.content)
-                }
-            } catch (err) {
-                console.log(err);
-            }
-        })();
-    }, [currentPage, carDeleted]);
-
     const flipThePage = (event) => {
         console.log(event.target.name)
         let myCurrentPage;
@@ -76,6 +72,12 @@ const CarList = () => {
         }
         setCurrentPage(myCurrentPage);
     }
+    return {handleDelete, loading, cars, totalPages, currentPage, flipThePage};
+}
+
+const CarList = () => {
+    const {cars, handleDelete, loading, totalPages, currentPage, flipThePage} = useAllCars();
+
 
     if (loading) {
         return <Login/>;

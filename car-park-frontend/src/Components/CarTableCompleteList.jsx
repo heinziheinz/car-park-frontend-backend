@@ -21,6 +21,8 @@ const CarTableCompleteList = ({cars, onDelete}) => {
                         <Link to={`/car/update/${car.id}`}>
                             <button type="button">Update</button>
                         </Link>
+                    </td>
+                    <td>
                         <button type="button" onClick={() => onDelete(car.id)}>
                             Delete
                         </button>

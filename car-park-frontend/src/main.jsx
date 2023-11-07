@@ -6,7 +6,7 @@ import ErrorPage from "./Pages/ErrorPage.jsx";
 import Login from "./Pages/Login.jsx";
 import LogOut from "./Pages/LogOut.jsx";
 import CarForm from "./Components/CarForm.jsx";
-import CarSearch from "./Pages/CarSearch.jsx";
+import CarSearch from "./Pages/CarSearchPage/CarSearch.jsx";
 import UserList from "./Pages/UserList.jsx";
 import CarCreator from "./Pages/CarCreator.jsx";
 import {createBrowserRouter, RouterProvider} from "react-router-dom";

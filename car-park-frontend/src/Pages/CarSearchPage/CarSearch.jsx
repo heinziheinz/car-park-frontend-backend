@@ -1,10 +1,10 @@
 import {useEffect, useState} from "react";
-import {jwtTokenFetch} from "../Utilities/jwtTokenFetch.js";
-import CarTable from "../Components/CarTable.jsx";
-import Form from "../Components/form.jsx";
-import {currentDate} from "../Utilities/CurrentDate.js";
+import {jwtTokenFetch} from "../../Utilities/jwtTokenFetch.js";
+import CarTable from "../../Components/CarTable.jsx";
+import Form from "../../Components/form.jsx";
+import {currentDate} from "../../Utilities/CurrentDate.js";
 import {initializeInputFieldsForKalender} from "./initializeInputFieldsForKalender.js";
-import SelectElement from "../Components/SelectElement.jsx";
+import SelectElement from "../../Components/SelectElement.jsx";
 
 const CarSearch = () => {
 
@@ -96,8 +96,8 @@ const CarSearch = () => {
                         elementArray={carHouses}
                         onChangeHandler={startDateEndDateLocationHandler}
                         defaultValue={"Select Location"}
-                            name={"location"}
-                        />}
+                        name={"location"}
+                    />}
                 </Form>
             </>
         );
