@@ -1,10 +1,10 @@
 import {useEffect, useState} from "react";
 import {jwtTokenFetch} from "../../Utilities/jwtTokenFetch.js";
-import CarTable from "../../Components/CarTable.jsx";
-import Form from "../../Components/form.jsx";
+import CarTable from "../../Components/CarTable/CarTable.jsx";
+import Form from "../../Components/Form/Form.jsx";
 import {currentDate} from "../../Utilities/CurrentDate.js";
 import {initializeInputFieldsForKalender} from "./initializeInputFieldsForKalender.js";
-import SelectElement from "../../Components/SelectElement.jsx";
+import SelectElement from "../../Components/SelectElement/SelectElement.jsx";
 
 const CarSearch = () => {
 

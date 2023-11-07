@@ -1,6 +1,6 @@
 import {useState, useEffect} from "react";
 import {useNavigate} from "react-router-dom";
-import CarForm from "../Components/CarForm.jsx";
+import CarForm from "../Components/CarForm/CarForm.jsx";
 import Loading from "../Components/Loading/Loading.jsx";
 import {loadJson} from "../Utilities/loadJson.js"
 import {jwtTokenFetch} from "../Utilities/jwtTokenFetch.js";

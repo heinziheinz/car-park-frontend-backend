@@ -1,5 +1,5 @@
 import {useState} from "react";
-import {loadJson} from "../Utilities/loadJson.js"
+import {loadJson} from "../../Utilities/loadJson.js"
 
 const CarForm = ({car, onSave}) => {
     const [typeName, setTypeName] = useState(car?.typeName ?? "");

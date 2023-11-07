@@ -5,7 +5,7 @@ import {useNavigate} from "react-router-dom";
 import {LogginInContext} from "../main.jsx";
 import {UserRoleContext} from "../main.jsx";
 import {findRole} from "../Utilities/findRole.js";
-import Form from "../Components/form.jsx";
+import Form from "../Components/Form/Form.jsx";
 
 const Login = () => {
     const navigate = useNavigate();

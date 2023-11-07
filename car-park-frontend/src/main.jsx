@@ -5,7 +5,7 @@ import ErrorPage from "./Pages/ErrorPage.jsx";
 //import CarCreator from "./Pages/CarCreator.jsx"
 import Login from "./Pages/Login.jsx";
 import LogOut from "./Pages/LogOut.jsx";
-import CarForm from "./Components/CarForm.jsx";
+import CarForm from "./Components/CarForm/CarForm.jsx";
 import CarSearch from "./Pages/CarSearchPage/CarSearch.jsx";
 import UserList from "./Pages/UserList.jsx";
 import CarCreator from "./Pages/CarCreator.jsx";
@@ -16,6 +16,7 @@ import AllReservedCars from "./Pages/AllReservedCars.jsx";
 import BookingConfirmation from "./Pages/BookingConfirmation.jsx";
 import CarList from "./Pages/CarList.jsx";
 import CarUpdater from "./Pages/CarUpdater.jsx";
+import CarHouseCreator from "./Pages/CarHouseCreator.jsx";
 
 
 const router = createBrowserRouter([
@@ -68,6 +69,11 @@ const router = createBrowserRouter([
                 path: "/booking-confirmation/:id/:startDate/:endDate/:carTypename/:carPrice",
                 element: <BookingConfirmation />,
             },
+            {
+                path: "/car-house-creator",
+                element: <CarHouseCreator />,
+            },
+
 
 
         ],

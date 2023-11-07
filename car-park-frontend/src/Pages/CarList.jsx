@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
 import {jwtTokenFetch} from "../Utilities/jwtTokenFetch.js";
-import CarTableCompleteList from "../Components/CarTableCompleteList.jsx";
+import CarTableCompleteList from "../Components/CarTableCompleteList/CarTableCompleteList.jsx";
 import Login from "./Login.jsx";
 import {fetchAuthenticated} from "../Utilities/api.js";
 

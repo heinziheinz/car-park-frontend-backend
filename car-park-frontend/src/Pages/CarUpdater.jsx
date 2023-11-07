@@ -3,7 +3,7 @@ import {useState} from "react";
 import {useNavigate, useParams} from "react-router-dom";
 import {jwtTokenFetch} from "../Utilities/jwtTokenFetch.js";
 import Loading from "../Components/Loading/Loading.jsx";
-import CarForm from "../Components/CarForm.jsx";
+import CarForm from "../Components/CarForm/CarForm.jsx";
 
 
 const CarUpdater = () => {

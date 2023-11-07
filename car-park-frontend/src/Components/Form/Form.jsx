@@ -1,5 +1,5 @@
-import InputField from "./InputField.jsx";
-import SubmitButton from "./SubmitButton.jsx";
+import InputField from "../InputField/InputField.jsx";
+import SubmitButton from "../SubmitButton/SubmitButton.jsx";
 
 const Form = ({handleSubmit, inputFields, onChangeHandler, children, disabled}) => {
     console.log(children)
