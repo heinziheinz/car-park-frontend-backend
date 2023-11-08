@@ -32,6 +32,6 @@ const CarHouseCreator = () => {
     }
     return <CarHouseForm
         onSave={handleCreateCarHouse}
-    />;
+    >{[]}</CarHouseForm>;
 }
 export default CarHouseCreator;

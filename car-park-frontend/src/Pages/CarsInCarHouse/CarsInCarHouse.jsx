@@ -3,74 +3,10 @@ import {fetchAuthenticated} from "./../../Utilities/api.js";
 import {useParams} from "react-router-dom";
 import Loading from "../../Components/Loading/Loading.jsx";
 import CarsFromCarHouseTable from "../../Components/CarsFromCarHouseTable/CarsFromCarHouseTable.jsx";
+import useCars from "./useCars.jsx";
 
 const CarsInCarHouse = () => {
-    const {id} = useParams();
-    const [cars, setCars] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [carInventoryUpdated, setCarInventoryUpdated] = useState(true);
-    const [totalPages, setTotalPages] = useState(0);
-    const [currentPage, setCurrentPage] = useState(0);
-
-    useEffect(() => {
-        console.log("id")
-        console.log(id);
-        (async () => {
-            const options = {
-                method: "GET"
-            };
-            //http://localhost:8080/cars/find-all-cars-with-in-carhouse/1?page=1&size=10
-            try {
-                const allCarsInCarHouse = await fetchAuthenticated(`/cars/find-all-cars-with-in-carhouse/${id}?page=${currentPage}&size=10`, options);
-                if (allCarsInCarHouse.ok) {
-                    const allCarsFormCarHouseParsed = await allCarsInCarHouse.json();
-                    setCars(allCarsFormCarHouseParsed.content);
-                    setTotalPages(allCarsFormCarHouseParsed?.totalPages);
-                    setLoading(false);
-
-                } else {
-                    throw new Error("Error with Fetch call allCarsInCarHouse");
-                }
-            } catch (err) {
-                console.error(err);
-            }
-        })();
-    }, [carInventoryUpdated, currentPage])
-
-    const deleteHandler = async (carId) => {
-        console.log("Delete Car From CarHouse");
-        console.log(id);
-        const options = {
-            method: "POST"
-        };
-        try {
-            const removedCar = await fetchAuthenticated(`/carhouses/${id}/remove-car/${carId}`, options);
-            console.log("removedCar");
-            console.log(removedCar);
-            if (removedCar.ok) {
-                const removedCarParsed = await removedCar.json();
-                setCarInventoryUpdated(!carInventoryUpdated);
-            } else {
-                throw new Error("Car hasn`t been deleted");
-            }
-
-        } catch (err) {
-
-        }
-
-    }
-
-    const flipThePage = (event) => {
-        console.log(event.target.name)
-        let myCurrentPage;
-        if (event.target.name === "plus") {
-            myCurrentPage = currentPage + 1;
-        }
-        if (event.target.name === "minus") {
-            myCurrentPage = currentPage - 1;
-        }
-        setCurrentPage(myCurrentPage);
-    }
+   const{loading,cars, deleteHandler, flipThePage, currentPage, totalPages}= useCars();
     if (loading) {
         return <Loading/>
     }
@@ -79,6 +15,7 @@ const CarsInCarHouse = () => {
             <CarsFromCarHouseTable
                 cars={cars}
                 onDelete={deleteHandler}
+                value={"Delete Car From CarHouse"}
             />
             <button
                 onClick={flipThePage}

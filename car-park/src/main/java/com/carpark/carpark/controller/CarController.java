@@ -2,7 +2,6 @@ package com.carpark.carpark.controller;
 
 
 import com.carpark.carpark.model.Car;
-import com.carpark.carpark.model.CarHouse;
 import com.carpark.carpark.model.DeletedCar;
 import com.carpark.carpark.service.CarReservationService;
 import org.springframework.data.domain.Page;
@@ -103,5 +102,10 @@ public class CarController {
     ) throws RescourceNotFoundException {
         Pageable pageable = PageRequest.of(page, size);
         return carReservationService.findAllCarsInCarHouse(carHouseId, pageable);
+    }
+
+    @GetMapping("all-cars-not-allocated-to-a-carhouse")
+    Page<Car> getAllCArsNotAllocatedToCarHouse(Pageable pageable) {
+        return carReservationService.findAllCArsNotAllocatedToACarHouse(pageable);
     }
 }

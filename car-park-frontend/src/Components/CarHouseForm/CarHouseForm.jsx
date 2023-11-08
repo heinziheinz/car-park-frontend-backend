@@ -3,14 +3,14 @@ import {loadJson} from "../../Utilities/loadJson.js"
 import Loading from "../Loading/Loading.jsx";
 import {Link} from "react-router-dom";
 
-const CarHouseForm = ({carHouse, onSave, onDelete, children}) => {
+const CarHouseForm = ({carHouse, onSave, children}) => {
     console.log(carHouse?.houseName)
     console.log(carHouse?.address)
     console.log(carHouse?.capacity)
     const [houseName, setHouseName] = useState(carHouse?.houseName ?? "");
     const [address, setAddress] = useState(carHouse?.address ?? "");
     const [capacity, setCapacity] = useState(carHouse?.capacity ?? "");
-   // const [carsInCarHouse, setCarsInCarHouse] = useState(carHouse?.cars ?? []);
+    // const [carsInCarHouse, setCarsInCarHouse] = useState(carHouse?.cars ?? []);
 
     console.log("capacity")
     console.log(capacity)
@@ -50,23 +50,13 @@ const CarHouseForm = ({carHouse, onSave, onDelete, children}) => {
                 </div>
                 <input type="submit" value={"Push"}/>
             </form>
-           {/*<table>
-               <tbody>
-               {carHouse?.cars.map((car) => (
-                   <tr key={car.id}>
-                       <td>{car.typeName}</td>
-                       <td>{car.price}</td>
-                       <td><img src={car.image} width="200" height="100"/></td>
-                       <td>
-                           <button type="button" onClick={() => onDelete(car.id)}>
-                               Delete from CarHouse
-                           </button>
-                       </td>
-                   </tr>
-               ))}
-               </tbody>
-           </table>*/}
-            {children}
+            <div style={{display: 'flex'}}>
+                {children.map((child, index) => (
+                    <div key={index} style={{margin: '10px'}}>
+                        {child}
+                    </div>
+                ))}
+            </div>
         </>
     );
 

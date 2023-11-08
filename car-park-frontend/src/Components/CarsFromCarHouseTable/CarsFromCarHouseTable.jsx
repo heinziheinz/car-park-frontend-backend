@@ -1,6 +1,6 @@
 import {Link} from "react-router-dom";
 
-const CarsFromCarHouseTable = ({cars, onDelete}) => {
+const CarsFromCarHouseTable = ({cars, onDelete, value}) => {
     return (
         <div className="EmployeeTable">
             <table>
@@ -18,7 +18,7 @@ const CarsFromCarHouseTable = ({cars, onDelete}) => {
                         <td><img src={car.image} width="200" height="100"/></td>
                         <td>
                             <button type="button" onClick={() => onDelete(car.id)}>
-                                Delete from CarHouse
+                                {value}
                             </button>
                         </td>
 

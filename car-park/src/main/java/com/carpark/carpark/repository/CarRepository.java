@@ -15,6 +15,8 @@ import java.util.Optional;
 public interface CarRepository extends JpaRepository<Car, Long> {
     List<Car> findAllByTypeName(String typeName);
     Page<Car> findAllByCarHouse(CarHouse carHouse, Pageable pageable);
+
+    Page<Car> findAllByCarHouseIsNull(Pageable pageable);
 //    List<Car> f
 
     @Query("SELECT c FROM Car c LEFT JOIN c.reservations r " +

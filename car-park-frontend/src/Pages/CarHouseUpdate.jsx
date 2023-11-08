@@ -4,6 +4,7 @@ import {fetchAuthenticated} from "../Utilities/api.js";
 import CarHouseForm from "../Components/CarHouseForm/CarHouseForm.jsx";
 import Loading from "../Components/Loading/Loading.jsx";
 import CarsInCarHouse from "./CarsInCarHouse/CarsInCarHouse.jsx";
+import CarsNotAllocatedToACarHouse from "./CarsNotInTheCarHouse/CarsNotAllocatedToACarHouse.jsx";
 
 const CarHouseUpdate = () => {
     const [carHouse, setCarHouse] = useState(null);
@@ -61,33 +62,12 @@ const CarHouseUpdate = () => {
                 const updatedCarHouseParsed = await updatedCarHouse.json();
                 console.log(updatedCarHouseParsed);
                 navigate("/car-house-list")
+                //navigate(`/redirect/${id}`)
             }
         } catch (err) {
             console.log(err);
         }
 
-    }
-//TODO: HERE
-    const deleteCarFromCarHouseHandler = async (carId) => {
-        console.log("Delete Car From CarHouse");
-        console.log(id);
-        const options = {
-            method: "POST"
-        };
-        try {
-            const removedCar = await fetchAuthenticated(`/carhouses/${id}/remove-car/${carId}`, options);
-            console.log("removedCar");
-            console.log(removedCar);
-            if (removedCar.ok) {
-                const removedCarParsed = await removedCar.json();
-                setCarInventoryUpdated(!carInventoryUpdated);
-            } else {
-                throw new Error("Car hasn`t been deleted");
-            }
-
-        } catch (err) {
-
-        }
     }
 
     if (loading) {
@@ -96,7 +76,6 @@ const CarHouseUpdate = () => {
     return <CarHouseForm
         carHouse={carHouse}
         onSave={updateCarHouseHandler}
-        onDelete={deleteCarFromCarHouseHandler}
-    >{<CarsInCarHouse/>}</CarHouseForm>
+    >{<CarsInCarHouse/>}{<CarsNotAllocatedToACarHouse/>}</CarHouseForm>
 }
 export default CarHouseUpdate;

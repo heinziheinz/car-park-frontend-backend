@@ -225,5 +225,8 @@ public class CarReservationService {
         CarHouse carHouse= findCarHouseById(carHouseId);
         return carRepository.findAllByCarHouse(carHouse, pageable);
     }
+    public Page<Car>findAllCArsNotAllocatedToACarHouse(Pageable pageable){
+        return carRepository.findAllByCarHouseIsNull(pageable);
+    }
 
 }

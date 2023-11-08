@@ -21,6 +21,7 @@ import CarHouseTable from "./Components/CarHouseTable/CarHouseTable.jsx";
 import CarHouseList from "./Pages/CarHouse/CarHouseList.jsx";
 import CarHouseUpdate from "./Pages/CarHouseUpdate.jsx";
 import Subscribe from "./Pages/Subcribe/Subscribe.jsx";
+import Redirect from "./Components/Redirect/Redirect.jsx";
 
 
 const router = createBrowserRouter([
@@ -88,6 +89,10 @@ const router = createBrowserRouter([
             {
                 path: "/car-house-update/:id",
                 element: <CarHouseUpdate />,
+            },
+            {
+                path: "/redirect/:id",
+                element: <Redirect />,
             }
 
 
