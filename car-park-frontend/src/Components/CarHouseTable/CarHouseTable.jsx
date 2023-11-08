@@ -1,6 +1,8 @@
 import {Link} from "react-router-dom";
 
-const CarHouseTable = ({carHouses, onDelete}) => {
+import{cloneElement} from "react";
+
+const CarHouseTable = ({carHouses, onDelete, children}) => {
     console.log(carHouses);
     return (
         <div className="EmployeeTable">
@@ -19,10 +21,10 @@ const CarHouseTable = ({carHouses, onDelete}) => {
                         <td>{carHouse.address}</td>
                         <td>{carHouse.capacity}</td>
                         <td>
-                            {/* /equipment/update/:id */}
-                            <Link to={`/car-house-update/${carHouse.id}`}>
+                            {cloneElement(children, { url: `/car-house-update/${carHouse.id}`, value: "Update CarHouse" })}
+                            {/*<Link to={`/car-house-update/${carHouse.id}`}>
                                 <button type="button">Update CarHouse</button>
-                            </Link>
+                            </Link>*/}
                         </td>
                         <td>
                             <button type="button" onClick={() => onDelete(carHouse.id)}>

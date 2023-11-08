@@ -1,9 +1,8 @@
-import {useEffect, useState} from "react";
-import {fetchAuthenticated} from "../../Utilities/api.js";
+
 import Loading from "../../Components/Loading/Loading.jsx";
 import CarHouseTable from "../../Components/CarHouseTable/CarHouseTable.jsx";
-import {jwtTokenFetch} from "../../Utilities/jwtTokenFetch.js";
-import useAllCars from "../CarList/useCars.jsx";
+import LinkComponent from "../../Components/LinkComponent/LinkComponent.jsx";
+
 
 import userCarHouse from "./useCarHouse.jsx"
 const CarHouseList = () => {
@@ -17,7 +16,7 @@ const CarHouseList = () => {
             <CarHouseTable
                 carHouses={carHouses}
                 onDelete={handleDelete}
-            />
+            >{<LinkComponent/>}</CarHouseTable>
             <div>
                 <button
                     onClick={flipThePage}
