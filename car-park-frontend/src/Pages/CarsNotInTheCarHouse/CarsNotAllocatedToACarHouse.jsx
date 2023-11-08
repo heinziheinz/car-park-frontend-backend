@@ -41,14 +41,11 @@ const CarsNotAllocatedToACarHouse = () => {
         const options = {
             method: "POST"
         };
-        //http://localhost:8080/carhouses/1/cars/1
         try {
             const carAddedToCarHouse = await fetchAuthenticated(`/carhouses/${id}/cars/${carId}`, options);
             if (carAddedToCarHouse.ok) {
                 const carAddedToCarHouseParsed = await carAddedToCarHouse.json();
-                console.log(carAddedToCarHouseParsed.content)
                 setLoading(false);
-                //navigate("/car-house-list")
                 navigate(`/redirect/${id}`)
 
             } else {
