@@ -19,8 +19,9 @@ const CarsInCarHouse = () => {
             const options = {
                 method: "GET"
             };
+            //http://localhost:8080/cars/find-all-cars-with-in-carhouse/1?page=1&size=10
             try {
-                const allCarsInCarHouse = await fetchAuthenticated(`/cars/find-all-cars-with-in-carhouse/${id}`, options);
+                const allCarsInCarHouse = await fetchAuthenticated(`/cars/find-all-cars-with-in-carhouse/${id}?page=${currentPage}&size=10`, options);
                 if (allCarsInCarHouse.ok) {
                     const allCarsFormCarHouseParsed = await allCarsInCarHouse.json();
                     setCars(allCarsFormCarHouseParsed.content);
@@ -34,7 +35,7 @@ const CarsInCarHouse = () => {
                 console.error(err);
             }
         })();
-    }, [carInventoryUpdated])
+    }, [carInventoryUpdated, currentPage])
 
     const deleteHandler = async (carId) => {
         console.log("Delete Car From CarHouse");
