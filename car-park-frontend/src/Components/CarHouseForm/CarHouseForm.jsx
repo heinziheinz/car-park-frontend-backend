@@ -3,7 +3,7 @@ import {loadJson} from "../../Utilities/loadJson.js"
 import Loading from "../Loading/Loading.jsx";
 import {Link} from "react-router-dom";
 
-const CarHouseForm = ({carHouse, onSave, onDelete}) => {
+const CarHouseForm = ({carHouse, onSave, onDelete, children}) => {
     console.log(carHouse?.houseName)
     console.log(carHouse?.address)
     console.log(carHouse?.capacity)
@@ -50,7 +50,7 @@ const CarHouseForm = ({carHouse, onSave, onDelete}) => {
                 </div>
                 <input type="submit" value={"Push"}/>
             </form>
-           <table>
+           {/*<table>
                <tbody>
                {carHouse?.cars.map((car) => (
                    <tr key={car.id}>
@@ -65,7 +65,8 @@ const CarHouseForm = ({carHouse, onSave, onDelete}) => {
                    </tr>
                ))}
                </tbody>
-           </table>
+           </table>*/}
+            {children}
         </>
     );
 

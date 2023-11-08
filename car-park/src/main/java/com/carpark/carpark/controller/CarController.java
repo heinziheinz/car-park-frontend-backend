@@ -2,9 +2,11 @@ package com.carpark.carpark.controller;
 
 
 import com.carpark.carpark.model.Car;
+import com.carpark.carpark.model.CarHouse;
 import com.carpark.carpark.model.DeletedCar;
 import com.carpark.carpark.service.CarReservationService;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
@@ -91,5 +93,15 @@ public class CarController {
     ) throws RescourceNotFoundException {
         System.out.println("carHouseName = " + carHouseName);
         return carReservationService.getAvailableCarsByCarHouseName(carHouseName, startDate, endDate);
+    }
+
+    @GetMapping("find-all-cars-with-in-carhouse/{carHouseId}")
+    Page<Car> getCarWitchIsInSpecificCarHouse(
+            @PathVariable long carHouseId,
+            @RequestParam(name = "page", defaultValue = "0") int page,
+            @RequestParam(name = "size", defaultValue = "10") int size
+    ) throws RescourceNotFoundException {
+        Pageable pageable = PageRequest.of(page, size);
+        return carReservationService.findAllCarsInCarHouse(carHouseId, pageable);
     }
 }

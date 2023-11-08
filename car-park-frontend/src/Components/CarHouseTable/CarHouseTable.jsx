@@ -22,9 +22,6 @@ const CarHouseTable = ({carHouses, onDelete, children}) => {
                         <td>{carHouse.capacity}</td>
                         <td>
                             {cloneElement(children, { url: `/car-house-update/${carHouse.id}`, value: "Update CarHouse" })}
-                            {/*<Link to={`/car-house-update/${carHouse.id}`}>
-                                <button type="button">Update CarHouse</button>
-                            </Link>*/}
                         </td>
                         <td>
                             <button type="button" onClick={() => onDelete(carHouse.id)}>

@@ -1,10 +1,9 @@
 import {useEffect, useState} from "react";
 import {useNavigate, useParams} from "react-router-dom";
-import {jwtTokenFetch} from "../Utilities/jwtTokenFetch.js";
 import {fetchAuthenticated} from "../Utilities/api.js";
-
 import CarHouseForm from "../Components/CarHouseForm/CarHouseForm.jsx";
 import Loading from "../Components/Loading/Loading.jsx";
+import CarsInCarHouse from "./CarsInCarHouse/CarsInCarHouse.jsx";
 
 const CarHouseUpdate = () => {
     const [carHouse, setCarHouse] = useState(null);
@@ -82,9 +81,6 @@ const CarHouseUpdate = () => {
             if (removedCar.ok) {
                 const removedCarParsed = await removedCar.json();
                 setCarInventoryUpdated(!carInventoryUpdated);
-               //navigate(`/car-house-update/${id}`)
-                console.log("removedCarParsed");
-                console.log(removedCarParsed);
             } else {
                 throw new Error("Car hasn`t been deleted");
             }
@@ -101,6 +97,6 @@ const CarHouseUpdate = () => {
         carHouse={carHouse}
         onSave={updateCarHouseHandler}
         onDelete={deleteCarFromCarHouseHandler}
-    />
+    >{<CarsInCarHouse/>}</CarHouseForm>
 }
 export default CarHouseUpdate;

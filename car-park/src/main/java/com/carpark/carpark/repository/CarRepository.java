@@ -2,9 +2,11 @@ package com.carpark.carpark.repository;
 
 import com.carpark.carpark.model.Car;
 import com.carpark.carpark.model.CarHouse;
+import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.data.domain.Pageable;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -12,6 +14,7 @@ import java.util.Optional;
 
 public interface CarRepository extends JpaRepository<Car, Long> {
     List<Car> findAllByTypeName(String typeName);
+    Page<Car> findAllByCarHouse(CarHouse carHouse, Pageable pageable);
 //    List<Car> f
 
     @Query("SELECT c FROM Car c LEFT JOIN c.reservations r " +

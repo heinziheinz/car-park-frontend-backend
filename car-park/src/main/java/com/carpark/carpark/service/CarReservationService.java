@@ -220,4 +220,10 @@ public class CarReservationService {
         return new DeletedCar(id,car.getTypeName());
     }
 
+
+    public Page<Car>findAllCarsInCarHouse(long carHouseId, Pageable pageable) throws RescourceNotFoundException{
+        CarHouse carHouse= findCarHouseById(carHouseId);
+        return carRepository.findAllByCarHouse(carHouse, pageable);
+    }
+
 }

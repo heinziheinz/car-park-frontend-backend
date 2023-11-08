@@ -1,10 +1,6 @@
 import {Link} from "react-router-dom";
-import {cloneElement} from "react";
 
-const CarTable = ({cars, startDate, endDate}) => {
-    //TODO: table funktionalisieren
-
-    console.log("HELLO CARS")
+const CarsFromCarHouseTable = ({cars, onDelete}) => {
     return (
         <div className="EmployeeTable">
             <table>
@@ -21,10 +17,9 @@ const CarTable = ({cars, startDate, endDate}) => {
                         <td>{car.price}</td>
                         <td><img src={car.image} width="200" height="100"/></td>
                         <td>
-                            <Link
-                                to={`/booking-confirmation/${car.id}/${startDate}/${endDate}/${car.typeName}/${car.price}`}>
-                                <button type="button">Book Car</button>
-                            </Link>
+                            <button type="button" onClick={() => onDelete(car.id)}>
+                                Delete from CarHouse
+                            </button>
                         </td>
 
                     </tr>
@@ -34,4 +29,4 @@ const CarTable = ({cars, startDate, endDate}) => {
         </div>
     )
 }
-export default CarTable;
+export default CarsFromCarHouseTable;
