@@ -1,10 +1,5 @@
-import {useEffect, useState} from "react";
-import {useNavigate, useParams} from "react-router-dom";
-import {fetchAuthenticated} from "../../Utilities/api.js";
 import CarHouseForm from "../../Components/CarHouseForm/CarHouseForm.jsx";
 import Loading from "../../Components/Loading/Loading.jsx";
-import CarsInCarHouse from "../CarsInCarHouse/CarsInCarHouse.jsx";
-import CarsNotAllocatedToACarHouse from "../CarsNotInTheCarHouse/CarsNotAllocatedToACarHouse.jsx";
 import CarsForCarHouse from "../CarsForCarHouse/CarsForCarHouse.jsx";
 import useCarHouseUpdate from "./useCarHouseUpdate.jsx";
 const CarHouseUpdate = () => {
