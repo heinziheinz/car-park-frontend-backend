@@ -1,13 +1,8 @@
 import {useEffect, useState} from "react";
 import {useNavigate, useParams} from "react-router-dom";
-import {fetchAuthenticated} from "../Utilities/api.js";
-import CarHouseForm from "../Components/CarHouseForm/CarHouseForm.jsx";
-import Loading from "../Components/Loading/Loading.jsx";
-import CarsInCarHouse from "./CarsInCarHouse/CarsInCarHouse.jsx";
-import CarsNotAllocatedToACarHouse from "./CarsNotInTheCarHouse/CarsNotAllocatedToACarHouse.jsx";
-import CarsForCarHouse from "./CarsForCarHouse/CarsForCarHouse.jsx";
+import {fetchAuthenticated} from "../../Utilities/api.js";
 
-const CarHouseUpdate = () => {
+const useCarHouseUpdate = () => {
     const [carHouse, setCarHouse] = useState(null);
     const [carsNotInCarHouse, setCarsNotInCarHouse] = useState([]);
     const [carsInCarHouse, setCarsInCarHouse] = useState([]);
@@ -34,7 +29,6 @@ const CarHouseUpdate = () => {
                 })
                 if (carHouseToBeUpdated.ok) {
                     const carHouseToBeUpdatedParsed = await carHouseToBeUpdated.json();
-                    console.log(carHouseToBeUpdatedParsed)
                     setCarHouse(carHouseToBeUpdatedParsed);
                     setLoading(false);
                 } else {
@@ -45,7 +39,6 @@ const CarHouseUpdate = () => {
                 });
                 if (allCarsNotAllocatedToACarHouse.ok) {
                     const allCarsNotAllocatedToACarHouseParsed = await allCarsNotAllocatedToACarHouse.json();
-                    console.log(allCarsNotAllocatedToACarHouseParsed.content)
                     setCarsNotInCarHouse(allCarsNotAllocatedToACarHouseParsed.content)
                     setTotalPagesNotAllocated(allCarsNotAllocatedToACarHouseParsed?.totalPages);
 
@@ -81,14 +74,9 @@ const CarHouseUpdate = () => {
         try {
             //http://localhost:8080/cars/id/1
             const updatedCarHouse = await fetchAuthenticated(`/carhouses/${id}`, options)
-            console.log("updatedCar " + updatedCarHouse);
-            console.log(updatedCarHouse);
             if (updatedCarHouse.ok) {
-                console.log(updatedCarHouse)
                 const updatedCarHouseParsed = await updatedCarHouse.json();
-                console.log(updatedCarHouseParsed);
                 navigate("/car-house-list")
-                //navigate(`/redirect/${id}`)
             }
         } catch (err) {
             console.log(err);
@@ -96,7 +84,8 @@ const CarHouseUpdate = () => {
 
     }
 
-    const deleteHandler = async (carId) => {
+
+    const removeCarFromCarHouseHandler = async (carId) => {
         console.log("Delete Car From CarHouse");
         console.log(id);
         const options = {
@@ -108,9 +97,7 @@ const CarHouseUpdate = () => {
             console.log(removedCar);
             if (removedCar.ok) {
                 const removedCarParsed = await removedCar.json();
-                 setCarInventoryUpdated(!carInventoryUpdated);
-                //navigate(`/redirect/${id}`)
-
+                setCarInventoryUpdated(!carInventoryUpdated);
 
             } else {
                 throw new Error("Car hasn`t been deleted");
@@ -121,32 +108,47 @@ const CarHouseUpdate = () => {
         }
 
     }
+    const adCarToCarHouseHandler = async (carId) => {
+
+        try {
+            const carAddedToCarHouse = await fetchAuthenticated(`/carhouses/${id}/cars/${carId}`, {
+                method: "POST"
+            });
+            if (carAddedToCarHouse.ok) {
+                const carAddedToCarHouseParsed = await carAddedToCarHouse.json();
+                setLoading(false);
+                setCarInventoryUpdated(!carInventoryUpdated);
+
+            } else {
+                throw new Error("Error with Fetch call allCarsInCarHouse");
+            }
+        } catch (err) {
+            console.error(err);
+        }
+    }
 
     const setCurrentPageInCarHouseHandler = (page) => {
         setCurrentPageInCarHouse(page);
     }
 
-    if (loading) {
-        return <Loading/>;
+    const setCurrentPageNotAllocatedHandler = (page) => {
+        setCurrentPageNotAllocated(page);
     }
-    return <CarHouseForm
-        carHouse={carHouse}
-        onSave={updateCarHouseHandler}
-    >
-        {
-            <CarsForCarHouse
-                cars={carsInCarHouse}
-                totalPages={totalPagesCarsInCarHouse}
-                currentPage={currentPageInCarHouse}
-                setCurrentPage={setCurrentPageInCarHouseHandler}
-                deleteHandler={deleteHandler}
-            />
-        }
-        {<CarsNotAllocatedToACarHouse/>}
-    </CarHouseForm>
-    /*return <CarHouseForm
-         carHouse={carHouse}
-         onSave={updateCarHouseHandler}
-     >{<CarsInCarHouse/>}{<CarsNotAllocatedToACarHouse/>}</CarHouseForm>*/
+    return {
+        setCurrentPageNotAllocatedHandler,
+        setCurrentPageInCarHouseHandler,
+        adCarToCarHouseHandler,
+        removeCarFromCarHouseHandler,
+        updateCarHouseHandler,
+        carHouse,
+        carsNotInCarHouse,
+        carsInCarHouse,
+        loading,
+        totalPagesNotAllocated,
+        totalPagesCarsInCarHouse,
+        currentPageInCarHouse,
+        currentPageNotAllocated
+    };
 }
-export default CarHouseUpdate;
+
+export default useCarHouseUpdate;
