@@ -22,6 +22,7 @@ import CarHouseList from "./Pages/CarHouse/CarHouseList.jsx";
 import CarHouseUpdate from "./Pages/CarHouseUpdate/CarHouseUpdate.jsx";
 import Subscribe from "./Pages/Subcribe/Subscribe.jsx";
 import Redirect from "./Components/Redirect/Redirect.jsx";
+import UserUpdate from "./Pages/UserUpdate.jsx";
 
 
 const router = createBrowserRouter([
@@ -68,33 +69,36 @@ const router = createBrowserRouter([
             },
             {
                 path: "/car/book/:id",
-                element: <CarBooker />,
+                element: <CarBooker/>,
             },
             {
                 path: "/all-reserved-cars",
-                element: <AllReservedCars />,
+                element: <AllReservedCars/>,
             },
             {
                 path: "/booking-confirmation/:id/:startDate/:endDate/:carTypename/:carPrice",
-                element: <BookingConfirmation />,
+                element: <BookingConfirmation/>,
             },
             {
                 path: "/car-house-creator",
-                element: <CarHouseCreator />,
+                element: <CarHouseCreator/>,
             },
             {
                 path: "/car-house-list",
-                element: <CarHouseList />,
+                element: <CarHouseList/>,
             },
             {
                 path: "/car-house-update/:id",
-                element: <CarHouseUpdate />,
+                element: <CarHouseUpdate/>,
             },
             {
                 path: "/redirect/:id",
-                element: <Redirect />,
+                element: <Redirect/>,
+            },
+            {
+                path: "/update/user/:id",
+                element: <UserUpdate/>,
             }
-
 
 
         ],
@@ -110,8 +114,8 @@ function App() {
     console.log(loggedIn)
     return (
         < LogginInContext.Provider value={{loggedIn, setLoggedIn}}>
-            <UserRoleContext.Provider value={{ userRole, setUserRole }}>
-            <RouterProvider router={router}/>
+            <UserRoleContext.Provider value={{userRole, setUserRole}}>
+                <RouterProvider router={router}/>
             </UserRoleContext.Provider>
         </ LogginInContext.Provider>
     )

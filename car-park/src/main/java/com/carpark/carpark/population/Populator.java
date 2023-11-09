@@ -55,22 +55,24 @@ public class Populator {
     }
 
     private void createUsers(UserRepository userRepository,  PasswordEncoder passwordEncoder) {
-        String password = passwordEncoder.encode("123");
-//        String name, LocalDate birthdate, String address, String password, Set<String> authorities
-        User user = new User("paul@gmx.at", LocalDate.of(1999, 12, 1), "Daheim", password, Set.of("USER", "ADMIN"));
-        user = userRepository.save(user);
+        for (int i = 1; i <= 15; i++) {
+            String email = "user" + i + "@example.com";
+            String password = passwordEncoder.encode("123"); // Assuming you have the passwordEncoder defined
 
-        String passwordTwo = passwordEncoder.encode("123");
-//        String name, LocalDate birthdate, String address, String password, Set<String> authorities
-        User userTwo = new User("frank@gmx.at", LocalDate.of(1999, 12, 1), "Daheim", passwordTwo, Set.of("USER"));
-        user = userRepository.save(userTwo);
+            User user = new User(email, LocalDate.of(1999, 12, 1), "Daheim", password, generateAuthorities(i));
+            userRepository.save(user);
+        }
+    }
+    private static Set<String> generateAuthorities(int userNumber) {
+        Set<String> authorities = new HashSet<>();
+        authorities.add("USER");
 
+        // Assign ADMIN role to every 3rd user
+        if (userNumber % 3 == 0) {
+            authorities.add("ADMIN");
+        }
 
-//        String password = passwordEncoder.encode("123");
-//        User user = new User(0, "Paul", password, Set.of("USER"));
-////            user.setAuthorities(Set.of("USER"));
-//        userRepository.save(user);
-
+        return authorities;
     }
 
     private List<Car> createCars(CarRepository carRepository) {
