@@ -14,12 +14,10 @@ const CarsNotAllocatedToACarHouse = () => {
     useEffect(() => {
         (async () => {
 
-            const options = {
-                method: "GET"
-            };
-            //http://localhost:8080/cars/all-cars-not-allocated-to-a-carhouse?page=${currentPage}&size=10
             try {
-                const allCarsNotAllocatedToACarHouse = await fetchAuthenticated(`/cars/all-cars-not-allocated-to-a-carhouse?page=${currentPage}&size=10`, options);
+                const allCarsNotAllocatedToACarHouse = await fetchAuthenticated(`/cars/all-cars-not-allocated-to-a-carhouse?page=${currentPage}&size=10`, {
+                    method: "GET"
+                });
                 if (allCarsNotAllocatedToACarHouse.ok) {
                     const allCarsNotAllocatedToACarHouseParsed = await allCarsNotAllocatedToACarHouse.json();
                     console.log(allCarsNotAllocatedToACarHouseParsed.content)
