@@ -2,10 +2,11 @@ import {useEffect, useState} from "react";
 import {fetchAuthenticated} from "../../Utilities/api.js";
 import {useParams} from "react-router-dom";
 import Loading from "../../Components/Loading/Loading.jsx";
+import UsersReservation from "../../Components/UsersReservation/UsersReservation.jsx";
 
 const UserCars = () => {
     const [loading, setLoading] = useState(true);
-    const [reservedCars, setReservedCars] = useState([]);
+    const [userReservations, setUserReservations] = useState([]);
     const {id} = useParams();
 
     useEffect(() => {
@@ -13,13 +14,15 @@ const UserCars = () => {
             setLoading(true);
             try {
                 //reservation/get-all-reserved-cars-reservations-user/id/{userId}
-                const allReservedCarsOfUser = await fetchAuthenticated(`/reservation/get-all-reserved-cars-reservations-user/id/${id}`, {
+                const userReservationsAndCars = await fetchAuthenticated(`/reservation/get-all-reserved-cars-reservations-user/id/${id}`, {
                     method: "GET"
+
                 });
-                console.log(allReservedCarsOfUser)
-                if (allReservedCarsOfUser.ok) {
-                    const allReservedCarsOfUserParsed = await allReservedCarsOfUser.json()
-                    setReservedCars(allReservedCarsOfUserParsed);
+                console.log(userReservationsAndCars)
+                if (userReservationsAndCars.ok) {
+                    const userReservationsAndCarsParsed = await userReservationsAndCars.json()
+                    setUserReservations(userReservationsAndCarsParsed.content);
+                    console.log(userReservationsAndCarsParsed)
                     setLoading(false);
                 }
             } catch (err) {
@@ -30,6 +33,8 @@ const UserCars = () => {
     if (loading) {
         return <Loading/>;
     }
-    return "Users Cars";
+    return <UsersReservation
+        userReservations={userReservations}
+    />;
 }
 export default UserCars;

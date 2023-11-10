@@ -4,9 +4,11 @@ package com.carpark.carpark.controller;
 import com.carpark.carpark.model.Car;
 import com.carpark.carpark.model.Reservation;
 import com.carpark.carpark.model.ReservationUserCar;
+import com.carpark.carpark.model.ReservationsComplete;
 import com.carpark.carpark.repository.ReservationRepository;
 import com.carpark.carpark.service.ReservationService;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
@@ -50,10 +52,14 @@ public class ReservationController {
     }
 
     @GetMapping("/get-all-reserved-cars-reservations-user/id/{userId}")
-    ReservationUserCar  getAllReservedCarsUserReservations(
-            @PathVariable long userId
+
+    PageImpl<ReservationsComplete>  getAllReservedCarsUserReservations(
+            @PathVariable long userId,
+            Pageable pageable
     ) throws RescourceNotFoundException {
-        return reservationService.getAllReservations(userId);
+        List<ReservationsComplete> reservationCompletes  = reservationService.getAllReservations(userId);
+        return new PageImpl<>(reservationCompletes, pageable, reservationCompletes.size());
+
     }
 
 }

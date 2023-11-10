@@ -3,7 +3,7 @@ package com.carpark.carpark.service;
 import com.carpark.carpark.controller.RescourceNotFoundException;
 import com.carpark.carpark.model.Car;
 import com.carpark.carpark.model.Reservation;
-import com.carpark.carpark.model.ReservationUserCar;
+import com.carpark.carpark.model.ReservationsComplete;
 import com.carpark.carpark.model.User;
 import com.carpark.carpark.repository.ReservationRepository;
 import com.carpark.carpark.repository.UserRepository;
@@ -11,6 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -83,7 +84,7 @@ public class ReservationService {
         return getCarsFromReservations(reservations);
     }
 
-    private Set<Car> getSetOfCars(List<Reservation> reservations){
+    private Set<Car> getSetOfCars(List<Reservation> reservations) {
         Set<Car> reservedCars = new HashSet<>();
         reservations.forEach((reservation -> {
             reservedCars.add(reservation.getCar());
@@ -92,11 +93,19 @@ public class ReservationService {
 
     }
 
-    public ReservationUserCar getAllReservations(long id) throws RescourceNotFoundException {
+    private List<ReservationsComplete> getReservationComplete(User user, List<Reservation> reservations) {
+        List<ReservationsComplete> reservationsCompletes = new ArrayList<>();
+        reservations.forEach((reservation -> {
+            reservationsCompletes.add(new ReservationsComplete(user, reservation.getCar(), reservation.getStartDate(), reservation.getEndDate(), reservation.getCar().getCarHouse()));
+        }));
+        return reservationsCompletes;
+    }
+
+    public List<ReservationsComplete> getAllReservations(long id) throws RescourceNotFoundException {
         User user = userRepository.findById(id).orElseThrow(RescourceNotFoundException::new);
         List<Reservation> reservations = reservationRepository.findByUser(user);
-        Set<Car> reservedCars = getSetOfCars(reservations);
-        return new ReservationUserCar(user, reservations, reservedCars);
+        getReservationComplete(user, reservations);
+        return getReservationComplete(user, reservations);
     }
 
 }
