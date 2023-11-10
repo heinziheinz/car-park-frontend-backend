@@ -63,6 +63,7 @@ public class UserService {
 
     public User saveUserEntry(User user) {
         System.out.println("user.getAuthorities()");
+        System.out.println(user);
         System.out.println(user.getAuthorities() == null);
         if(user.getAuthorities() == null){
             user.setAuthorities(Set.of("USER"));
@@ -86,10 +87,13 @@ public class UserService {
         user.setName(updatedUser.getName());
         user.setBirthdate(updatedUser.getBirthdate());
         user.setAddress(updatedUser.getAddress());
+        user.setAuthorities(updatedUser.getAuthorities());
     }
 
 
-    public User updateExistingUser(User updatedUser, long id) throws RescourceNotFoundException {
+    public User updateExistingUser(User updatedUser, long id) throws RescourceNotFoundException {  System.out.println("user.getAuthorities()");
+        System.out.println("updatedUserOOO = " + updatedUser.getAuthorities());
+        System.out.println("updatedUserOOO = " + updatedUser);
 
         User user = findById(id);
         setNameBirthdateAddress(user, updatedUser);
