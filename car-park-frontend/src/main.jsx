@@ -23,6 +23,7 @@ import CarHouseUpdate from "./Pages/CarHouseUpdate/CarHouseUpdate.jsx";
 import Subscribe from "./Pages/Subcribe/Subscribe.jsx";
 import Redirect from "./Components/Redirect/Redirect.jsx";
 import UserUpdate from "./Pages/UserUpdate.jsx";
+import UserCars from "./Pages/UsersCars/UserCars.jsx";
 
 
 const router = createBrowserRouter([
@@ -98,6 +99,10 @@ const router = createBrowserRouter([
             {
                 path: "/update/user/:id",
                 element: <UserUpdate/>,
+            },
+            {
+                path: "/users/all-cars-reserved/:id",
+                element: <UserCars/>,
             }
 
 

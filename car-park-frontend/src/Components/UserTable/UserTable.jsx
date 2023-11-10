@@ -34,8 +34,11 @@ const UserTable = ({users, onDelete}) => {
                             <Link to={`/update/user/${user.id}`}>
                                 <button type="button">Update</button>
                             </Link>
+                            <Link to={`/users/all-cars-reserved/${user.id}`}>
+                                <button type="button">All Reserved Car</button>
+                            </Link>
                             <button type="button" onClick={() => onDelete(user.id)}>
-                                Delete
+                               Block User
                             </button>
                         </td>
                     </tr>
