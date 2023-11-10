@@ -3,9 +3,11 @@ package com.carpark.carpark.controller;
 
 import com.carpark.carpark.model.Car;
 import com.carpark.carpark.model.Reservation;
+import com.carpark.carpark.model.ReservationUserCar;
 import com.carpark.carpark.repository.ReservationRepository;
 import com.carpark.carpark.service.ReservationService;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
@@ -45,6 +47,13 @@ public class ReservationController {
     @GetMapping("/get-all-reserved-cars/id/{userId}")
     List<Car> getAllReservedCars(@PathVariable long userId) throws RescourceNotFoundException {
         return reservationService.getAllReservedCars(userId);
+    }
+
+    @GetMapping("/get-all-reserved-cars-reservations-user/id/{userId}")
+    ReservationUserCar  getAllReservedCarsUserReservations(
+            @PathVariable long userId
+    ) throws RescourceNotFoundException {
+        return reservationService.getAllReservations(userId);
     }
 
 }

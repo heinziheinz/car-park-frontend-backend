@@ -12,7 +12,8 @@ const UserCars = () => {
         (async () => {
             setLoading(true);
             try {
-                const allReservedCarsOfUser = await fetchAuthenticated(`/reservation/get-all-reserved-cars/id/${id}`, {
+                //reservation/get-all-reserved-cars-reservations-user/id/{userId}
+                const allReservedCarsOfUser = await fetchAuthenticated(`/reservation/get-all-reserved-cars-reservations-user/id/${id}`, {
                     method: "GET"
                 });
                 console.log(allReservedCarsOfUser)

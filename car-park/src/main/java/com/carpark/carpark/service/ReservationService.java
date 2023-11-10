@@ -3,6 +3,7 @@ package com.carpark.carpark.service;
 import com.carpark.carpark.controller.RescourceNotFoundException;
 import com.carpark.carpark.model.Car;
 import com.carpark.carpark.model.Reservation;
+import com.carpark.carpark.model.ReservationUserCar;
 import com.carpark.carpark.model.User;
 import com.carpark.carpark.repository.ReservationRepository;
 import com.carpark.carpark.repository.UserRepository;
@@ -10,7 +11,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Component
 public class ReservationService {
@@ -78,6 +81,22 @@ public class ReservationService {
         User user = userRepository.findById(id).orElseThrow(RescourceNotFoundException::new);
         List<Reservation> reservations = reservationRepository.findByUser(user);
         return getCarsFromReservations(reservations);
+    }
+
+    private Set<Car> getSetOfCars(List<Reservation> reservations){
+        Set<Car> reservedCars = new HashSet<>();
+        reservations.forEach((reservation -> {
+            reservedCars.add(reservation.getCar());
+        }));
+        return reservedCars;
+
+    }
+
+    public ReservationUserCar getAllReservations(long id) throws RescourceNotFoundException {
+        User user = userRepository.findById(id).orElseThrow(RescourceNotFoundException::new);
+        List<Reservation> reservations = reservationRepository.findByUser(user);
+        Set<Car> reservedCars = getSetOfCars(reservations);
+        return new ReservationUserCar(user, reservations, reservedCars);
     }
 
 }

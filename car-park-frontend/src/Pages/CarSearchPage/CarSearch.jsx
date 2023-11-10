@@ -20,6 +20,12 @@ const CarSearch = () => {
     const [invalidDate, setInvalidDate] = useState(false);
     const inputFieldsKalender = initializeInputFieldsForKalender(startDateEndDateAndLocation.startDate, startDateEndDateAndLocation.endDate);
 
+    const userData = localStorage.getItem("userdata")
+    const UserDataParsed = JSON.parse( userData)
+    const userID = UserDataParsed.userId;
+
+
+
 
     useEffect(() => {
 
@@ -107,6 +113,7 @@ const CarSearch = () => {
             cars={cars}
             startDate={startDateEndDateAndLocation.startDate}
             endDate={startDateEndDateAndLocation.endDate}
+            userID={userID}
         />
     }
 }

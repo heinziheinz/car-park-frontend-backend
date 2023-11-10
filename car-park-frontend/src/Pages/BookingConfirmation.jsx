@@ -3,7 +3,7 @@ import {useNavigate, useParams} from "react-router-dom";
 import {jwtTokenFetch} from "../Utilities/jwtTokenFetch.js";
 
 const BookingConfirmation = () => {
-    const {id, startDate, endDate, carTypename, carPrice} = useParams();
+    const {id, startDate, endDate, carTypename, carPrice, userID} = useParams();
     console.log(id)
     console.log(startDate)
     console.log(endDate)
@@ -47,7 +47,7 @@ const BookingConfirmation = () => {
                 "Authorization": `Bearer ${userData.jwt}`,
                 "Content-Type": "application/json"
             };
-            const bookedCar = await jwtTokenFetch(`/cars/${id}/user/1/${startDate}/${endDate}`, options, headers)
+            const bookedCar = await jwtTokenFetch(`/cars/${id}/user/${userID}/${startDate}/${endDate}`, options, headers)
             if (bookedCar.ok) {
                 console.log("Your Car has been booked");
                 const bookedCarParsed = await bookedCar.json();
