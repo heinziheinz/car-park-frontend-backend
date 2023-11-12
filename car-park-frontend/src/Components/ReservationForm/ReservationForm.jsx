@@ -8,7 +8,7 @@ const ReservationForm = ({reservation, onSave}) => {
 
     const onSubmit = (e) => {
         e.preventDefault();
-        return onSave({typeName, startDate, endDate});
+        return onSave({car : typeName, startDate, endDate});
 
     }
 
