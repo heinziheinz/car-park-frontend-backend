@@ -10,6 +10,9 @@ const Layout = () => {
         <h2>Car Park</h2>
         <nav>
             <li>
+                <Link to="/">
+                    <button type="button">Reserve Car</button>
+                </Link>
                 {loggedIn ? <Link to="/logout">
                     <button type="button">LoginOut</button>
                 </Link> : <Link to="/login">

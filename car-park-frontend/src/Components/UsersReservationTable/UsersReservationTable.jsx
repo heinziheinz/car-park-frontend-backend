@@ -2,7 +2,8 @@ import {cloneElement, useContext} from "react";
 import {Link} from "react-router-dom";
 import {LogginInContext} from "./../../main.jsx";
 
-const UsersReservationTable = ({userReservations}) => {
+const UsersReservationTable = ({userReservations, onDelete}) => {
+    console.log(userReservations[0].reservationId)
     const {loggedIn} = useContext(LogginInContext);
    return (
         <div className="EmployeeTable">
@@ -32,7 +33,7 @@ const UsersReservationTable = ({userReservations}) => {
                     <th name="startdate">Start Date</th>
                     <th name="enddate">End Date</th>
                     <th name="price">Price per Day</th>
-                    <th name="Change Reservation">Change Reservation</th>
+                    <th name="Change Reservation">Delete Car Reservation</th>
 
                 </tr>
                 </thead>
@@ -46,16 +47,18 @@ const UsersReservationTable = ({userReservations}) => {
                             <td>{userData.endDate}</td>
                             <td>{userData.car.price}</td>
                                 <td>
-                                    <Link
-                                        to={loggedIn ? `/change-reservations/${userData.reservationId}` : "/login"}>
-                                        <button>Change Reservation</button>
-                                    </Link>
+                                    <button type="button" onClick={() => onDelete(userReservations[0].reservationId)}>
+                                        Delete Car Reservation
+                                    </button>
                                 </td>
                             </tr>
                         );
                     })}
                 </tbody>
             </table>
+            <Link to={"/show-all-users"}>
+                <button type="button">Back to User List</button>
+            </Link>
         </div>
     )
 }

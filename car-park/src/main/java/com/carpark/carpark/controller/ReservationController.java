@@ -34,7 +34,8 @@ public class ReservationController {
 
 
     @DeleteMapping("/{id}")
-    void delete(@PathVariable long id) {
+    void delete(@PathVariable long id) throws RescourceNotFoundException{
+
         reservationService.deleteReservationEntry(id);
     }
 

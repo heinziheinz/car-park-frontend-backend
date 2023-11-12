@@ -2,6 +2,7 @@ package com.carpark.carpark.service;
 
 import com.carpark.carpark.controller.RescourceNotFoundException;
 import com.carpark.carpark.model.*;
+import com.carpark.carpark.repository.CarRepository;
 import com.carpark.carpark.repository.ReservationRepository;
 import com.carpark.carpark.repository.UserRepository;
 import org.springframework.data.domain.Page;
@@ -12,16 +13,19 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Component
 public class ReservationService {
 
     private final ReservationRepository reservationRepository;
     private final UserRepository userRepository;
+    private final CarRepository carRepository;
 
-    public ReservationService(ReservationRepository reservationRepository, UserRepository userRepository) {
+    public ReservationService(ReservationRepository reservationRepository, UserRepository userRepository, CarRepository carRepository) {
         this.reservationRepository = reservationRepository;
         this.userRepository = userRepository;
+        this.carRepository = carRepository;
     }
 
 
@@ -30,9 +34,10 @@ public class ReservationService {
     }
 
     private ReservationWithCar findReservationWithCarById(long id) throws RescourceNotFoundException {
-        Reservation reservation =  reservationRepository.findById(id).orElseThrow(RescourceNotFoundException::new);
+        Reservation reservation = reservationRepository.findById(id).orElseThrow(RescourceNotFoundException::new);
         return new ReservationWithCar(reservation.getId(), reservation.getStartDate(), reservation.getEndDate(), reservation.getCar(), reservation.getCar().getCarHouse());
     }
+
     private Reservation findReservationById(long id) throws RescourceNotFoundException {
         return reservationRepository.findById(id).orElseThrow(RescourceNotFoundException::new);
     }
@@ -60,7 +65,15 @@ public class ReservationService {
     }
 
 
-    public void deleteReservationEntry(long id) {
+    public void deleteReservationEntry(long id) throws RescourceNotFoundException {
+//        Reservation reservation = findReservationById(id);
+//        Car car = carRepository.findById(reservation.getCar().getId()).orElseThrow(RescourceNotFoundException::new);
+//        Set<Reservation> reservationsUpdate = car.getReservations().stream().filter(reservation1 -> {
+//            return reservation1.getId() != id;
+//        }).collect(Collectors.toSet());
+//
+//        car.setReservations(reservationsUpdate);
+//
         deleteReservation(id);
     }
 
