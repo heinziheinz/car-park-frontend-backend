@@ -1,8 +1,7 @@
 import InputField from "../InputField/InputField.jsx";
 import SubmitButton from "../SubmitButton/SubmitButton.jsx";
-
-const Form = ({handleSubmit, inputFields, onChangeHandler, children, disabled}) => {
-    console.log(children)
+//buttonValue
+const Form = ({handleSubmit, inputFields, onChangeHandler, children, disabled, buttonValue}) => {
 
     return (
         <form onSubmit={handleSubmit}>
@@ -26,7 +25,7 @@ const Form = ({handleSubmit, inputFields, onChangeHandler, children, disabled}) 
                     );
                 })
             }
-            <SubmitButton value={"Submit"} disabled={disabled}/>
+            <SubmitButton value={buttonValue} disabled={disabled}/>
         </form>
     );
 }

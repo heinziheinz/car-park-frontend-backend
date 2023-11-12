@@ -1,11 +1,10 @@
 import {Link} from "react-router-dom";
-import {cloneElement} from "react";
+import {cloneElement, useContext} from "react";
+import {LogginInContext} from "../../main.jsx";
 
 const CarTable = ({cars, startDate, endDate, userID}) => {
-    //TODO: table funktionalisieren
-
-    console.log("HELLO CARS")
-    console.log(userID)
+    const {loggedIn} = useContext(LogginInContext);
+    console.log()
     return (
         <div className="EmployeeTable">
             <table>
@@ -23,8 +22,8 @@ const CarTable = ({cars, startDate, endDate, userID}) => {
                         <td><img src={car.image} width="200" height="100"/></td>
                         <td>
                             <Link
-                                to={`/booking-confirmation/${car.id}/${startDate}/${endDate}/${car.typeName}/${car.price}/${userID}`}>
-                                <button type="button">Book Car</button>
+                                to={loggedIn ? `/booking-confirmation/${car.id}/${startDate}/${endDate}/${car.typeName}/${car.price}/${userID}` : "/login"}>
+                                <button type="button">{loggedIn ? "Book Car" : "Log In to Book Car"}</button>
                             </Link>
                         </td>
 

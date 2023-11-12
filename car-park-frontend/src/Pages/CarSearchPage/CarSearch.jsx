@@ -20,11 +20,22 @@ const CarSearch = () => {
     const [invalidDate, setInvalidDate] = useState(false);
     const inputFieldsKalender = initializeInputFieldsForKalender(startDateEndDateAndLocation.startDate, startDateEndDateAndLocation.endDate);
 
-    const userData = localStorage.getItem("userdata")
-    const UserDataParsed = JSON.parse( userData)
-    const userID = UserDataParsed.userId;
+    let userData = localStorage.getItem("userdata")
+    console.log(userData)
+    let UserDataParsed;
+    let userID;
+    console.log("userData")
+    console.log(userData === null)
+    if (userData === null) {
+        let userData = '{"userId": ""}';
+        UserDataParsed = JSON.parse(userData)
+        userID = UserDataParsed.userId;
+    } else {
+        UserDataParsed = JSON.parse(userData)
+        userID = UserDataParsed.userId;
+    }
 
-
+    console.log(userID)
 
 
     useEffect(() => {
@@ -94,9 +105,11 @@ const CarSearch = () => {
                 <Form handleSubmit={handleSubmit}
                       inputFields={inputFieldsKalender}
                       onChangeHandler={startDateEndDateLocationHandler}
+                      buttonValue={"Check Cars"}
                       disabled={startDateEndDateAndLocation.location.length <= 0 ||
                           startDateEndDateAndLocation.startDate.length <= 0 ||
                           startDateEndDateAndLocation.endDate.length <= 0}
+
                 >
 
                     {<SelectElement

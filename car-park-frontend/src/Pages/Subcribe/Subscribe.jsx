@@ -64,6 +64,7 @@ const Subscribe = () => {
         inputFields={inputFields}
         onChangeHandler={onChangeHandler}
         inputValues={inputValues}
+        buttonValue={"Subscribe"}
     />;
 }
 

@@ -78,7 +78,12 @@ const Login = () => {
     }
 
     return (
-        <Form handleSubmit={handleSubmit} inputFields={inputFields} onChangeHandler={onChangeHandler}/>
+        <Form
+            handleSubmit={handleSubmit}
+            inputFields={inputFields}
+            onChangeHandler={onChangeHandler}
+            buttonValue={"Login"}
+        />
     )
 }
 
