@@ -2,7 +2,7 @@ import {useEffect, useState} from "react";
 import {fetchAuthenticated} from "../../Utilities/api.js";
 import {useParams} from "react-router-dom";
 import Loading from "../../Components/Loading/Loading.jsx";
-import UsersReservation from "../../Components/UsersReservation/UsersReservation.jsx";
+import UsersReservationTable from "../../Components/UsersReservationTable/UsersReservationTable.jsx";
 
 const UserCars = () => {
     const [loading, setLoading] = useState(true);
@@ -33,8 +33,12 @@ const UserCars = () => {
     if (loading) {
         return <Loading/>;
     }
-    return <UsersReservation
-        userReservations={userReservations}
-    />;
+    if (userReservations.length <= 0) {
+        return <h4>No Reservations</h4>;
+    } else {
+        return <UsersReservationTable
+            userReservations={userReservations}
+        />;
+    }
 }
 export default UserCars;

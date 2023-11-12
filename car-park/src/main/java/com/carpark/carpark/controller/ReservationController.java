@@ -1,10 +1,7 @@
 package com.carpark.carpark.controller;
 
 
-import com.carpark.carpark.model.Car;
-import com.carpark.carpark.model.Reservation;
-import com.carpark.carpark.model.ReservationUserCar;
-import com.carpark.carpark.model.ReservationsComplete;
+import com.carpark.carpark.model.*;
 import com.carpark.carpark.repository.ReservationRepository;
 import com.carpark.carpark.service.ReservationService;
 import org.springframework.data.domain.Page;
@@ -31,7 +28,7 @@ public class ReservationController {
     }
 
     @GetMapping("/id/{id}")
-    Reservation findById(@PathVariable long id) throws RescourceNotFoundException {
+    ReservationWithCar findById(@PathVariable long id) throws RescourceNotFoundException {
         return reservationService.findReservationByIdEntry(id);
     }
 

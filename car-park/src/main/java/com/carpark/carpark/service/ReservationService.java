@@ -1,10 +1,7 @@
 package com.carpark.carpark.service;
 
 import com.carpark.carpark.controller.RescourceNotFoundException;
-import com.carpark.carpark.model.Car;
-import com.carpark.carpark.model.Reservation;
-import com.carpark.carpark.model.ReservationsComplete;
-import com.carpark.carpark.model.User;
+import com.carpark.carpark.model.*;
 import com.carpark.carpark.repository.ReservationRepository;
 import com.carpark.carpark.repository.UserRepository;
 import org.springframework.data.domain.Page;
@@ -32,6 +29,10 @@ public class ReservationService {
         return reservationRepository.findAll(pageable);
     }
 
+    private ReservationWithCar findReservationWithCarById(long id) throws RescourceNotFoundException {
+        Reservation reservation =  reservationRepository.findById(id).orElseThrow(RescourceNotFoundException::new);
+        return new ReservationWithCar(reservation.getId(), reservation.getStartDate(), reservation.getEndDate(), reservation.getCar(), reservation.getCar().getCarHouse());
+    }
     private Reservation findReservationById(long id) throws RescourceNotFoundException {
         return reservationRepository.findById(id).orElseThrow(RescourceNotFoundException::new);
     }
@@ -54,8 +55,8 @@ public class ReservationService {
         return findAllReservation(pageable);
     }
 
-    public Reservation findReservationByIdEntry(long id) throws RescourceNotFoundException {
-        return findReservationById(id);
+    public ReservationWithCar findReservationByIdEntry(long id) throws RescourceNotFoundException {
+        return findReservationWithCarById(id);
     }
 
 
@@ -96,7 +97,7 @@ public class ReservationService {
     private List<ReservationsComplete> getReservationComplete(User user, List<Reservation> reservations) {
         List<ReservationsComplete> reservationsCompletes = new ArrayList<>();
         reservations.forEach((reservation -> {
-            reservationsCompletes.add(new ReservationsComplete(user, reservation.getCar(), reservation.getStartDate(), reservation.getEndDate(), reservation.getCar().getCarHouse()));
+            reservationsCompletes.add(new ReservationsComplete(user, reservation.getCar(), reservation.getStartDate(), reservation.getEndDate(), reservation.getCar().getCarHouse(), reservation.getId()));
         }));
         return reservationsCompletes;
     }

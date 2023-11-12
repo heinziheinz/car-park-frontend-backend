@@ -24,6 +24,7 @@ import Subscribe from "./Pages/Subcribe/Subscribe.jsx";
 import Redirect from "./Components/Redirect/Redirect.jsx";
 import UserUpdate from "./Pages/UserUpdate.jsx";
 import UserCars from "./Pages/UsersCars/UserCars.jsx";
+import ReservationUpdate from "./Pages/ReservationUpdate.jsx";
 
 
 const router = createBrowserRouter([
@@ -103,6 +104,10 @@ const router = createBrowserRouter([
             {
                 path: "/users/all-cars-reserved/:id",
                 element: <UserCars/>,
+            },
+            {
+                path: "/change-reservations/:reservationId",
+                element: <ReservationUpdate/>,
             }
 
 
