@@ -1,11 +1,13 @@
 import {cloneElement, useContext} from "react";
 import {Link} from "react-router-dom";
 import {LogginInContext} from "./../../main.jsx";
+import {UserRoleContext} from "./../../main.jsx";
 
 const UsersReservationTable = ({userReservations, onDelete}) => {
-    console.log(userReservations[0].reservationId)
+    console.log(userReservations)
     const {loggedIn} = useContext(LogginInContext);
-   return (
+    const {userRole} = useContext(UserRoleContext);
+    return (
         <div className="EmployeeTable">
             <table>
                 <thead>
@@ -18,11 +20,11 @@ const UsersReservationTable = ({userReservations, onDelete}) => {
                 </thead>
                 <tbody>
 
-                    <tr>
-                        <td>{userReservations[0].user.name}</td>
-                        <td>{userReservations[0].user.birthdate}</td>
-                        <td>{userReservations[0].user.address}</td>
-                    </tr>
+                <tr>
+                    <td>{userReservations[0].user.name}</td>
+                    <td>{userReservations[0].user.birthdate}</td>
+                    <td>{userReservations[0].user.address}</td>
+                </tr>
 
                 </tbody>
             </table>
@@ -39,24 +41,24 @@ const UsersReservationTable = ({userReservations, onDelete}) => {
                 </thead>
                 <tbody>
 
-                    {userReservations.map((userData, index)=>{
-                        return(
-                            <tr key={userData.car.id}>
+                {userReservations.map((userData, index) => {
+                    return (
+                        <tr key={userData.car.id}>
                             <td>{userData.car.typeName}</td>
                             <td>{userData.startDate}</td>
                             <td>{userData.endDate}</td>
                             <td>{userData.car.price}</td>
-                                <td>
-                                    <button type="button" onClick={() => onDelete(userReservations[0].reservationId)}>
-                                        Delete Car Reservation
-                                    </button>
-                                </td>
-                            </tr>
-                        );
-                    })}
+                            <td>
+                                <button type="button" onClick={() => onDelete(userReservations[0].reservationId)}>
+                                    Delete Car Reservation
+                                </button>
+                            </td>
+                        </tr>
+                    );
+                })}
                 </tbody>
             </table>
-            <Link to={"/show-all-users"}>
+            <Link to={userRole === "ADMIN" ? "/show-all-users" : "/"}>
                 <button type="button">Back to User List</button>
             </Link>
         </div>

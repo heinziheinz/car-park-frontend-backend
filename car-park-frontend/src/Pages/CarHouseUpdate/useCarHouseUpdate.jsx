@@ -1,7 +1,7 @@
 import {useEffect, useState} from "react";
 import {useNavigate, useParams} from "react-router-dom";
 import {fetchAuthenticated} from "../../Utilities/api.js";
-import {fetchAllCarsInCarHouse, fetchAllCarsNotAllocatedToCArHouse, fetchCarHouse} from "./UseCarHouseUpadteApi.js";
+import {fetchAllCarsInCarHouse, fetchAllCarsNotAllocatedToCArHouse, fetchCarHouse} from "./UseCarHouseUpdateApi.js";
 
 const useCarHouseUpdate = () => {
     const [carHouse, setCarHouse] = useState(null);

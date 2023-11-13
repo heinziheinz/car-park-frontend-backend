@@ -33,6 +33,8 @@ const UserCars = () => {
                     console.log(userReservationsAndCarsParsed.totalPages)
                     setTotalPages(userReservationsAndCarsParsed.totalPages);
                     setLoading(false);
+                }else{
+                    throw new Error("CarHouseError");
                 }
             } catch (err) {
                 console.error(err);

@@ -4,6 +4,7 @@ import com.carpark.carpark.controller.RescourceNotFoundException;
 import com.carpark.carpark.model.*;
 import com.carpark.carpark.repository.*;
 import com.carpark.carpark.service.checkCarAvailablility.CarAvailable;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
@@ -43,8 +44,9 @@ public class CarReservationService {
         return carRepository.findById(carId).orElseThrow(RescourceNotFoundException::new);
     }
 
+    //TODO: EntityNot/*oiund*/ ersetzten
     public User getUser(long userId) throws RescourceNotFoundException {
-        return userRepository.findById(userId).orElseThrow(RescourceNotFoundException::new);
+        return userRepository.findById(userId).orElseThrow(EntityNotFoundException::new);
     }
 
     public boolean isCarAvailableDuringTimePeriod(Car car, LocalDate startDate, LocalDate endDate) {
@@ -141,17 +143,10 @@ public class CarReservationService {
 
         checkCarAvailabilitys.forEach((carAvailable -> {
             if (!carAvailable.isCarAvailable(car, startDate, endDate)) {
-                try {
-                    throw new RescourceNotFoundException();
-                } catch (RescourceNotFoundException e) {
-                    throw new RuntimeException(e);
-                }
+                throw new RuntimeException(new RescourceNotFoundException());
             }
         }));
 
-//        if (!isCarAvailableDuringTimePeriodSQLQuery(car, startDate, endDate)) {
-//            throw new RescourceNotFoundException();
-//        }
 
         carGetsReserved(car, user, startDate, endDate);
 
@@ -217,15 +212,16 @@ public class CarReservationService {
         Set<Reservation> reservations = car.getReservations();
         deleteAllReservations(reservations);
         deleteCarById(id);
-        return new DeletedCar(id,car.getTypeName());
+        return new DeletedCar(id, car.getTypeName());
     }
 
 
-    public Page<Car>findAllCarsInCarHouse(long carHouseId, Pageable pageable) throws RescourceNotFoundException{
-        CarHouse carHouse= findCarHouseById(carHouseId);
+    public Page<Car> findAllCarsInCarHouse(long carHouseId, Pageable pageable) throws RescourceNotFoundException {
+        CarHouse carHouse = findCarHouseById(carHouseId);
         return carRepository.findAllByCarHouse(carHouse, pageable);
     }
-    public Page<Car>findAllCArsNotAllocatedToACarHouse(Pageable pageable){
+
+    public Page<Car> findAllCArsNotAllocatedToACarHouse(Pageable pageable) {
         return carRepository.findAllByCarHouseIsNull(pageable);
     }
 
