@@ -85,7 +85,17 @@ public class Populator {
                 new Car("Hyundai", 100.00, "https://imgur.com/fEHghpS.jpeg"),
                 new Car("Volvo", 300.00, "https://imgur.com/fEHghpS.jpeg"),
                 new Car("Rolls Royce", 400.00, "https://imgur.com/fEHghpS.jpeg"),
-                new Car("Mazda", 200.00, "https://imgur.com/fEHghpS.jpeg")
+                new Car("Mazda", 200.00, "https://imgur.com/fEHghpS.jpeg"),
+                new Car("Mazzi", 200.00, "https://imgur.com/fEHghpS.jpeg"),
+                new Car("Muzzo", 200.00, "https://imgur.com/fEHghpS.jpeg"),
+                new Car("Yahooni", 200.00, "https://imgur.com/fEHghpS.jpeg"),
+                new Car("Crawler", 200.00, "https://imgur.com/fEHghpS.jpeg"),
+                new Car("Honda", 200.00, "https://imgur.com/fEHghpS.jpeg"),
+                new Car("Ferrari", 200.00, "https://imgur.com/fEHghpS.jpeg"),
+                new Car("Lamborghini Extra", 200.00, "https://imgur.com/fEHghpS.jpeg"),
+                new Car("Lamborghini ", 200.00, "https://imgur.com/fEHghpS.jpeg"),
+                new Car("Lamborghini Green", 200.00, "https://imgur.com/fEHghpS.jpeg"),
+                new Car("Lamborghini Blue", 200.00, "https://imgur.com/fEHghpS.jpeg")
         );
 
         return carRepository.saveAll(setOfCars);

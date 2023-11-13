@@ -6,6 +6,7 @@ import com.carpark.carpark.repository.CarRepository;
 import com.carpark.carpark.repository.ReservationRepository;
 import com.carpark.carpark.repository.UserRepository;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
@@ -66,14 +67,6 @@ public class ReservationService {
 
 
     public void deleteReservationEntry(long id) throws RescourceNotFoundException {
-//        Reservation reservation = findReservationById(id);
-//        Car car = carRepository.findById(reservation.getCar().getId()).orElseThrow(RescourceNotFoundException::new);
-//        Set<Reservation> reservationsUpdate = car.getReservations().stream().filter(reservation1 -> {
-//            return reservation1.getId() != id;
-//        }).collect(Collectors.toSet());
-//
-//        car.setReservations(reservationsUpdate);
-//
         deleteReservation(id);
     }
 
@@ -115,11 +108,12 @@ public class ReservationService {
         return reservationsCompletes;
     }
 
-    public List<ReservationsComplete> getAllReservations(long id) throws RescourceNotFoundException {
+    public Page<ReservationsComplete> getAllReservations(long id, Pageable pageable) throws RescourceNotFoundException {
+
         User user = userRepository.findById(id).orElseThrow(RescourceNotFoundException::new);
-        List<Reservation> reservations = reservationRepository.findByUser(user);
-        getReservationComplete(user, reservations);
-        return getReservationComplete(user, reservations);
+        Page<Reservation> reservationsPage = reservationRepository.findAllByUser(user, pageable);
+        List<ReservationsComplete> reservationsCompletes = getReservationComplete(user, reservationsPage.getContent());
+        return new PageImpl<>(reservationsCompletes, pageable, reservationsPage.getTotalElements());
     }
 
 }

@@ -1,4 +1,8 @@
-const FlipButtons = ({currentPage,  totalPages, flipThePage}) => {
+const FlipButtons = ({currentPage, totalPages, flipThePage}) => {
+    console.log("totalPages");
+    console.log(totalPages);
+    console.log("currentPage");
+    console.log(currentPage);
     return (
         <>
             <button

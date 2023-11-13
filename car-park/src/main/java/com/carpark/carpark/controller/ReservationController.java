@@ -51,12 +51,11 @@ public class ReservationController {
 
     @GetMapping("/get-all-reserved-cars-reservations-user/id/{userId}")
 
-    PageImpl<ReservationsComplete>  getAllReservedCarsUserReservations(
+    Page<ReservationsComplete>  getAllReservedCarsUserReservations(
             @PathVariable long userId,
             Pageable pageable
     ) throws RescourceNotFoundException {
-        List<ReservationsComplete> reservationCompletes  = reservationService.getAllReservations(userId);
-        return new PageImpl<>(reservationCompletes, pageable, reservationCompletes.size());
+        return reservationService.getAllReservations(userId, pageable);
 
     }
 

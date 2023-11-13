@@ -11,5 +11,6 @@ import java.util.List;
 
 public interface ReservationRepository extends JpaRepository<Reservation, Long> {
     List<Reservation> findByUser(User user);
+    List<Reservation> findReservationsByUser(User user, Pageable pageable);
     Page<Reservation> findAllByUser(User user, Pageable pageable);
 }

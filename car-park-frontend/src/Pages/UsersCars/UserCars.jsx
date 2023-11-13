@@ -30,7 +30,8 @@ const UserCars = () => {
                 if (userReservationsAndCars.ok) {
                     const userReservationsAndCarsParsed = await userReservationsAndCars.json()
                     setUserReservations(userReservationsAndCarsParsed.content);
-                    console.log(userReservationsAndCarsParsed)
+                    console.log(userReservationsAndCarsParsed.totalPages)
+                    setTotalPages(userReservationsAndCarsParsed.totalPages);
                     setLoading(false);
                 }
             } catch (err) {
