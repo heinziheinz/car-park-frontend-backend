@@ -2,13 +2,14 @@ import {cloneElement, useContext} from "react";
 import {Link} from "react-router-dom";
 import {LogginInContext} from "./../../main.jsx";
 import {UserRoleContext} from "./../../main.jsx";
+import "./UsersReservationTable.css";
 
 const UsersReservationTable = ({userReservations, onDelete}) => {
     console.log(userReservations)
     const {loggedIn} = useContext(LogginInContext);
     const {userRole} = useContext(UserRoleContext);
     return (
-        <div className="EmployeeTable">
+        <div className="UsersReservationTable">
             <table>
                 <thead>
                 <tr>

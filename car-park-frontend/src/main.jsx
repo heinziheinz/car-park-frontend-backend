@@ -25,6 +25,7 @@ import Redirect from "./Components/Redirect/Redirect.jsx";
 import UserUpdate from "./Pages/UserUpdate.jsx";
 import UserCars from "./Pages/UsersCars/UserCars.jsx";
 import ReservationUpdate from "./Pages/ReservationUpdate.jsx";
+import "./index.css";
 
 
 const router = createBrowserRouter([
