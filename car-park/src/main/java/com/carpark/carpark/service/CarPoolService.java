@@ -15,10 +15,6 @@ public class CarPoolService {
         this.carPoolRepository = carPoolRepository;
     }
 
-    private Page<CarPool> findAll(Pageable pageable) {
-        return carPoolRepository.findAll(pageable);
-    }
-
     private CarPool saveCarPool(CarPool carPool) {
         return carPoolRepository.save(carPool);
     }
@@ -38,7 +34,8 @@ public class CarPoolService {
     }
 
     public Page<CarPool> findAllEntry(Pageable pageable) {
-        return findAll(pageable);
+
+        return  carPoolRepository.findAll(pageable);
     }
 
     public CarPool saveCarPoolEntry(CarPool carPool) {
@@ -50,8 +47,10 @@ public class CarPoolService {
     }
 
     public CarPool updateCarPool(long id, CarPool updatedCarPool) {
-        CarPool carPool = findCarPoolById(id);
-        setCapacityAddressAndNameOfCarPool(carPool, updatedCarPool);
+        CarPool carPool =  carPoolRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+        carPool.setCapacity(updatedCarPool.getCapacity());
+        carPool.setAddress(updatedCarPool.getAddress());
+        carPool.setCarPoolName(updatedCarPool.getCarPoolName());
         return saveCarPool(carPool);
     }
 }

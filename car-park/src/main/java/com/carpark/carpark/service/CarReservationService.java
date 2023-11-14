@@ -35,18 +35,10 @@ public class CarReservationService {
         this.carPoolRepository = carPoolRepository;
         this.userRepository = userRepository;
         this.carHouseRepository = carHouseRepository;
-
         this.checkCarAvailabilitys = checkCarAvailabilitys;
     }
 
-    private Car findById(long carId) {
-        return carRepository.findById(carId).orElseThrow(EntityNotFoundException::new);
-    }
 
-    //TODO: EntityNot/*oiund*/ ersetzten
-    public User getUser(long userId) {
-        return userRepository.findById(userId).orElseThrow(EntityNotFoundException::new);
-    }
 
     public boolean isCarAvailableDuringTimePeriod(Car car, LocalDate startDate, LocalDate endDate) {
 
@@ -74,9 +66,6 @@ public class CarReservationService {
         //TODO: why does this work??
     }
 
-    private Car saveCar(Car car) {
-        return carRepository.save(car);
-    }
 
     private CarPool findCarPoolById(long id) {
         return carPoolRepository.findCarPoolById(1);
@@ -98,9 +87,6 @@ public class CarReservationService {
         carPool.setCars(cars);
     }
 
-    private void saveCarPool(CarPool carPool) {
-        carPoolRepository.save(carPool);
-    }
 
     private void updateCarNameAndPrice(Car car, Car updatedCar) {
         car.setTypeName(updatedCar.getTypeName());
@@ -109,46 +95,34 @@ public class CarReservationService {
     }
 
     public Car saveCarService(Car car, long id) {
-        Car carSaved = saveCar(car);
+        Car carSaved = carRepository.save(car);
         CarPool carPool = findCarPoolById(id);
-
         getCarPoolInSavedCar(carSaved, carPool);
-
         Set<Car> cars = getCarsFormCarPool(carPool);
         addCarToCarSet(cars, carSaved);
         addCarsToCarPool(carPool, cars);
-
-        saveCarPool(carPool);
-
+        carPoolRepository.save(carPool);
         return carSaved;
 
     }
 
 
     public Car updateCar(long id, Car updatedCar) {
-
-        Car car = findById(id);
-
+        Car car = carRepository.findById(id).orElseThrow(EntityNotFoundException::new);
         updateCarNameAndPrice(car, updatedCar);
-
-        return saveCar(car);
+        return carRepository.save(car);
 
     }
 
     public Car rentACar(long carId, long userId, LocalDate startDate, LocalDate endDate) {
-
-        Car car = findById(carId);
-        User user = getUser(userId);
-
+        Car car = carRepository.findById(carId).orElseThrow(EntityNotFoundException::new);
+        User user = userRepository.findById(userId).orElseThrow(EntityNotFoundException::new);
         checkCarAvailabilitys.forEach((carAvailable -> {
             if (!carAvailable.isCarAvailable(car, startDate, endDate)) {
                 throw new RuntimeException(new EntityNotFoundException());
             }
         }));
-
-
         carGetsReserved(car, user, startDate, endDate);
-
         return car;
     }
 
@@ -162,17 +136,13 @@ public class CarReservationService {
     }
 
 
-    private Reservation getReservationById(long id) {
-        return reservationRepository
-                .findById(id).orElseThrow(EntityNotFoundException::new);
-    }
-
     private List<Car> findAvailableCars(LocalDate startDate, LocalDate endDate, CarHouse carHouse) {
         return carRepository.findAvailableCarsPlusCarHouse(startDate, endDate, carHouse);
     }
 
     public List<Car> getAvailableCars(long id, LocalDate startDate, LocalDate endDate) {
-        CarHouse carHouse = findCarHouseById(id);
+        CarHouse carHouse = carHouseRepository.findById(id)
+                .orElseThrow(EntityNotFoundException::new);
         return findAvailableCars(startDate, endDate, carHouse);
     }
 
@@ -191,7 +161,7 @@ public class CarReservationService {
     }
 
     public Car findCarById(long id) {
-        return findById(id);
+        return carRepository.findById(id).orElseThrow(EntityNotFoundException::new);
     }
 
     public List<Car> findAvailableCars(LocalDate startDate, LocalDate endDate) {
@@ -202,21 +172,20 @@ public class CarReservationService {
         reservationRepository.deleteAll(reservations);
     }
 
-    private void deleteCarById(long id) {
-        carRepository.deleteById(id);
-    }
-
     public DeletedCar deleteCar(long id) {
-        Car car = findById(id);
+        //Car car = findById(id);
+        Car car = carRepository.findById(id).orElseThrow(EntityNotFoundException::new);
         Set<Reservation> reservations = car.getReservations();
-        deleteAllReservations(reservations);
-        deleteCarById(id);
+        // deleteAllReservations(reservations);
+        reservationRepository.deleteAll(reservations);
+        carRepository.deleteById(id);
         return new DeletedCar(id, car.getTypeName());
     }
 
 
     public Page<Car> findAllCarsInCarHouse(long carHouseId, Pageable pageable) {
-        CarHouse carHouse = findCarHouseById(carHouseId);
+        CarHouse carHouse = carHouseRepository.findById(carHouseId)
+                .orElseThrow(EntityNotFoundException::new);
         return carRepository.findAllByCarHouse(carHouse, pageable);
     }
 

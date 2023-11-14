@@ -20,12 +20,10 @@ public class ReservationService {
 
     private final ReservationRepository reservationRepository;
     private final UserRepository userRepository;
-    private final CarRepository carRepository;
 
-    public ReservationService(ReservationRepository reservationRepository, UserRepository userRepository, CarRepository carRepository) {
+    public ReservationService(ReservationRepository reservationRepository, UserRepository userRepository) {
         this.reservationRepository = reservationRepository;
         this.userRepository = userRepository;
-        this.carRepository = carRepository;
     }
 
 
@@ -38,13 +36,6 @@ public class ReservationService {
         return new ReservationWithCar(reservation.getId(), reservation.getStartDate(), reservation.getEndDate(), reservation.getCar(), reservation.getCar().getCarHouse());
     }
 
-    private Reservation findReservationById(long id) {
-        return reservationRepository.findById(id).orElseThrow(EntityNotFoundException::new);
-    }
-
-    private void deleteReservation(long id) {
-        reservationRepository.deleteById(id);
-    }
 
     private void updateStartDateAndEndDate(Reservation reservation, Reservation updatedReservation) {
 
@@ -66,15 +57,14 @@ public class ReservationService {
 
 
     public void deleteReservationEntry(long id) {
-        deleteReservation(id);
+        reservationRepository.deleteById(id);
     }
 
 
     public Reservation updateReservationEntry(
             long id,
             Reservation updatedReservation) {
-
-        Reservation reservation = findReservationById(id);
+        Reservation reservation = reservationRepository.findById(id).orElseThrow(EntityNotFoundException::new);
         updateStartDateAndEndDate(reservation, updatedReservation);
         return saveReservation(reservation);
 
