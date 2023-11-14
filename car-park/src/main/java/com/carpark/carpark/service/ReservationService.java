@@ -1,10 +1,10 @@
 package com.carpark.carpark.service;
 
-import com.carpark.carpark.controller.RescourceNotFoundException;
 import com.carpark.carpark.model.*;
 import com.carpark.carpark.repository.CarRepository;
 import com.carpark.carpark.repository.ReservationRepository;
 import com.carpark.carpark.repository.UserRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -14,7 +14,6 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Component
 public class ReservationService {
@@ -34,13 +33,13 @@ public class ReservationService {
         return reservationRepository.findAll(pageable);
     }
 
-    private ReservationWithCar findReservationWithCarById(long id) throws RescourceNotFoundException {
-        Reservation reservation = reservationRepository.findById(id).orElseThrow(RescourceNotFoundException::new);
+    private ReservationWithCar findReservationWithCarById(long id) {
+        Reservation reservation = reservationRepository.findById(id).orElseThrow(EntityNotFoundException::new);
         return new ReservationWithCar(reservation.getId(), reservation.getStartDate(), reservation.getEndDate(), reservation.getCar(), reservation.getCar().getCarHouse());
     }
 
-    private Reservation findReservationById(long id) throws RescourceNotFoundException {
-        return reservationRepository.findById(id).orElseThrow(RescourceNotFoundException::new);
+    private Reservation findReservationById(long id) {
+        return reservationRepository.findById(id).orElseThrow(EntityNotFoundException::new);
     }
 
     private void deleteReservation(long id) {
@@ -61,19 +60,19 @@ public class ReservationService {
         return findAllReservation(pageable);
     }
 
-    public ReservationWithCar findReservationByIdEntry(long id) throws RescourceNotFoundException {
+    public ReservationWithCar findReservationByIdEntry(long id) {
         return findReservationWithCarById(id);
     }
 
 
-    public void deleteReservationEntry(long id) throws RescourceNotFoundException {
+    public void deleteReservationEntry(long id) {
         deleteReservation(id);
     }
 
 
     public Reservation updateReservationEntry(
             long id,
-            Reservation updatedReservation) throws RescourceNotFoundException {
+            Reservation updatedReservation) {
 
         Reservation reservation = findReservationById(id);
         updateStartDateAndEndDate(reservation, updatedReservation);
@@ -85,8 +84,8 @@ public class ReservationService {
         return reservations.stream().map(Reservation::getCar).toList();
     }
 
-    public List<Car> getAllReservedCars(long id) throws RescourceNotFoundException {
-        User user = userRepository.findById(id).orElseThrow(RescourceNotFoundException::new);
+    public List<Car> getAllReservedCars(long id) {
+        User user = userRepository.findById(id).orElseThrow(EntityNotFoundException::new);
         List<Reservation> reservations = reservationRepository.findByUser(user);
         return getCarsFromReservations(reservations);
     }
@@ -108,9 +107,9 @@ public class ReservationService {
         return reservationsCompletes;
     }
 
-    public Page<ReservationsComplete> getAllReservations(long id, Pageable pageable) throws RescourceNotFoundException {
+    public Page<ReservationsComplete> getAllReservations(long id, Pageable pageable) {
 
-        User user = userRepository.findById(id).orElseThrow(RescourceNotFoundException::new);
+        User user = userRepository.findById(id).orElseThrow(EntityNotFoundException::new);
         Page<Reservation> reservationsPage = reservationRepository.findAllByUser(user, pageable);
         List<ReservationsComplete> reservationsCompletes = getReservationComplete(user, reservationsPage.getContent());
         return new PageImpl<>(reservationsCompletes, pageable, reservationsPage.getTotalElements());

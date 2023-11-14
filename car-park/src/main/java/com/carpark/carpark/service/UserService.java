@@ -1,15 +1,14 @@
 package com.carpark.carpark.service;
 
-import com.carpark.carpark.controller.RescourceNotFoundException;
 import com.carpark.carpark.model.Reservation;
 import com.carpark.carpark.model.User;
 import com.carpark.carpark.repository.ReservationRepository;
 import com.carpark.carpark.repository.UserRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -40,8 +39,8 @@ public class UserService {
         userRepository.deleteById(id);
     }
 
-    private User findById(long id) throws RescourceNotFoundException {
-        return userRepository.findById(id).orElseThrow(RescourceNotFoundException::new);
+    private User findById(long id) {
+        return userRepository.findById(id).orElseThrow(EntityNotFoundException::new);
     }
 
     private void deleteSeveralReservations(List<Reservation> reservations) {
@@ -65,21 +64,21 @@ public class UserService {
         System.out.println("user.getAuthorities()");
         System.out.println(user);
         System.out.println(user.getAuthorities() == null);
-        if(user.getAuthorities() == null){
+        if (user.getAuthorities() == null) {
             user.setAuthorities(Set.of("USER"));
         }
 
         return saveUser(user);
     }
 
-    public void deleteUserEntry(long id) throws RescourceNotFoundException {
+    public void deleteUserEntry(long id) {
         User user = findById(id);
         List<Reservation> reservations = findReservationsByUser(user);
         deleteSeveralReservations(reservations);
         deleteUser(user.getId());
     }
 
-    public User findByIdEntry(long id) throws RescourceNotFoundException {
+    public User findByIdEntry(long id) {
         return findById(id);
     }
 
@@ -91,7 +90,8 @@ public class UserService {
     }
 
 
-    public User updateExistingUser(User updatedUser, long id) throws RescourceNotFoundException {  System.out.println("user.getAuthorities()");
+    public User updateExistingUser(User updatedUser, long id) {
+        System.out.println("user.getAuthorities()");
         System.out.println("updatedUserOOO = " + updatedUser.getAuthorities());
         System.out.println("updatedUserOOO = " + updatedUser);
 

@@ -1,6 +1,5 @@
 package com.carpark.carpark.service;
 
-import com.carpark.carpark.controller.RescourceNotFoundException;
 import com.carpark.carpark.model.*;
 import com.carpark.carpark.repository.*;
 import com.carpark.carpark.service.checkCarAvailablility.CarAvailable;
@@ -40,12 +39,12 @@ public class CarReservationService {
         this.checkCarAvailabilitys = checkCarAvailabilitys;
     }
 
-    private Car findById(long carId) throws RescourceNotFoundException {
-        return carRepository.findById(carId).orElseThrow(RescourceNotFoundException::new);
+    private Car findById(long carId) {
+        return carRepository.findById(carId).orElseThrow(EntityNotFoundException::new);
     }
 
     //TODO: EntityNot/*oiund*/ ersetzten
-    public User getUser(long userId) throws RescourceNotFoundException {
+    public User getUser(long userId) {
         return userRepository.findById(userId).orElseThrow(EntityNotFoundException::new);
     }
 
@@ -126,7 +125,7 @@ public class CarReservationService {
     }
 
 
-    public Car updateCar(long id, Car updatedCar) throws RescourceNotFoundException {
+    public Car updateCar(long id, Car updatedCar) {
 
         Car car = findById(id);
 
@@ -136,14 +135,14 @@ public class CarReservationService {
 
     }
 
-    public Car rentACar(long carId, long userId, LocalDate startDate, LocalDate endDate) throws RescourceNotFoundException {
+    public Car rentACar(long carId, long userId, LocalDate startDate, LocalDate endDate) {
 
         Car car = findById(carId);
         User user = getUser(userId);
 
         checkCarAvailabilitys.forEach((carAvailable -> {
             if (!carAvailable.isCarAvailable(car, startDate, endDate)) {
-                throw new RuntimeException(new RescourceNotFoundException());
+                throw new RuntimeException(new EntityNotFoundException());
             }
         }));
 
@@ -153,31 +152,31 @@ public class CarReservationService {
         return car;
     }
 
-    private CarHouse findCarHouseById(long carHouseId) throws RescourceNotFoundException {
+    private CarHouse findCarHouseById(long carHouseId) {
         return carHouseRepository.findById(carHouseId)
-                .orElseThrow(RescourceNotFoundException::new);
+                .orElseThrow(EntityNotFoundException::new);
     }
 
-    private CarHouse findCarHouseByName(String carHouseName) throws RescourceNotFoundException {
+    private CarHouse findCarHouseByName(String carHouseName) {
         return carHouseRepository.findCarHouseByHouseName(carHouseName);
     }
 
 
-    private Reservation getReservationById(long id) throws RescourceNotFoundException {
+    private Reservation getReservationById(long id) {
         return reservationRepository
-                .findById(id).orElseThrow(RescourceNotFoundException::new);
+                .findById(id).orElseThrow(EntityNotFoundException::new);
     }
 
     private List<Car> findAvailableCars(LocalDate startDate, LocalDate endDate, CarHouse carHouse) {
         return carRepository.findAvailableCarsPlusCarHouse(startDate, endDate, carHouse);
     }
 
-    public List<Car> getAvailableCars(long id, LocalDate startDate, LocalDate endDate) throws RescourceNotFoundException {
+    public List<Car> getAvailableCars(long id, LocalDate startDate, LocalDate endDate) {
         CarHouse carHouse = findCarHouseById(id);
         return findAvailableCars(startDate, endDate, carHouse);
     }
 
-    public List<Car> getAvailableCarsByCarHouseName(String carHouseName, LocalDate startDate, LocalDate endDate) throws RescourceNotFoundException {
+    public List<Car> getAvailableCarsByCarHouseName(String carHouseName, LocalDate startDate, LocalDate endDate) {
         CarHouse carHouse = findCarHouseByName(carHouseName);
         System.out.println("carHouse22 = " + carHouse);
         return findAvailableCars(startDate, endDate, carHouse);
@@ -191,7 +190,7 @@ public class CarReservationService {
         return carRepository.findAllByTypeName(name);
     }
 
-    public Car findCarById(long id) throws RescourceNotFoundException {
+    public Car findCarById(long id) {
         return findById(id);
     }
 
@@ -207,7 +206,7 @@ public class CarReservationService {
         carRepository.deleteById(id);
     }
 
-    public DeletedCar deleteCar(long id) throws RescourceNotFoundException {
+    public DeletedCar deleteCar(long id) {
         Car car = findById(id);
         Set<Reservation> reservations = car.getReservations();
         deleteAllReservations(reservations);
@@ -216,7 +215,7 @@ public class CarReservationService {
     }
 
 
-    public Page<Car> findAllCarsInCarHouse(long carHouseId, Pageable pageable) throws RescourceNotFoundException {
+    public Page<Car> findAllCarsInCarHouse(long carHouseId, Pageable pageable) {
         CarHouse carHouse = findCarHouseById(carHouseId);
         return carRepository.findAllByCarHouse(carHouse, pageable);
     }

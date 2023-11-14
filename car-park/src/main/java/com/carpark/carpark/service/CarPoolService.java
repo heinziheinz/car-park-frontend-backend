@@ -1,8 +1,8 @@
 package com.carpark.carpark.service;
 
-import com.carpark.carpark.controller.RescourceNotFoundException;
 import com.carpark.carpark.model.CarPool;
 import com.carpark.carpark.repository.CarPoolRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
@@ -27,11 +27,11 @@ public class CarPoolService {
         carPoolRepository.deleteById(id);
     }
 
-    private CarPool findCarPoolById(long id) throws RescourceNotFoundException {
-        return carPoolRepository.findById(id).orElseThrow(RescourceNotFoundException::new);
+    private CarPool findCarPoolById(long id) {
+        return carPoolRepository.findById(id).orElseThrow(EntityNotFoundException::new);
     }
 
-    private void setCapacityAddressAndNameOfCarPool(CarPool carPool, CarPool updatedCarPool){
+    private void setCapacityAddressAndNameOfCarPool(CarPool carPool, CarPool updatedCarPool) {
         carPool.setCapacity(updatedCarPool.getCapacity());
         carPool.setAddress(updatedCarPool.getAddress());
         carPool.setCarPoolName(updatedCarPool.getCarPoolName());
@@ -49,7 +49,7 @@ public class CarPoolService {
         deleteCarPoolById(id);
     }
 
-    public CarPool updateCarPool(long id, CarPool updatedCarPool) throws RescourceNotFoundException {
+    public CarPool updateCarPool(long id, CarPool updatedCarPool) {
         CarPool carPool = findCarPoolById(id);
         setCapacityAddressAndNameOfCarPool(carPool, updatedCarPool);
         return saveCarPool(carPool);

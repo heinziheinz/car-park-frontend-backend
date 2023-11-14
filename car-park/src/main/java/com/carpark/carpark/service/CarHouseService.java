@@ -1,6 +1,5 @@
 package com.carpark.carpark.service;
 
-import com.carpark.carpark.controller.RescourceNotFoundException;
 import com.carpark.carpark.model.Car;
 import com.carpark.carpark.model.CarHouse;
 import com.carpark.carpark.model.CarPool;
@@ -8,6 +7,7 @@ import com.carpark.carpark.model.DeletedCarHouse;
 import com.carpark.carpark.repository.CarHouseRepository;
 import com.carpark.carpark.repository.CarPoolRepository;
 import com.carpark.carpark.repository.CarRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
@@ -26,14 +26,6 @@ public class CarHouseService {
         this.carHouseRepository = carHouseRepository;
         this.carPoolRepository = carPoolRepository;
         this.carRepository = carRepository;
-    }
-
-    private CarHouse findById(long id) throws RescourceNotFoundException {
-        return carHouseRepository.findById(id).orElseThrow(RescourceNotFoundException::new);
-    }
-
-    private CarPool findByIdCarPool(long id) throws RescourceNotFoundException {
-        return carPoolRepository.findById(id).orElseThrow(RescourceNotFoundException::new);
     }
 
     private Set<Car> getCarsFromCarHouse(CarHouse carHouse) {
@@ -59,13 +51,7 @@ public class CarHouseService {
         carPool.setCars(carPoolCars);
     }
 
-    private CarPool saveCarPool(CarPool carPool) {
-        return carPoolRepository.save(carPool);
-    }
 
-    private void deleteCarHouseById(long id) {
-        carHouseRepository.deleteById(id);
-    }
 
     private void setCarHouseValues(CarHouse carHouse, CarHouse updatedCarHouse) {
         carHouse.setHouseName(updatedCarHouse.getHouseName());
@@ -73,18 +59,6 @@ public class CarHouseService {
         carHouse.setAddress(updatedCarHouse.getAddress());
     }
 
-    private CarHouse saveCarHouse(CarHouse carHouse) {
-        return carHouseRepository.save(carHouse);
-    }
-
-    private Car findCarById(long id) throws RescourceNotFoundException {
-        return carRepository.findById(id)
-                .orElseThrow(RescourceNotFoundException::new);
-    }
-
-    private CarPool findCarPoolById(long id) throws RescourceNotFoundException {
-        return carPoolRepository.findById(id).orElseThrow(RescourceNotFoundException::new);
-    }
 
     private void addCarToCarHouse(CarHouse carHouse, Car car) {
         carHouse.getCars().add(car);
@@ -100,20 +74,11 @@ public class CarHouseService {
         car.setCarPool(null);
     }
 
-    private Car saveCar(Car car) {
-        return carRepository.save(car);
-    }
-
-
     private Set<Car> filterCars(CarHouse carHouse, long carId) {
         return carHouse.getCars().stream()
                 .filter((car) -> {
                     return car.getId() != carId;
                 }).collect(Collectors.toSet());
-    }
-
-    private List<CarHouse> findAllCarHouses() {
-        return carHouseRepository.findAll();
     }
 
     private void setCarsInCarHouse(CarHouse carHouse, Set<Car> removedCars) {
@@ -130,79 +95,74 @@ public class CarHouseService {
         carPoolCars.add(addedCarToCarPool);
     }
 
-    private Page<CarHouse> findAllCarHouses(Pageable pageable) {
-        return carHouseRepository.findAll(pageable);
-    }
 
-    public DeletedCarHouse deleteCarHouse(long id) throws RescourceNotFoundException {
-        CarHouse carHouse = findById(id);
+    public DeletedCarHouse deleteCarHouse(long id) {
+        CarHouse carHouse = carHouseRepository.findById(id).orElseThrow(EntityNotFoundException::new);
 
         long carPoolID = 1;
-        CarPool carPool = findByIdCarPool(carPoolID);
+        CarPool carPool = carPoolRepository.findById(carPoolID).orElseThrow(EntityNotFoundException::new);
         Set<Car> carHouseCars = getCarsFromCarHouse(carHouse);
         setCarDatabaseRelationships(carHouseCars, carPool);
         Set<Car> carPoolCars = getCarsForCarPool(carPool);
         addCarHouseCarsToCarPool(carPoolCars, carHouseCars);
         carPoolSetCars(carPool, carPoolCars);
-        saveCarPool(carPool);
-        deleteCarHouseById(id);
+        carPoolRepository.save(carPool);
+        carHouseRepository.deleteById(id);
         return new DeletedCarHouse(carHouse.getId(), carHouse.getHouseName());
     }
 
-    public CarHouse update(long id, CarHouse updatedCarHouse) throws RescourceNotFoundException {
-        CarHouse carHouse = findById(id);
+    public CarHouse update(long id, CarHouse updatedCarHouse) {
+        CarHouse carHouse = carHouseRepository.findById(id).orElseThrow(EntityNotFoundException::new);
         setCarHouseValues(carHouse, updatedCarHouse);
-
-        return saveCarHouse(carHouse);
+        return carHouseRepository.save(carHouse);
     }
 
-    public CarHouse addCarToCarHouse(long carhouseId, long carId, long carPoolId) throws RescourceNotFoundException {
-        CarHouse carHouse = findById(carhouseId);
-        Car car = findCarById(carId);
-        CarPool carPool = findCarPoolById(carPoolId);
+    public CarHouse addCarToCarHouse(long carHouseId, long carId, long carPoolId) {
+        CarHouse carHouse = carHouseRepository.findById(carHouseId).orElseThrow(EntityNotFoundException::new);
+        Car car = carRepository.findById(carId)
+                .orElseThrow(EntityNotFoundException::new);
+        CarPool carPool = carPoolRepository.findById(carPoolId).orElseThrow(EntityNotFoundException::new);
         addCarToCarHouse(carHouse, car);
-        saveCarHouse(carHouse);
+        carHouseRepository.save(carHouse);
         Set<Car> cars = getCarsForCarPool(carPool);
         removeCarFromArray(cars, car);
         changeReference(carPool, cars, car);
-        saveCar(car);
-        saveCarPool(carPool);
-
-
+        carRepository.save(car);
+        carPoolRepository.save(carPool);
         return carHouse;
     }
 
-    public Car removeCarFromCarHouse(long carhouseId, long carPoolId, long carId) throws RescourceNotFoundException {
-        CarHouse carHouse = findById(carhouseId);
-        CarPool carPool = findByIdCarPool(carPoolId);
+    public Car removeCarFromCarHouse(long carHouseId, long carPoolId, long carId) {
+        CarHouse carHouse = carHouseRepository.findById(carHouseId).orElseThrow(EntityNotFoundException::new);
+        CarPool carPool = carPoolRepository.findById(carPoolId).orElseThrow(EntityNotFoundException::new);
         Set<Car> removedCars = filterCars(carHouse, carId);
         setCarsInCarHouse(carHouse, removedCars);
-        Car addedCarToCarPool = findCarById(carId);
+        Car addedCarToCarPool = carRepository.findById(carId)
+                .orElseThrow(EntityNotFoundException::new);
         Set<Car> carPoolCars = getCarsForCarPool(carPool);
         deleteCarHouseSetAndSetCarPoolCarSet(addedCarToCarPool, carPool);
         addCarToCarPool(carPoolCars, addedCarToCarPool);
         carPool.setCars(carPoolCars);
-        saveCarHouse(carHouse);
-        saveCarPool(carPool);
-
-
+        carHouseRepository.save(carHouse);
+        carPoolRepository.save(carPool);
         return addedCarToCarPool;
     }
 
     public Page<CarHouse> findAllCarHousesEntry(Pageable pageable) {
-        return findAllCarHouses(pageable);
+        return carHouseRepository.findAll(pageable);
     }
 
     public CarHouse carHouseSaveEntry(CarHouse carHouse) {
-        return saveCarHouse(carHouse);
+        return carHouseRepository.save(carHouse);
     }
 
     public List<CarHouse> getAllCarHouses() {
-        return findAllCarHouses();
+        return carHouseRepository.findAll();
     }
 
-    public CarHouse findCarHouseById(long id) throws RescourceNotFoundException{
-        return  findById( id);
-    };
+    public CarHouse findCarHouseById(long id) {
+        return carHouseRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+    }
+
 
 }
