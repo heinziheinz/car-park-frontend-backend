@@ -23,14 +23,6 @@ public class UserService {
     }
 
 
-    private Page<User> finAllUsers(Pageable pageable) {
-        return userRepository.findAll(pageable);
-    }
-
-    private List<User> findByName(String name) {
-        return userRepository.findAllByName(name);
-    }
-
     private User saveUser(User user) {
         return userRepository.save(user);
     }
@@ -39,25 +31,16 @@ public class UserService {
         userRepository.deleteById(id);
     }
 
-    private User findById(long id) {
-        return userRepository.findById(id).orElseThrow(EntityNotFoundException::new);
-    }
-
     private void deleteSeveralReservations(List<Reservation> reservations) {
         reservationRepository.deleteAll(reservations);
     }
 
-    private List<Reservation> findReservationsByUser(User user) {
-        return reservationRepository.findByUser(user);
-    }
-
-
     public Page<User> findAllUsersEntry(Pageable pageable) {
-        return finAllUsers(pageable);
+        return userRepository.findAll(pageable);
     }
 
     public List<User> findByNameEntry(String name) {
-        return findByName(name);
+        return userRepository.findAllByName(name);
     }
 
     public User saveUserEntry(User user) {
@@ -67,19 +50,18 @@ public class UserService {
         if (user.getAuthorities() == null) {
             user.setAuthorities(Set.of("USER"));
         }
-
         return saveUser(user);
     }
 
     public void deleteUserEntry(long id) {
-        User user = findById(id);
-        List<Reservation> reservations = findReservationsByUser(user);
+        User user = userRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+        List<Reservation> reservations = reservationRepository.findByUser(user);
         deleteSeveralReservations(reservations);
         deleteUser(user.getId());
     }
 
     public User findByIdEntry(long id) {
-        return findById(id);
+        return userRepository.findById(id).orElseThrow(EntityNotFoundException::new);
     }
 
     private void setNameBirthdateAddress(User user, User updatedUser) {
@@ -91,14 +73,8 @@ public class UserService {
 
 
     public User updateExistingUser(User updatedUser, long id) {
-        System.out.println("user.getAuthorities()");
-        System.out.println("updatedUserOOO = " + updatedUser.getAuthorities());
-        System.out.println("updatedUserOOO = " + updatedUser);
-
-        User user = findById(id);
+        User user = userRepository.findById(id).orElseThrow(EntityNotFoundException::new);
         setNameBirthdateAddress(user, updatedUser);
         return saveUser(user);
-
     }
-
 }
