@@ -1,7 +1,6 @@
 package com.carpark.carpark.controller;
 
 
-import com.carpark.carpark.model.Car;
 import com.carpark.carpark.model.CarHouse;
 import com.carpark.carpark.model.DeletedCarHouse;
 import com.carpark.carpark.service.CarHouseService;
@@ -11,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 @RestController
 @RequestMapping("carhouses")
@@ -28,7 +26,7 @@ public class CarHouseController {
     }
 
     @GetMapping("/id/{id}")
-    CarHouse findById(@PathVariable long id) throws RescourceNotFoundException {
+    CarHouse findById(@PathVariable long id) {
         return carHouseService.findCarHouseById(id);
     }
 
@@ -38,12 +36,12 @@ public class CarHouseController {
     }
 
     @DeleteMapping("/{id}")
-    DeletedCarHouse delete(@PathVariable long id) throws RescourceNotFoundException {
+    DeletedCarHouse delete(@PathVariable long id) {
         return carHouseService.deleteCarHouse(id);
     }
 
     @PutMapping("/{id}")
-    CarHouse update(@PathVariable long id, @RequestBody CarHouse updatedCarHouse) throws RescourceNotFoundException {
+    CarHouse update(@PathVariable long id, @RequestBody CarHouse updatedCarHouse) {
         return carHouseService.update(id, updatedCarHouse);
     }
 
@@ -52,16 +50,16 @@ public class CarHouseController {
     CarHouse addCarToCarHouse(
             @PathVariable long carhouseId,
             @PathVariable long carId
-    ) throws RescourceNotFoundException {
+    ) {
         long carPoolId = 1;
         return carHouseService.addCarToCarHouse(carhouseId, carId, carPoolId);
     }
 
     @PostMapping("/{carhouseId}/remove-car/{carId}")
-    Car removeCarFromCarHouse(
+    CarHouse removeCarFromCarHouse(
             @PathVariable long carhouseId,
             @PathVariable long carId
-    ) throws RescourceNotFoundException {
+    ) {
         long carPoolId = 1;
         return carHouseService.removeCarFromCarHouse(carhouseId, carPoolId, carId);
     }

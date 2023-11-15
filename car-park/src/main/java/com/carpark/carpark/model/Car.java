@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 
@@ -53,7 +54,8 @@ public class Car {
 
 
 
-    public Car(String typeName, double price, String image) {
+    public Car(long id, String typeName, double price, String image) {
+        this.id = id;
         this.typeName = typeName;
         this.price = price;
         this.image = image;
@@ -101,4 +103,30 @@ public class Car {
     public void setReservations(Set<Reservation> reservations) {
         this.reservations = reservations;
     }
+
+//    @Override
+//    public boolean equals(Object o) {
+//        if (this == o) return true;
+//        if (o == null || getClass() != o.getClass()) return false;
+//        Car car = (Car) o;
+//        return id == car.id && Double.compare(price, car.price) == 0 && Objects.equals(typeName, car.typeName) && Objects.equals(image, car.image) && Objects.equals(reservations, car.reservations) && Objects.equals(carHouse, car.carHouse) && Objects.equals(carPool, car.carPool);
+//    }
+//
+//    @Override
+//    public int hashCode() {
+//        return Objects.hash(id, typeName, price, image, reservations, carHouse, carPool);
+//    }
+//
+//    @Override
+//    public String toString() {
+//        return "Car{" +
+//                "id=" + id +
+//                ", typeName='" + typeName + '\'' +
+//                ", price=" + price +
+//                ", image='" + image + '\'' +
+//                ", reservations=" + reservations +
+//                ", carHouse=" + carHouse +
+//                ", carPool=" + (carPool != null ? carPool.getCarPoolName() : null) +
+//                '}';
+//    }
 }

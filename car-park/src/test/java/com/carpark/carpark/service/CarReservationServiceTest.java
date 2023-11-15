@@ -10,7 +10,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -23,8 +22,6 @@ import static org.mockito.Mockito.when;
 class CarReservationServiceTest {
 
 
-
-
     DateTimeService mockDateTimeService = mock(DateTimeService.class);
     ReservationRepository mockreservationRepository = mock(ReservationRepository.class);
     CarRepository mockCarRepository = mock(CarRepository.class);
@@ -32,13 +29,16 @@ class CarReservationServiceTest {
     UserRepository userRepository = mock(UserRepository.class);
     CarHouseRepository mockCarHouseRepository = mock(CarHouseRepository.class);
 
+    CarHouseService mockCarHouseService = mock(CarHouseService.class);
+    CarPoolService mockCarPoolService = mock(CarPoolService.class);
+
     List<CarAvailable> mockCheckCarAvailability = List.of(mock(CheckCarAvailabilitySQLQuery.class));
 
-    CarReservationService carReservationService = new CarReservationService(mockDateTimeService, mockreservationRepository, mockCarRepository ,mockCarPoolRepository, userRepository, mockCarHouseRepository, mockCheckCarAvailability );
+    CarReservationService carReservationService = new CarReservationService(mockDateTimeService, mockreservationRepository, mockCarRepository, mockCarPoolRepository, userRepository, mockCarHouseRepository, mockCheckCarAvailability, mockCarHouseService, mockCarPoolService);
 
     public static Stream<Arguments> arguments() {
 
-        Car car1 = new Car("Mercedes", 200.00, "image");
+        Car car1 = new Car(0, "Mercedes", 200.00, "image");
         Set<Reservation> reservationOne = Set.of();
         car1.setReservations(reservationOne);
 
@@ -46,32 +46,32 @@ class CarReservationServiceTest {
 
         User user2 = new User("Karl", LocalDate.of(2022, 1, 1), "Hausgasse", "password", Set.of("USER", "ADMIN"));
         Reservation reservation2 = new Reservation(user2, LocalDate.of(2023, 10, 22), LocalDate.of(2023, 10, 24));
-        Car car2 = new Car("Mercedes", 200.00, "image");
+        Car car2 = new Car(0, "Mercedes", 200.00, "image");
         Set<Reservation> reservationTwo = Set.of(reservation2);
         car2.setReservations(reservationTwo);
 
         //
         User user3 = new User("Karl", LocalDate.of(2022, 1, 1), "Hausgasse", "password", Set.of("USER", "ADMIN"));
         Reservation reservation3 = new Reservation(user3, LocalDate.of(2022, 12, 29), LocalDate.of(2022, 12, 31));
-        Car car3 = new Car("Mercedes", 200.00, "image");
+        Car car3 = new Car(0, "Mercedes", 200.00, "image");
         Set<Reservation> reservationThree = Set.of(reservation3);
         car3.setReservations(reservationThree);
 
         User user4 = new User("Karl", LocalDate.of(2022, 1, 1), "Hausgasse", "password", Set.of("USER", "ADMIN"));
         Reservation reservation4 = new Reservation(user4, LocalDate.of(2024, 12, 20), LocalDate.of(2024, 12, 29));
-        Car car4 = new Car("Mercedes", 200.00, "image");
+        Car car4 = new Car(0, "Mercedes", 200.00, "image");
         Set<Reservation> reservationFour = Set.of(reservation4);
         car4.setReservations(reservationFour);
 
         User user5 = new User("Karl", LocalDate.of(2022, 1, 1), "Hausgasse", "password", Set.of("USER", "ADMIN"));
         Reservation reservation5 = new Reservation(user5, LocalDate.of(2024, 12, 20), LocalDate.of(2024, 12, 29));
-        Car car5 = new Car("Mercedes", 200.00, "image");
+        Car car5 = new Car(0, "Mercedes", 200.00, "image");
         Set<Reservation> reservationFive = Set.of(reservation5);
         car5.setReservations(reservationFive);
 
-        User user6 = new User("Karl", LocalDate.of(2022, 1, 1), "Hausgasse","password", Set.of("USER", "ADMIN"));
+        User user6 = new User("Karl", LocalDate.of(2022, 1, 1), "Hausgasse", "password", Set.of("USER", "ADMIN"));
         Reservation reservation6 = new Reservation(user6, LocalDate.of(2024, 12, 20), LocalDate.of(2024, 12, 29));
-        Car car6 = new Car("Mercedes", 200.00, "image");
+        Car car6 = new Car(0, "Mercedes", 200.00, "image");
         Set<Reservation> reservationSix = Set.of(reservation6);
         car6.setReservations(reservationSix);
 

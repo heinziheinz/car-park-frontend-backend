@@ -27,7 +27,11 @@ public class CarReservationService {
 
     private final List<CarAvailable> checkCarAvailabilitys;
 
-    public CarReservationService(DateTimeService dateTimeService, ReservationRepository reservationRepository, CarRepository carRepository, CarPoolRepository carPoolRepository, UserRepository userRepository, CarHouseRepository carHouseRepository, List<CarAvailable> checkCarAvailabilitys) {
+    private final CarHouseService carHouseService;
+
+    private final CarPoolService carPoolService;
+
+    public CarReservationService(DateTimeService dateTimeService, ReservationRepository reservationRepository, CarRepository carRepository, CarPoolRepository carPoolRepository, UserRepository userRepository, CarHouseRepository carHouseRepository, List<CarAvailable> checkCarAvailabilitys, CarHouseService carHouseService, CarPoolService carPoolService) {
 
         this.dateTimeService = dateTimeService;
         this.reservationRepository = reservationRepository;
@@ -36,6 +40,8 @@ public class CarReservationService {
         this.userRepository = userRepository;
         this.carHouseRepository = carHouseRepository;
         this.checkCarAvailabilitys = checkCarAvailabilitys;
+        this.carHouseService = carHouseService;
+        this.carPoolService = carPoolService;
     }
 
 
@@ -184,5 +190,19 @@ public class CarReservationService {
     public Page<Car> findAllCArsNotAllocatedToACarHouse(Pageable pageable) {
         return carRepository.findAllByCarHouseIsNull(pageable);
     }
+
+    public void deleteCarHouseSetAndSetCarPoolCarSet(Car addedCarToCarPool, CarPool carPool) {
+        addedCarToCarPool.setCarHouse(null);
+        addedCarToCarPool.setCarPool(carPool);
+    }
+
+
+    public void transferCarFromCarHouseToCarPool(long carHouseId, long carId, long carPoolId) {
+        CarHouse carHouse = carHouseService.removeCar(carHouseId, carId);
+        Car car = findCarById(carId);
+        CarPool carPool = carPoolService.addCarToCarPool(carPoolId, car);
+        deleteCarHouseSetAndSetCarPoolCarSet(car, carPool);
+    }
+
 
 }

@@ -78,24 +78,24 @@ public class Populator {
     }
 
     private List<Car> createCars(CarRepository carRepository) {
-        Car carOne = new Car("Skoda", 20000.00, "https://imgur.com/fEHghpS.jpeg");
+        Car carOne = new Car(0,"Skoda", 20000.00, "https://imgur.com/fEHghpS.jpeg");
         List<Car> setOfCars = List.of(
-                new Car("Skoda", 100.00, "https://imgur.com/fEHghpS.jpeg"),
-                new Car("Mercedes", 150.00, "https://imgur.com/fEHghpS.jpeg"),
-                new Car("Hyundai", 100.00, "https://imgur.com/fEHghpS.jpeg"),
-                new Car("Volvo", 300.00, "https://imgur.com/fEHghpS.jpeg"),
-                new Car("Rolls Royce", 400.00, "https://imgur.com/fEHghpS.jpeg"),
-                new Car("Mazda", 200.00, "https://imgur.com/fEHghpS.jpeg"),
-                new Car("Mazzi", 200.00, "https://imgur.com/fEHghpS.jpeg"),
-                new Car("Muzzo", 200.00, "https://imgur.com/fEHghpS.jpeg"),
-                new Car("Yahooni", 200.00, "https://imgur.com/fEHghpS.jpeg"),
-                new Car("Crawler", 200.00, "https://imgur.com/fEHghpS.jpeg"),
-                new Car("Honda", 200.00, "https://imgur.com/fEHghpS.jpeg"),
-                new Car("Ferrari", 200.00, "https://imgur.com/fEHghpS.jpeg"),
-                new Car("Lamborghini Extra", 200.00, "https://imgur.com/fEHghpS.jpeg"),
-                new Car("Lamborghini ", 200.00, "https://imgur.com/fEHghpS.jpeg"),
-                new Car("Lamborghini Green", 200.00, "https://imgur.com/fEHghpS.jpeg"),
-                new Car("Lamborghini Blue", 200.00, "https://imgur.com/fEHghpS.jpeg")
+                new Car(0,"Skoda", 100.00, "https://imgur.com/fEHghpS.jpeg"),
+                new Car(0,"Mercedes", 150.00, "https://imgur.com/fEHghpS.jpeg"),
+                new Car(0, "Hyundai", 100.00, "https://imgur.com/fEHghpS.jpeg"),
+                new Car(0,"Volvo", 300.00, "https://imgur.com/fEHghpS.jpeg"),
+                new Car(0,"Rolls Royce", 400.00, "https://imgur.com/fEHghpS.jpeg"),
+                new Car(0,"Mazda", 200.00, "https://imgur.com/fEHghpS.jpeg"),
+                new Car(0,"Mazzi", 200.00, "https://imgur.com/fEHghpS.jpeg"),
+                new Car(0,"Muzzo", 200.00, "https://imgur.com/fEHghpS.jpeg"),
+                new Car(0,"Yahooni", 200.00, "https://imgur.com/fEHghpS.jpeg"),
+                new Car(0,"Crawler", 200.00, "https://imgur.com/fEHghpS.jpeg"),
+                new Car(0,"Honda", 200.00, "https://imgur.com/fEHghpS.jpeg"),
+                new Car(0,"Ferrari", 200.00, "https://imgur.com/fEHghpS.jpeg"),
+                new Car(0,"Lamborghini Extra", 200.00, "https://imgur.com/fEHghpS.jpeg"),
+                new Car(0,"Lamborghini ", 200.00, "https://imgur.com/fEHghpS.jpeg"),
+                new Car(0,"Lamborghini Green", 200.00, "https://imgur.com/fEHghpS.jpeg"),
+                new Car(0,"Lamborghini Blue", 200.00, "https://imgur.com/fEHghpS.jpeg")
         );
 
         return carRepository.saveAll(setOfCars);

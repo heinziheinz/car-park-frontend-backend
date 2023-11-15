@@ -108,4 +108,13 @@ public class CarController {
     Page<Car> getAllCArsNotAllocatedToCarHouse(Pageable pageable) {
         return carReservationService.findAllCArsNotAllocatedToACarHouse(pageable);
     }
+
+    @PostMapping("/{carhouseId}/transfer-car-to-car-pool/{carId}")
+    void transferCarToCarPool(
+            @PathVariable long carhouseId,
+            @PathVariable long carId
+    ) {
+        long carPoolId = 1;
+        carReservationService.transferCarFromCarHouseToCarPool(carhouseId, carId, carPoolId);
+    }
 }

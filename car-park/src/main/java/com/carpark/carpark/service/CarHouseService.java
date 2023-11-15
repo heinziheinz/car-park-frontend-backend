@@ -104,7 +104,9 @@ public class CarHouseService {
         return carHouse;
     }
 
-    public Car removeCarFromCarHouse(long carHouseId, long carPoolId, long carId) {
+
+    //TODO: aufteilen
+    public CarHouse removeCarFromCarHouse(long carHouseId, long carPoolId, long carId) {
         CarHouse carHouse = carHouseRepository.findById(carHouseId).orElseThrow(EntityNotFoundException::new);
         CarPool carPool = carPoolRepository.findById(carPoolId).orElseThrow(EntityNotFoundException::new);
         Set<Car> removedCars = filterCars(carHouse, carId);
@@ -115,10 +117,19 @@ public class CarHouseService {
         deleteCarHouseSetAndSetCarPoolCarSet(addedCarToCarPool, carPool);
         carPoolCars.add(addedCarToCarPool);
         carPool.setCars(carPoolCars);
-        carHouseRepository.save(carHouse);
+
         carPoolRepository.save(carPool);
-        return addedCarToCarPool;
+        return carHouseRepository.save(carHouse);
     }
+
+    //TODO: hier erster Teil der Methode:
+    public CarHouse removeCar(long carHouseId, long carId) {
+        CarHouse carHouse = carHouseRepository.findById(carHouseId).orElseThrow(EntityNotFoundException::new);
+        Set<Car> removedCars = filterCars(carHouse, carId);
+        carHouse.setCars(removedCars);
+        return carHouseRepository.save(carHouse);
+    }
+
 
     public Page<CarHouse> findAllCarHousesEntry(Pageable pageable) {
         return carHouseRepository.findAll(pageable);

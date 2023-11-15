@@ -1,11 +1,14 @@
 package com.carpark.carpark.service;
 
+import com.carpark.carpark.model.Car;
 import com.carpark.carpark.model.CarPool;
 import com.carpark.carpark.repository.CarPoolRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
+
+import java.util.Set;
 
 @Component
 public class CarPoolService {
@@ -35,7 +38,7 @@ public class CarPoolService {
 
     public Page<CarPool> findAllEntry(Pageable pageable) {
 
-        return  carPoolRepository.findAll(pageable);
+        return carPoolRepository.findAll(pageable);
     }
 
     public CarPool saveCarPoolEntry(CarPool carPool) {
@@ -47,10 +50,25 @@ public class CarPoolService {
     }
 
     public CarPool updateCarPool(long id, CarPool updatedCarPool) {
-        CarPool carPool =  carPoolRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+        CarPool carPool = carPoolRepository.findById(id).orElseThrow(EntityNotFoundException::new);
         carPool.setCapacity(updatedCarPool.getCapacity());
         carPool.setAddress(updatedCarPool.getAddress());
         carPool.setCarPoolName(updatedCarPool.getCarPoolName());
         return saveCarPool(carPool);
+    }
+
+    //TODO:LÖSCHEN
+    private void deleteCarHouseSetAndSetCarPoolCarSet(Car addedCarToCarPool, CarPool carPool) {
+        addedCarToCarPool.setCarHouse(null);
+        addedCarToCarPool.setCarPool(carPool);
+    }
+
+    public CarPool addCarToCarPool(long carPoolId, Car addedCarToCarPool) {
+        CarPool carPool = carPoolRepository.findById(carPoolId).orElseThrow(EntityNotFoundException::new);
+        Set<Car> carPoolCars = carPool.getCars();
+        deleteCarHouseSetAndSetCarPoolCarSet(addedCarToCarPool, carPool);
+        carPoolCars.add(addedCarToCarPool);
+        carPool.setCars(carPoolCars);
+        return carPoolRepository.save(carPool);
     }
 }
