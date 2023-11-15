@@ -39,7 +39,7 @@ public class CarReservationService {
     }
 
 
-
+    //TODO:  TESTED
     public boolean isCarAvailableDuringTimePeriod(Car car, LocalDate startDate, LocalDate endDate) {
 
         return car.getReservations().isEmpty() || car.getReservations().stream()
@@ -126,11 +126,6 @@ public class CarReservationService {
         return car;
     }
 
-    private CarHouse findCarHouseById(long carHouseId) {
-        return carHouseRepository.findById(carHouseId)
-                .orElseThrow(EntityNotFoundException::new);
-    }
-
     private CarHouse findCarHouseByName(String carHouseName) {
         return carHouseRepository.findCarHouseByHouseName(carHouseName);
     }
@@ -143,13 +138,15 @@ public class CarReservationService {
     public List<Car> getAvailableCars(long id, LocalDate startDate, LocalDate endDate) {
         CarHouse carHouse = carHouseRepository.findById(id)
                 .orElseThrow(EntityNotFoundException::new);
-        return findAvailableCars(startDate, endDate, carHouse);
+       // return findAvailableCars(startDate, endDate, carHouse);
+        return  carRepository.findAvailableCarsPlusCarHouse(startDate, endDate, carHouse);
     }
 
     public List<Car> getAvailableCarsByCarHouseName(String carHouseName, LocalDate startDate, LocalDate endDate) {
         CarHouse carHouse = findCarHouseByName(carHouseName);
         System.out.println("carHouse22 = " + carHouse);
-        return findAvailableCars(startDate, endDate, carHouse);
+        //return findAvailableCars(startDate, endDate, carHouse);
+        return carRepository.findAvailableCarsPlusCarHouse(startDate, endDate, carHouse);
     }
 
     public Page<Car> findAllPaginated(Pageable pageable) {

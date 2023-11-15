@@ -28,29 +28,12 @@ public class CarHouseService {
         this.carRepository = carRepository;
     }
 
-    private Set<Car> getCarsFromCarHouse(CarHouse carHouse) {
-        return carHouse.getCars();
-    }
-
     private void setCarDatabaseRelationships(Set<Car> carHouseCars, CarPool carPool) {
         carHouseCars.forEach((car) -> {
             car.setCarHouse(null);
             car.setCarPool(carPool);
         });
     }
-
-    private Set<Car> getCarsForCarPool(CarPool carPool) {
-        return carPool.getCars();
-    }
-
-    private void addCarHouseCarsToCarPool(Set<Car> carPoolCars, Set<Car> carHouseCars) {
-        carPoolCars.addAll(carHouseCars);
-    }
-
-    private void carPoolSetCars(CarPool carPool, Set<Car> carPoolCars) {
-        carPool.setCars(carPoolCars);
-    }
-
 
 
     private void setCarHouseValues(CarHouse carHouse, CarHouse updatedCarHouse) {
@@ -65,10 +48,6 @@ public class CarHouseService {
         car.setCarHouse(carHouse);
     }
 
-    private void removeCarFromArray(Set<Car> cars, Car car) {
-        cars.remove(car);
-    }
-
     private void changeReference(CarPool carPool, Set<Car> cars, Car car) {
         carPool.setCars(cars);
         car.setCarPool(null);
@@ -81,18 +60,10 @@ public class CarHouseService {
                 }).collect(Collectors.toSet());
     }
 
-    private void setCarsInCarHouse(CarHouse carHouse, Set<Car> removedCars) {
-        carHouse.setCars(removedCars);
-    }
 
     private void deleteCarHouseSetAndSetCarPoolCarSet(Car addedCarToCarPool, CarPool carPool) {
-
         addedCarToCarPool.setCarHouse(null);
         addedCarToCarPool.setCarPool(carPool);
-    }
-
-    private void addCarToCarPool(Set<Car> carPoolCars, Car addedCarToCarPool) {
-        carPoolCars.add(addedCarToCarPool);
     }
 
 
@@ -101,11 +72,11 @@ public class CarHouseService {
 
         long carPoolID = 1;
         CarPool carPool = carPoolRepository.findById(carPoolID).orElseThrow(EntityNotFoundException::new);
-        Set<Car> carHouseCars = getCarsFromCarHouse(carHouse);
+        Set<Car> carHouseCars = carHouse.getCars();
         setCarDatabaseRelationships(carHouseCars, carPool);
-        Set<Car> carPoolCars = getCarsForCarPool(carPool);
-        addCarHouseCarsToCarPool(carPoolCars, carHouseCars);
-        carPoolSetCars(carPool, carPoolCars);
+        Set<Car> carPoolCars = carPool.getCars();
+        carPoolCars.addAll(carHouseCars);
+        carPool.setCars(carPoolCars);
         carPoolRepository.save(carPool);
         carHouseRepository.deleteById(id);
         return new DeletedCarHouse(carHouse.getId(), carHouse.getHouseName());
@@ -124,8 +95,8 @@ public class CarHouseService {
         CarPool carPool = carPoolRepository.findById(carPoolId).orElseThrow(EntityNotFoundException::new);
         addCarToCarHouse(carHouse, car);
         carHouseRepository.save(carHouse);
-        Set<Car> cars = getCarsForCarPool(carPool);
-        removeCarFromArray(cars, car);
+        Set<Car> cars = carPool.getCars();
+        cars.remove(car);
         changeReference(carPool, cars, car);
         carRepository.save(car);
         carPoolRepository.save(carPool);
@@ -136,12 +107,12 @@ public class CarHouseService {
         CarHouse carHouse = carHouseRepository.findById(carHouseId).orElseThrow(EntityNotFoundException::new);
         CarPool carPool = carPoolRepository.findById(carPoolId).orElseThrow(EntityNotFoundException::new);
         Set<Car> removedCars = filterCars(carHouse, carId);
-        setCarsInCarHouse(carHouse, removedCars);
+        carHouse.setCars(removedCars);
         Car addedCarToCarPool = carRepository.findById(carId)
                 .orElseThrow(EntityNotFoundException::new);
-        Set<Car> carPoolCars = getCarsForCarPool(carPool);
+        Set<Car> carPoolCars = carPool.getCars();
         deleteCarHouseSetAndSetCarPoolCarSet(addedCarToCarPool, carPool);
-        addCarToCarPool(carPoolCars, addedCarToCarPool);
+        carPoolCars.add(addedCarToCarPool);
         carPool.setCars(carPoolCars);
         carHouseRepository.save(carHouse);
         carPoolRepository.save(carPool);
