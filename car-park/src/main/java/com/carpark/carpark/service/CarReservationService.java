@@ -114,6 +114,7 @@ public class CarReservationService {
 
     }
 
+    //TODO maybe
     public Car rentACar(long carId, long userId, LocalDate startDate, LocalDate endDate) {
         Car car = carRepository.findById(carId).orElseThrow(EntityNotFoundException::new);
         User user = userRepository.findById(userId).orElseThrow(EntityNotFoundException::new);
@@ -131,15 +132,11 @@ public class CarReservationService {
     }
 
 
-    private List<Car> findAvailableCars(LocalDate startDate, LocalDate endDate, CarHouse carHouse) {
-        return carRepository.findAvailableCarsPlusCarHouse(startDate, endDate, carHouse);
-    }
-
     public List<Car> getAvailableCars(long id, LocalDate startDate, LocalDate endDate) {
         CarHouse carHouse = carHouseRepository.findById(id)
                 .orElseThrow(EntityNotFoundException::new);
-       // return findAvailableCars(startDate, endDate, carHouse);
-        return  carRepository.findAvailableCarsPlusCarHouse(startDate, endDate, carHouse);
+        // return findAvailableCars(startDate, endDate, carHouse);
+        return carRepository.findAvailableCarsPlusCarHouse(startDate, endDate, carHouse);
     }
 
     public List<Car> getAvailableCarsByCarHouseName(String carHouseName, LocalDate startDate, LocalDate endDate) {
@@ -170,10 +167,8 @@ public class CarReservationService {
     }
 
     public DeletedCar deleteCar(long id) {
-        //Car car = findById(id);
         Car car = carRepository.findById(id).orElseThrow(EntityNotFoundException::new);
         Set<Reservation> reservations = car.getReservations();
-        // deleteAllReservations(reservations);
         reservationRepository.deleteAll(reservations);
         carRepository.deleteById(id);
         return new DeletedCar(id, car.getTypeName());
