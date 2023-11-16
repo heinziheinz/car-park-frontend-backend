@@ -109,7 +109,7 @@ public class CarHouseService {
     }
 
 
-    //TODO: aufteilen
+    //TODO: aufteilen und getestet
     public CarHouse removeCarFromCarHouse(long carHouseId, long carPoolId, long carId) {
         CarHouse carHouse = carHouseRepository.findById(carHouseId).orElseThrow(EntityNotFoundException::new);
         CarPool carPool = carPoolRepository.findById(carPoolId).orElseThrow(EntityNotFoundException::new);
@@ -126,7 +126,7 @@ public class CarHouseService {
         return carHouseRepository.save(carHouse);
     }
 
-    //TODO: hier erster Teil der Methode:
+    //TODO: hier erster Teil der Methode: getestet
     public CarHouse removeCar(long carHouseId, long carId) {
         CarHouse carHouse = carHouseRepository.findById(carHouseId).orElseThrow(EntityNotFoundException::new);
         Set<Car> removedCars = filterCarFromCarHouse.filterCarFromCarHouse(carHouse, carId);

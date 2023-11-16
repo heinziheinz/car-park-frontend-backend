@@ -77,21 +77,6 @@ public class CarReservationService {
         return carPoolRepository.findCarPoolById(1);
     }
 
-    private void getCarPoolInSavedCar(Car car, CarPool carPool) {
-        car.setCarPool(carPool);
-    }
-
-    private Set<Car> getCarsFormCarPool(CarPool carPool) {
-        return carPool.getCars();
-    }
-
-    private void addCarToCarSet(Set<Car> cars, Car car) {
-        cars.add(car);
-    }
-
-    private void addCarsToCarPool(CarPool carPool, Set<Car> cars) {
-        carPool.setCars(cars);
-    }
 
 
     private void updateCarNameAndPrice(Car car, Car updatedCar) {
@@ -103,16 +88,16 @@ public class CarReservationService {
     public Car saveCarService(Car car, long id) {
         Car carSaved = carRepository.save(car);
         CarPool carPool = findCarPoolById(id);
-        getCarPoolInSavedCar(carSaved, carPool);
-        Set<Car> cars = getCarsFormCarPool(carPool);
-        addCarToCarSet(cars, carSaved);
-        addCarsToCarPool(carPool, cars);
+        carSaved.setCarPool(carPool);
+        Set<Car> cars = carPool.getCars();
+        cars.add(carSaved);
+        carPool.setCars(cars);
         carPoolRepository.save(carPool);
         return carSaved;
 
     }
 
-
+//TODO: next
     public Car updateCar(long id, Car updatedCar) {
         Car car = carRepository.findById(id).orElseThrow(EntityNotFoundException::new);
         updateCarNameAndPrice(car, updatedCar);
