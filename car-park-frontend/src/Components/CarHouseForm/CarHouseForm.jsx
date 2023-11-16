@@ -22,9 +22,9 @@ const CarHouseForm = ({carHouse, onSave, children}) => {
     }
 
     return (
-        <>
+        <div className="carhouseWrapper">
 
-            <form className="CarHouseForm" onSubmit={onSubmit}>
+            <form className="styleForm" onSubmit={onSubmit}>
                 <div className="control">
                     <label htmlFor="first-name">CarHouse Name:</label>
                     <input
@@ -57,7 +57,7 @@ const CarHouseForm = ({carHouse, onSave, children}) => {
                     </div>
                 ))}
             </div>
-        </>
+        </div>
     );
 
 }

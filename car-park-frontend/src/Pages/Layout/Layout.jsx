@@ -9,7 +9,7 @@ const Layout = () => {
     const {userRole} = useContext(UserRoleContext);
     return (
         <div className="Layout">
-            <h2>Car Park</h2>
+            <h2>Super Rental</h2>
             <nav>
                 <ul>
                     <li>
