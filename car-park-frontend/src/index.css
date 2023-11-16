@@ -65,6 +65,13 @@ form {
     display: grid;
     font-size: 1.2rem;
 }
+.formColor{
+    background-color: rgb(76, 117, 219);
+    opacity: 0.9;
+    width:300px;
+    margin: auto;
+    margin-top: 50px;
+}
 
 .control {
     width: 100%;
@@ -160,11 +167,19 @@ form{
     width: 250px;
     padding: 30px;
     background-color: transparent;
+    margin:auto;
 }
-body {
+html,body {
+    height: 100%;
+    margin: 0;
+}
+#root{
     background-image: url('https://i.imgur.com/KXRzW6g.jpeg');
-    background-size: cover; /* This property ensures that the background image covers the entire viewport */
-    background-position: center; /* This property centers the background image */
-    background-repeat: no-repeat; /* This property prevents the background image from repeating */
-    /* You can also set additional styles for the body, such as font-family or color */
+
+    /* Set background properties */
+    background-size: cover; /* You can use other values like 'contain' */
+    background-position: center center; /* Adjust as needed */
+    background-repeat: no-repeat;
+
+    height: 100%;
 }

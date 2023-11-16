@@ -13,7 +13,7 @@ const Layout = () => {
             <nav>
                 <ul>
                     <li>
-                        <Link to="/">
+                        <Link to="/search-car">
                             <button type="button">Reserve Car</button>
                         </Link>
                         {loggedIn ? <Link to="/logout">
