@@ -104,29 +104,29 @@ public class Car {
         this.reservations = reservations;
     }
 
-//    @Override
-//    public boolean equals(Object o) {
-//        if (this == o) return true;
-//        if (o == null || getClass() != o.getClass()) return false;
-//        Car car = (Car) o;
-//        return id == car.id && Double.compare(price, car.price) == 0 && Objects.equals(typeName, car.typeName) && Objects.equals(image, car.image) && Objects.equals(reservations, car.reservations) && Objects.equals(carHouse, car.carHouse) && Objects.equals(carPool, car.carPool);
-//    }
-//
-//    @Override
-//    public int hashCode() {
-//        return Objects.hash(id, typeName, price, image, reservations, carHouse, carPool);
-//    }
-//
-//    @Override
-//    public String toString() {
-//        return "Car{" +
-//                "id=" + id +
-//                ", typeName='" + typeName + '\'' +
-//                ", price=" + price +
-//                ", image='" + image + '\'' +
-//                ", reservations=" + reservations +
-//                ", carHouse=" + carHouse +
-//                ", carPool=" + (carPool != null ? carPool.getCarPoolName() : null) +
-//                '}';
-//    }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Car car = (Car) o;
+        return id == car.id && Double.compare(price, car.price) == 0 && Objects.equals(typeName, car.typeName) && Objects.equals(image, car.image) && Objects.equals(reservations, car.reservations) && Objects.equals(carHouse, car.carHouse) && Objects.equals(carPool, car.carPool);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, typeName, price, image, reservations, (carHouse != null ? carHouse.getId() : null) , (carPool != null ? carPool.getId() : null)) ;
+    }
+
+    @Override
+    public String toString() {
+        return "Car{" +
+                "id=" + id +
+                ", typeName='" + typeName + '\'' +
+                ", price=" + price +
+                ", image='" + image + '\'' +
+                ", reservations=" + "reservations" +
+                ", carHouse=" + (carHouse != null ? carHouse.getHouseName() : null) +
+                ", carPool=" + (carPool != null ? carPool.getCarPoolName() : null) +
+                '}';
+    }
 }

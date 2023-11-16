@@ -72,27 +72,27 @@ public class CarHouse {
         this.cars = cars;
     }
 
-//    @Override
-//    public boolean equals(Object o) {
-//        if (this == o) return true;
-//        if (o == null || getClass() != o.getClass()) return false;
-//        CarHouse carHouse = (CarHouse) o;
-//        return id == carHouse.id && capacity == carHouse.capacity && Objects.equals(houseName, carHouse.houseName) && Objects.equals(address, carHouse.address) && Objects.equals(cars, carHouse.cars);
-//    }
-//
-//    @Override
-//    public int hashCode() {
-//        return Objects.hash(id, houseName, address, capacity, cars);
-//    }
-//
-//    @Override
-//    public String toString() {
-//        return "CarHouse{" +
-//                "id=" + id +
-//                ", houseName='" + houseName + '\'' +
-//                ", address='" + address + '\'' +
-//                ", capacity=" + capacity +
-//                ", cars=" + cars +
-//                '}';
-//    }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        CarHouse carHouse = (CarHouse) o;
+        return id == carHouse.id && capacity == carHouse.capacity && Objects.equals(houseName, carHouse.houseName) && Objects.equals(address, carHouse.address) && Objects.equals(cars, carHouse.cars);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, houseName, address, capacity, cars);
+    }
+
+    @Override
+    public String toString() {
+        return "CarHouse{" +
+                "id=" + id +
+                ", houseName='" + houseName + '\'' +
+                ", address='" + address + '\'' +
+                ", capacity=" + capacity +
+                ", cars=" + cars +
+                '}';
+    }
 }

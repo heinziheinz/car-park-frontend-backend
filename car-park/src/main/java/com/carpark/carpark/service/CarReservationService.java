@@ -2,7 +2,7 @@ package com.carpark.carpark.service;
 
 import com.carpark.carpark.model.*;
 import com.carpark.carpark.repository.*;
-import com.carpark.carpark.service.checkCarAvailablility.CarAvailable;
+import com.carpark.carpark.service.checkcaravailablility.CarAvailable;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

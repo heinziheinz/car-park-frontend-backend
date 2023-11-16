@@ -7,6 +7,7 @@ import com.carpark.carpark.model.DeletedCarHouse;
 import com.carpark.carpark.repository.CarHouseRepository;
 import com.carpark.carpark.repository.CarPoolRepository;
 import com.carpark.carpark.repository.CarRepository;
+import com.carpark.carpark.service.filtercarfromcarhouse.FilterCarFromCarHouse;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -22,10 +23,13 @@ public class CarHouseService {
     private final CarPoolRepository carPoolRepository;
     private final CarRepository carRepository;
 
-    public CarHouseService(CarHouseRepository carHouseRepository, CarPoolRepository carPoolRepository, CarRepository carRepository) {
+    private final FilterCarFromCarHouse filterCarFromCarHouse;
+
+    public CarHouseService(CarHouseRepository carHouseRepository, CarPoolRepository carPoolRepository, CarRepository carRepository, FilterCarFromCarHouse filterCarFromCarHouse) {
         this.carHouseRepository = carHouseRepository;
         this.carPoolRepository = carPoolRepository;
         this.carRepository = carRepository;
+        this.filterCarFromCarHouse = filterCarFromCarHouse;
     }
 
     private void setCarDatabaseRelationships(Set<Car> carHouseCars, CarPool carPool) {
@@ -109,7 +113,7 @@ public class CarHouseService {
     public CarHouse removeCarFromCarHouse(long carHouseId, long carPoolId, long carId) {
         CarHouse carHouse = carHouseRepository.findById(carHouseId).orElseThrow(EntityNotFoundException::new);
         CarPool carPool = carPoolRepository.findById(carPoolId).orElseThrow(EntityNotFoundException::new);
-        Set<Car> removedCars = filterCars(carHouse, carId);
+        Set<Car> removedCars = filterCarFromCarHouse.filterCarFromCarHouse(carHouse, carId);
         carHouse.setCars(removedCars);
         Car addedCarToCarPool = carRepository.findById(carId)
                 .orElseThrow(EntityNotFoundException::new);
@@ -125,7 +129,7 @@ public class CarHouseService {
     //TODO: hier erster Teil der Methode:
     public CarHouse removeCar(long carHouseId, long carId) {
         CarHouse carHouse = carHouseRepository.findById(carHouseId).orElseThrow(EntityNotFoundException::new);
-        Set<Car> removedCars = filterCars(carHouse, carId);
+        Set<Car> removedCars = filterCarFromCarHouse.filterCarFromCarHouse(carHouse, carId);
         carHouse.setCars(removedCars);
         return carHouseRepository.save(carHouse);
     }

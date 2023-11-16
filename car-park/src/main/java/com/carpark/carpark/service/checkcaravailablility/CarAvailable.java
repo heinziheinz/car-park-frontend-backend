@@ -1,4 +1,4 @@
-package com.carpark.carpark.service.checkCarAvailablility;
+package com.carpark.carpark.service.checkcaravailablility;
 
 import com.carpark.carpark.model.Car;
 
