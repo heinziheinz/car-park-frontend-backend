@@ -7,10 +7,11 @@ import jakarta.persistence.EntityNotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.Set;
 
-@Component
+@Service
 public class CarPoolService {
     private final CarPoolRepository carPoolRepository;
 
