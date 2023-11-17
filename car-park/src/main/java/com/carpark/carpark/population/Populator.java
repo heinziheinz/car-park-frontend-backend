@@ -80,7 +80,7 @@ public class Populator {
     private List<Car> createCars(CarRepository carRepository) {
         Car carOne = new Car(0,"Skoda", 20000.00, "https://imgur.com/fEHghpS.jpeg");
         List<Car> setOfCars = List.of(
-                new Car(0,"Skoda", 100.00, "https://imgur.com/fEHghpS.jpeg"),
+                new Car(0,"Manta", 400.00, "https://imgur.com/lp5Lvj3.jpg"),
                 new Car(0,"Mercedes", 150.00, "https://imgur.com/fEHghpS.jpeg"),
                 new Car(0, "Hyundai", 100.00, "https://imgur.com/fEHghpS.jpeg"),
                 new Car(0,"Volvo", 300.00, "https://imgur.com/fEHghpS.jpeg"),
