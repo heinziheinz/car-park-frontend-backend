@@ -2,11 +2,11 @@ package com.carpark.carpark.controller;
 
 
 import com.carpark.carpark.model.User;
-import com.carpark.carpark.model.UserData;
 import com.carpark.carpark.service.UserService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,9 +16,11 @@ import java.util.List;
 public class UserController {
 
     private final UserService userService;
+    private final PasswordEncoder passwordEncoder;
 
-    public UserController(UserService userService) {
+    public UserController(UserService userService, PasswordEncoder passwordEncoder) {
         this.userService = userService;
+        this.passwordEncoder = passwordEncoder;
     }
 
 
@@ -37,7 +39,7 @@ public class UserController {
     User save(@RequestBody User user) {
         System.out.println("user SOSOSO = " + user);
         
-        return userService.saveUserEntry(user);
+        return userService.saveUserEntry(user, passwordEncoder);
     }
 
     @DeleteMapping("/{id}")

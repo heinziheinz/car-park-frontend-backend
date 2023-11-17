@@ -7,7 +7,7 @@ import com.carpark.carpark.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Component;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -44,14 +44,21 @@ public class UserService {
         return userRepository.findAllByName(name);
     }
 
-    public User saveUserEntry(User user) {
+    public User saveUserEntry(User user, PasswordEncoder passwordEncoder) {
         System.out.println("user.getAuthorities()");
         System.out.println(user);
         System.out.println(user.getAuthorities() == null);
+        Set<String> authority;
+
         if (user.getAuthorities() == null) {
             user.setAuthorities(Set.of("USER"));
+            authority = Set.of("USER");
+        } else {
+            authority = user.getAuthorities();
         }
-        return saveUser(user);
+        String password = passwordEncoder.encode(user.getPassword());
+        User userSet = new User(user.getName(), user.getBirthdate(), user.getAddress(), password, authority);
+        return saveUser(userSet);
     }
 
     public void deleteUserEntry(long id) {
