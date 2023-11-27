@@ -8,9 +8,11 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
@@ -20,6 +22,7 @@ import static org.mockito.Mockito.verify;
 import static org.springframework.http.MediaType.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 
+//@SpringBootTest
 @WebMvcTest(CarController.class)//the fastes Context
 @AutoConfigureMockMvc(addFilters = false)//to pass all Spring Security
 class CarControllerTest {
@@ -36,6 +39,7 @@ class CarControllerTest {
     // and if the translation into JSON is also correct
     // no full url must be provided just the API
     @Test
+    //@WithMockUser(authorities = {"SCOPE_ADMIN"})
     void findAll() throws Exception {
         mockMvc.perform(get(url).accept(APPLICATION_JSON).contentType(APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk());
@@ -46,9 +50,11 @@ class CarControllerTest {
 
 
     @Test
+   // @WithMockUser(authorities = {"SCOPE_ADMIN"})
     void save() throws Exception {
         Car car = new Car(1, "Honda", 200, "image");
-        String json = "{id: '1', typeName:'Honda', price:'200', image: 'image'}";
+       // String json = "{/"id/": "1", typeName:'Honda', price:'200', image: 'image'}";
+        String json = "{\"id\": \"1\", \"typeName\": \"Honda\", \"price\": \"200\", \"image\": \"image\"}";
         mockMvc.perform(post(url).accept(APPLICATION_JSON).contentType(APPLICATION_JSON).content(json))
                 .andExpect(MockMvcResultMatchers.status().isOk());
         long carPollId = 1;

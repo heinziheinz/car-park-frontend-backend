@@ -49,6 +49,7 @@ public class SecurityConfiguration {
                     auth.requestMatchers("/carhouses/get-carhouse-names").permitAll();
                     auth.requestMatchers("/cars/find-available-cars-for-rent-by-name/{carHouseName}/{startDate}/{endDate}").permitAll();
                     auth.requestMatchers("/users").hasAuthority("SCOPE_ADMIN");
+                    //auth.requestMatchers("/users/**").hasAuthority("SCOPE_ADMIN");
 
                     auth.anyRequest().authenticated();
                 })

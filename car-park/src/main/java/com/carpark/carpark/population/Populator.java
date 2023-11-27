@@ -43,7 +43,6 @@ public class Populator {
             List<Car> listCars = createCars(carRepository);
             List<Car> carlist = carRepository.findAll();
             Set<Car> setOfCars1 = new HashSet<>(listCars);
-            System.out.println("setOfCars = " + setOfCars1);
             carlist.forEach((car) -> {
                 car.setCarPool(carPool);
 
