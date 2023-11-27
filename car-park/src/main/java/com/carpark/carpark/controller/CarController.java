@@ -43,7 +43,6 @@ public class CarController {
     }
 
     @DeleteMapping("/{id}")
-        //TODO: delete instead of cascading
     DeletedCar delete(@PathVariable long id) throws RescourceNotFoundException {
         return carReservationService.deleteCar(id);
     }
