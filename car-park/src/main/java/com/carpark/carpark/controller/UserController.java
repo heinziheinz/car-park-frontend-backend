@@ -38,7 +38,8 @@ public class UserController {
     @PostMapping
     User save(@RequestBody User user) {
         System.out.println("user SOSOSO = " + user);
-        
+        System.out.println("passwordEncoder = " + passwordEncoder);
+
         return userService.saveUserEntry(user, passwordEncoder);
     }
 

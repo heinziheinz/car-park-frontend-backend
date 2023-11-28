@@ -17,6 +17,8 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 import java.time.LocalDate;
 import java.util.Set;
@@ -65,19 +67,24 @@ class ReservationControllerTest {
 
     @Test
     void update() throws Exception {
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new JavaTimeModule());
+
         long id = 1;
         Car car = new Car(1, "Honda", 200, "image");
         // Convert the Car object to JSON
-        ObjectMapper objectMapper = new ObjectMapper();
+        //ObjectMapper objectMapper = new ObjectMapper();
         String carJson = objectMapper.writeValueAsString(car);
         User user = new User("Karl", LocalDate.of(2022, 10, 22), "Hufgasse 3", "wodödü", Set.of("User"));
         // Convert the User object to JSON
+       // String userJson = objectMapper.writeValueAsString(user);
         String userJson = objectMapper.writeValueAsString(user);
+        System.out.println("userJson = " + userJson);
 
 
-        String json = "{\"startDate\": \"2027-12-07\", \"endDate\": \"2027-12-07\", \"car\": " + carJson + ", \"user\": " + userJson + "}";
+        String json = "{\"startDate\": \"2023-11-28\", \"endDate\": \"2023-11-30\", \"car\": " + carJson + ", \"user\": " + userJson + "}";
         Reservation reservation = new Reservation(user, LocalDate.of(2023, 11, 28), LocalDate.of(2023, 11, 30));
-        reservation.setCar(car);
+       // reservation.setCar(car);
 
         mockMvc.perform(put(url + "/" + id).accept(APPLICATION_JSON).contentType(APPLICATION_JSON).content(json))
                 .andExpect(MockMvcResultMatchers.status().isOk());
