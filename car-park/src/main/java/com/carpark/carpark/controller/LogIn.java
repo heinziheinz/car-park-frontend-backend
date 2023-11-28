@@ -4,6 +4,7 @@ import com.carpark.carpark.model.LogInUserJWT;
 import com.carpark.carpark.model.User;
 import com.carpark.carpark.repository.UserRepository;
 import com.carpark.carpark.service.JWTGenerator;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,9 +27,9 @@ public class LogIn {
     }
 
     @GetMapping
-    LogInUserJWT jwt(Authentication authentication) throws RescourceNotFoundException{
+    LogInUserJWT jwt(Authentication authentication) {
 
-        User user = userRepository.findByName(authentication.getName()).orElseThrow(RescourceNotFoundException::new);
+        User user = userRepository.findByName(authentication.getName()).orElseThrow(EntityNotFoundException::new);
         return new LogInUserJWT(jwtGenerator.generate(authentication), user.getId(), user.getName(), user.getAuthorities());
     }
 }

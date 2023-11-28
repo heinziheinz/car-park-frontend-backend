@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 @Entity
 public class Reservation {
@@ -73,5 +74,18 @@ public class Reservation {
 
     public void setEndDate(LocalDate end) {
         this.endDate = end;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Reservation that = (Reservation) o;
+        return id == that.id && Objects.equals(user, that.user) && Objects.equals(startDate, that.startDate) && Objects.equals(endDate, that.endDate) && Objects.equals(car, that.car);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, user, startDate, endDate, car);
     }
 }
