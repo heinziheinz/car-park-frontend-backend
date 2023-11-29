@@ -1,10 +1,7 @@
 package com.carpark.carpark.controller;
 
 
-import com.carpark.carpark.model.Car;
-import com.carpark.carpark.model.Reservation;
-import com.carpark.carpark.model.ReservationWithCar;
-import com.carpark.carpark.model.ReservationsComplete;
+import com.carpark.carpark.model.*;
 import com.carpark.carpark.service.ReservationService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -40,7 +37,8 @@ public class ReservationController {
     }
 
     @PutMapping("/{id}")
-    Reservation update(@PathVariable long id, @RequestBody Reservation updatedReservation) {
+    Reservation update(@PathVariable long id, @RequestBody UpdateReservationDTO updatedReservation) {
+        System.out.println("updatedReservation = " + updatedReservation);
         return reservationService.updateReservationEntry(id, updatedReservation);
     }
 

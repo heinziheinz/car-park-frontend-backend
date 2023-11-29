@@ -38,10 +38,10 @@ public class ReservationService {
     }
 
 
-    private void updateStartDateAndEndDate(Reservation reservation, Reservation updatedReservation) {
+    private void updateStartDateAndEndDate(Reservation reservation, UpdateReservationDTO updatedReservation) {
 
-        reservation.setStartDate(updatedReservation.getStartDate());
-        reservation.setEndDate(updatedReservation.getEndDate());
+        reservation.setStartDate(updatedReservation.startDate());
+        reservation.setEndDate(updatedReservation.endDate());
     }
 
     private Reservation saveReservation(Reservation reservation) {
@@ -64,7 +64,7 @@ public class ReservationService {
 
     public Reservation updateReservationEntry(
             long id,
-            Reservation updatedReservation) {
+            UpdateReservationDTO updatedReservation) {
         Reservation reservation = reservationRepository.findById(id).orElseThrow(EntityNotFoundException::new);
         updateStartDateAndEndDate(reservation, updatedReservation);
         return saveReservation(reservation);
