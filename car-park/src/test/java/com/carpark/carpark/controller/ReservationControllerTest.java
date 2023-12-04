@@ -83,7 +83,7 @@ class ReservationControllerTest {
         System.out.println("userJson = " + userJson);
 
 
-        String json = "{\"startDate\": \"2023-11-28\", \"endDate\": \"2023-11-30\", \"car\": " + carJson + ", \"user\": " + userJson + "}";
+        String json = "{\"startDate\": \"2023-11-28\", \"endDate\": \"2023-11-30\"}";
         Reservation reservation = new Reservation(user, LocalDate.of(2023, 11, 28), LocalDate.of(2023, 11, 30));
         //reservation.setCar(car);
         UpdateReservationDTO updateReservationDTO = new UpdateReservationDTO(LocalDate.of(2023, 11, 28), LocalDate.of(2023, 11, 30));
