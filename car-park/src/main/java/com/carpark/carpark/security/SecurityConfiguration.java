@@ -6,6 +6,7 @@ import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jose.jwk.source.ImmutableJWKSet;
 import com.nimbusds.jose.jwk.source.JWKSource;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -36,9 +37,16 @@ import java.util.List;
 @EnableConfigurationProperties(RsaKeyProperties.class)
 public class SecurityConfiguration {
 
+    private final CustomCookieBearerTokenResolver customCookieBearerTokenResolver;
+
+    public SecurityConfiguration(CustomCookieBearerTokenResolver customCookieBearerTokenResolver) {
+        this.customCookieBearerTokenResolver = customCookieBearerTokenResolver;
+    }
+
 
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+
         return http
                 .cors(cors->cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(auth -> {
@@ -58,6 +66,12 @@ public class SecurityConfiguration {
                 .oauth2ResourceServer((oauth2) -> oauth2
                         .jwt(Customizer.withDefaults())
                 )
+//                .oauth2ResourceServer(oauth2 -> oauth2
+//                               // .bearerTokenResolver(customCookieBearerTokenResolver)
+//                                .jwt(Customizer.withDefaults())
+//                        // ... other configurations ...
+//                )
+
                 .sessionManagement(session ->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .httpBasic(Customizer.withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
@@ -104,4 +118,5 @@ public class SecurityConfiguration {
         JWKSource<SecurityContext> jwkSource = new ImmutableJWKSet<>(new JWKSet(jwk));
         return new NimbusJwtEncoder(jwkSource);
     }
+
 }
