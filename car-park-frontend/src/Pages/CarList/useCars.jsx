@@ -35,9 +35,9 @@ const useAllCars = () => {
         const options = {
             method: "DELETE",
         };
-        const userData = JSON.parse(localStorage.getItem("userdata"));
+       // const userData = JSON.parse(localStorage.getItem("userdata"));
         const headers = {
-            "Authorization": `Bearer ${userData.jwt}`,
+           // "Authorization": `Bearer ${userData.jwt}`,
             "Content-Type": "application/json"
         };
         try {

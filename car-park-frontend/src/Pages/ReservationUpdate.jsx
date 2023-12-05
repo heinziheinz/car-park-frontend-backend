@@ -3,7 +3,6 @@ import {useEffect, useRef, useState} from "react";
 import {fetchAuthenticated} from "../Utilities/api.js";
 import Loading from "../Components/Loading/Loading.jsx";
 import ReservationForm from "../Components/ReservationForm/ReservationForm.jsx";
-import {jwtTokenFetch} from "../Utilities/jwtTokenFetch.js";
 
 
 const ReservationUpdate = () => {

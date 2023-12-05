@@ -42,9 +42,9 @@ const BookingConfirmation = () => {
                 method: "POST",
             };
             // http://localhost:8080/cars/2/user/1/2026-12-20/2026-12-21
-            const userData = JSON.parse(localStorage.getItem("userdata"));
+            //const userData = JSON.parse(localStorage.getItem("userdata"));
             const headers = {
-                "Authorization": `Bearer ${userData.jwt}`,
+                //"Authorization": `Bearer ${userData.jwt}`,
                 "Content-Type": "application/json"
             };
             const bookedCar = await jwtTokenFetch(`/cars/${id}/user/${userID}/${startDate}/${endDate}`, options, headers)

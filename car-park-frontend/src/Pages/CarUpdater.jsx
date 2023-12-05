@@ -18,9 +18,9 @@ const CarUpdater = () => {
             const options = {
                 method: "GET",
             };
-            const userData = JSON.parse(localStorage.getItem("userdata"));
+           // const userData = JSON.parse(localStorage.getItem("userdata"));
             const headers = {
-                "Authorization": `Bearer ${userData.jwt}`,
+               // "Authorization": `Bearer ${userData.jwt}`,
                 "Content-Type": "application/json"
             };
             try {
@@ -48,9 +48,9 @@ const CarUpdater = () => {
             method: "PUT",
             body: JSON.stringify(car)
         };
-        const userData = JSON.parse(localStorage.getItem("userdata"));
+        //const userData = JSON.parse(localStorage.getItem("userdata"));
         const headers = {
-            "Authorization": `Bearer ${userData.jwt}`,
+           // "Authorization": `Bearer ${userData.jwt}`,
             "Content-Type": "application/json"
         };
         try {
