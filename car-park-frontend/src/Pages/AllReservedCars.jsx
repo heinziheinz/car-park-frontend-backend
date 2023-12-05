@@ -25,7 +25,8 @@ const AllReservedCars = () => {
             console.log(userData.userId)
             const headers = {
                 "Authorization": `Bearer ${userData.jwt}`,
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                "credentials": "include"
             };///reservation/get-all-reserved-cars/id/
             const responseAllReservedCars = await jwtTokenFetch(`/reservation/get-all-reserved-cars-reservations-user/id/${userData.userId}?page=0&size=10`, options, headers);
             console.log("allReservedCars " + responseAllReservedCars);

@@ -52,12 +52,22 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(auth -> {
 //                    auth.requestMatchers("/users").hasAuthority("SCOPE_USER");
                     auth.requestMatchers(HttpMethod.POST,"/users/get-user").hasAuthority("SCOPE_USER");
-                    auth.requestMatchers(HttpMethod.POST,"/cars").hasAuthority("SCOPE_ADMIN");
                     auth.requestMatchers(HttpMethod.POST,"/users").permitAll();
-                    auth.requestMatchers("/carhouses/get-carhouse-names").permitAll();
-                    auth.requestMatchers("/cars/find-available-cars-for-rent-by-name/{carHouseName}/{startDate}/{endDate}").permitAll();
-                    auth.requestMatchers("/users").hasAuthority("SCOPE_ADMIN");
-                    //auth.requestMatchers("/users/**").hasAuthority("SCOPE_ADMIN");
+                    auth.requestMatchers("/users/**").hasAuthority("SCOPE_ADMIN");
+                    auth.requestMatchers(HttpMethod.POST,"/cars").hasAuthority("SCOPE_ADMIN");
+                    auth.requestMatchers(HttpMethod.DELETE,"/cars/*").hasAuthority("SCOPE_ADMIN");
+                    auth.requestMatchers(HttpMethod.PUT,"/cars/*").hasAuthority("SCOPE_ADMIN");
+                    auth.requestMatchers(HttpMethod.GET,"/cars/**").permitAll();
+                    auth.requestMatchers(HttpMethod.POST,"/carhouses/**").hasAuthority("SCOPE_ADMIN");
+                    auth.requestMatchers(HttpMethod.DELETE,"/carhouses/*").hasAuthority("SCOPE_ADMIN");
+                    auth.requestMatchers(HttpMethod.PUT,"/carhouses/*").hasAuthority("SCOPE_ADMIN");
+                    auth.requestMatchers(HttpMethod.GET,"/carhouses/**").permitAll();
+                    auth.requestMatchers("/car-pool/**").hasAuthority("SCOPE_ADMIN");
+                    auth.requestMatchers(HttpMethod.DELETE, "/reservation/*").hasAuthority("SCOPE_USER");
+                    auth.requestMatchers("/reservation/get-all-reserved-cars-reservations-user/id/*").hasAuthority("SCOPE_USER");
+                    auth.requestMatchers("/reservation/get-all-reserved-cars/id/*").hasAuthority("SCOPE_USER");
+                    auth.requestMatchers("/reservation/**").hasAuthority("SCOPE_ADMIN");
+
 
                     auth.anyRequest().authenticated();
                 })
