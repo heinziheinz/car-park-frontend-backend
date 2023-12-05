@@ -25,7 +25,10 @@ public class JWTGenerator {
         Instant now = Instant.now();
         String scope = authentication.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
+                .map(authority -> authority.startsWith("SCOPE_") ? authority.substring(6) : authority)
                 .collect(Collectors.joining(" "));
+
+        System.out.println("scope = " + scope);
         JwtClaimsSet claims = JwtClaimsSet.builder()
                 .issuer("self")
                 .issuedAt(now)

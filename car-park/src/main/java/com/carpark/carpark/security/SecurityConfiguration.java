@@ -63,19 +63,18 @@ public class SecurityConfiguration {
                 })
 
 //                .authorizeHttpRequests(auth ->auth.anyRequest().authenticated())
-                .oauth2ResourceServer((oauth2) -> oauth2
-                        .jwt(Customizer.withDefaults())
+                                .oauth2ResourceServer(oauth2 -> oauth2
+                                .bearerTokenResolver(customCookieBearerTokenResolver)
+                                .jwt(Customizer.withDefaults())
                 )
-//                .oauth2ResourceServer(oauth2 -> oauth2
-//                               // .bearerTokenResolver(customCookieBearerTokenResolver)
-//                                .jwt(Customizer.withDefaults())
-//                        // ... other configurations ...
-//                )
-
                 .sessionManagement(session ->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .httpBasic(Customizer.withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
                 .build();
+
+
+
+
     }
 
 
@@ -120,3 +119,9 @@ public class SecurityConfiguration {
     }
 
 }
+
+//                .oauth2ResourceServer(oauth2 -> oauth2
+//                               // .bearerTokenResolver(customCookieBearerTokenResolver)
+//                                .jwt(Customizer.withDefaults())
+//                        // ... other configurations ...
+//                )

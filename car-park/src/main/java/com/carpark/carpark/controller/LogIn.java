@@ -33,6 +33,7 @@ public class LogIn {
     @GetMapping
     LogInUserJWT jwt(Authentication authentication,  HttpServletResponse response) {
         String jwt = jwtGenerator.generate(authentication);
+        System.out.println("jwt = " + jwt);
         Cookie cookie = new Cookie("Bearer", jwt);
         cookie.setHttpOnly(true);
         cookie.setMaxAge(-1);
