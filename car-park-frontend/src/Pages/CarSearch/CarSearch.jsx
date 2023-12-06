@@ -1,10 +1,10 @@
 import {useEffect, useState} from "react";
-import {jwtTokenFetch} from "../../Utilities/jwtTokenFetch.js";
 import CarTable from "../../Components/CarTable/CarTable.jsx";
 import Form from "../../Components/Form/Form.jsx";
 import {currentDate} from "../../Utilities/CurrentDate.js";
 import {initializeInputFieldsForKalender} from "./initializeInputFieldsForKalender.js";
 import SelectElement from "../../Components/SelectElement/SelectElement.jsx";
+import {fetchAuthenticated} from "../../Utilities/api.js";
 
 const CarSearch = () => {
 
@@ -21,11 +21,8 @@ const CarSearch = () => {
     const inputFieldsKalender = initializeInputFieldsForKalender(startDateEndDateAndLocation.startDate, startDateEndDateAndLocation.endDate);
 
     let userData = localStorage.getItem("userdata")
-    console.log(userData)
     let UserDataParsed;
     let userID;
-    console.log("userData")
-    console.log(userData === null)
     if (userData === null) {
         let userData = '{"userId": ""}';
         UserDataParsed = JSON.parse(userData)
@@ -35,21 +32,16 @@ const CarSearch = () => {
         userID = UserDataParsed.userId;
     }
 
-    console.log(userID)
-
 
     useEffect(() => {
 
         (async () => {
             try {
-                const headers = {
-                    "Content-Type": "application/json"
-                };
-                const listOfCarHouseNames = await jwtTokenFetch("/carhouses/get-carhouse-names", {}, headers);
-
+                const listOfCarHouseNames = await fetchAuthenticated("/carhouses/get-carhouse-names", {
+                    method: "GET"
+                });
                 if (listOfCarHouseNames.ok) {
                     const listOfCarHousesParsed = await listOfCarHouseNames.json()
-                    console.log(listOfCarHousesParsed)
                     setCarHouses(listOfCarHousesParsed);
                 }
             } catch (err) {
@@ -61,12 +53,10 @@ const CarSearch = () => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        console.log(inputStartDateEndDateAndLocation)
         try {
-            const headers = {
-                "Content-Type": "application/json"
-            };
-            const availableCars = await jwtTokenFetch(`/cars/find-available-cars-for-rent-by-name/${startDateEndDateAndLocation.location}/${startDateEndDateAndLocation.startDate}/${startDateEndDateAndLocation.endDate}`, {}, headers);
+            const availableCars = await fetchAuthenticated(`/cars/find-available-cars-for-rent-by-name/${startDateEndDateAndLocation.location}/${startDateEndDateAndLocation.startDate}/${startDateEndDateAndLocation.endDate}`, {
+                method: "GET"
+            });
             if (availableCars.ok) {
                 const availableCarsParsed = await availableCars.json()
                 setCars(availableCarsParsed);
@@ -79,7 +69,6 @@ const CarSearch = () => {
 
 
     const startDateEndDateLocationHandler = (event) => {
-        console.log(event.target.value)
         if (event.target.name === "startDate" || event.target.name === "endDate") {
             if (event.target.value < currentDate) {
                 setInvalidDate(true);

@@ -1,8 +1,4 @@
 import {useState} from "react";
-import {loadJson} from "../../Utilities/loadJson.js"
-import Loading from "../Loading/Loading.jsx";
-import {Link} from "react-router-dom";
-
 const CarHouseForm = ({carHouse, onSave, children}) => {
     console.log(carHouse?.houseName)
     console.log(carHouse?.address)

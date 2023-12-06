@@ -9,7 +9,6 @@ const Form = ({handleSubmit, inputFields, onChangeHandler, children, disabled, b
                 {children}
                 {
                     inputFields.map((fields, index) => {
-                        console.log(fields.value)
                         return (
                             <div key={"wrapper" + index}>
                                 <InputField

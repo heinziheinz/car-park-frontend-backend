@@ -1,12 +1,9 @@
 import {useState} from "react";
-import {loadJson} from "../../Utilities/loadJson.js"
 
 const CarForm = ({car, onSave}) => {
     const [typeName, setTypeName] = useState(car?.typeName ?? "");
     const [price, setPrice] = useState(car?.price ?? "");
     const [image, setImage] = useState(car?.image ?? "");
-    console.log("image")
-    console.log(image)
 
     const onSubmit = (e) => {
         e.preventDefault();

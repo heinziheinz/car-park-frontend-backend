@@ -1,29 +1,19 @@
 import {useEffect} from "react";
-import {jwtTokenFetch} from "../Utilities/jwtTokenFetch.js";
 import {useNavigate, useParams} from "react-router-dom";
-import {Buffer} from "buffer";
+import {fetchAuthenticated} from "../Utilities/api.js";
 
 const CarBooker = () => {
     const {id} = useParams();
     const navigate = useNavigate();
-    console.log("my id " + id);
     useEffect(() => {
         (async () => {
-            const options = {
-                method: "GET",
-            };
-            const userData = JSON.parse(localStorage.getItem("userdata"));
-            const headers = {
-                "Authorization": `Bearer ${userData.jwt}`,
-                "Content-Type": "application/json"
-            };
             try {
-                const bookedCar = await jwtTokenFetch(`/cars/id/${id}`, options, headers)
-                console.log("Booked Car " + bookedCar);
-                console.log(bookedCar);
+                const options = {
+                    method: "GET",
+                };
+                    const bookedCar = await fetchAuthenticated(`/cars/id/${id}`, options)
                 if (bookedCar.ok) {
                     const bookedCarParsed = await bookedCar.json();
-                    console.log("bookedCarParsed" + bookedCarParsed);
                     navigate(`/booking-confirmation/${bookedCarParsed.id}`)
                 }
             } catch (err) {

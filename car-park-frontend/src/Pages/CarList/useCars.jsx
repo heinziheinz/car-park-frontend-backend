@@ -1,5 +1,4 @@
 import {useEffect, useState} from "react";
-import {jwtTokenFetch} from "../../Utilities/jwtTokenFetch.js";
 import {fetchAuthenticated} from "../../Utilities/api.js";
 
 
@@ -12,7 +11,6 @@ const useAllCars = () => {
     useEffect(() => {
 
         (async () => {
-
             try {
                 const allCars = await fetchAuthenticated(`/cars?page=${currentPage}&size=10`, {
                     method: "GET"
@@ -31,27 +29,14 @@ const useAllCars = () => {
         })();
     }, [currentPage, carDeleted]);
     const handleDelete = async (id) => {
-        console.log("delete Car with id:" + id);
-        const options = {
-            method: "DELETE",
-        };
-       // const userData = JSON.parse(localStorage.getItem("userdata"));
-        const headers = {
-           // "Authorization": `Bearer ${userData.jwt}`,
-            "Content-Type": "application/json"
-        };
-        try {
-            const deletedCar = await jwtTokenFetch(`/cars/${id}`, options, headers)
-            console.log("deletedCar " + deletedCar);
-            console.log(deletedCar);
-            if (deletedCar.ok) {
-                console.log("Inside");
-                console.log(deletedCar);
-                const deletedCarParsed = await deletedCar.json();
-                console.log("After");
-                setCarDeleted(!carDeleted);
 
-                console.log(deletedCarParsed);
+        try {
+            const deletedCar = await fetchAuthenticated(`/cars/${id}`, {
+                method: "DELETE"
+            });
+            if (deletedCar.ok) {
+                const deletedCarParsed = await deletedCar.json();
+                setCarDeleted(!carDeleted);
             }
         } catch (err) {
             console.log(err);

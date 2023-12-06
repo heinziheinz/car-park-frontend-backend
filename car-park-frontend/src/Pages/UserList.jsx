@@ -17,10 +17,8 @@ const UserList = () => {
                 const allUsers = await fetchAuthenticated(`/users?page=${currentPage}&size=10`, {
                     method: "GET"
                 });
-                console.log(allUsers)
                 if (allUsers.ok) {
                     const allUsersParsed = await allUsers.json()
-                    console.log(allUsersParsed.content);
                     setUsers(allUsersParsed.content)
                     setTotalPages(allUsersParsed.totalPages);
                     setLoading(false);

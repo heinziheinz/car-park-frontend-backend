@@ -1,12 +1,9 @@
-import {useEffect, useState} from "react";
-import {fetchAuthenticated} from "./../../Utilities/api.js";
-import {useParams} from "react-router-dom";
 import Loading from "../../Components/Loading/Loading.jsx";
 import CarsFromCarHouseTable from "../../Components/CarsFromCarHouseTable/CarsFromCarHouseTable.jsx";
 import useCars from "./useCars.jsx";
 
 const CarsInCarHouse = () => {
-   const{loading,cars, deleteHandler, flipThePage, currentPage, totalPages}= useCars();
+    const {loading, cars, deleteHandler, flipThePage, currentPage, totalPages} = useCars();
     if (loading) {
         return <Loading/>
     }

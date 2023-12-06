@@ -1,11 +1,11 @@
 import {useState, useEffect, useContext} from "react";
-import {jwtTokenFetch} from "../Utilities/jwtTokenFetch.js";
 import {Buffer} from "buffer";
 import {useNavigate} from "react-router-dom";
 import {LogginInContext} from "../main.jsx";
 import {UserRoleContext} from "../main.jsx";
 import {findRole} from "../Utilities/findRole.js";
 import Form from "../Components/Form/Form.jsx";
+import {fetchAuthenticated} from "../Utilities/api.js";
 
 const Login = () => {
     const navigate = useNavigate();
@@ -37,26 +37,24 @@ const Login = () => {
 
 
     const handleSubmit = async (event) => {
+
         event.preventDefault();
-        const options = {
-            method: "GET",
-        };
         const auth = Buffer.from(inputValue.username + ":" + inputValue.password)
             .toString("base64");
-
         const headers = {
             "Authorization": `Basic ${auth}`,
             "Content-Type": "application/json"
         };
 
         try {
-            const data = await jwtTokenFetch("/login", options, headers);
+            const data = await fetchAuthenticated("/login", {
+                method: "GET",
+                headers
+            });
             if (data.ok) {
                 const myData = await data.json();
                 localStorage.setItem("userdata", JSON.stringify(myData));
-                const userData = JSON.parse(localStorage.getItem("userdata"));
                 const roleContext = findRole(myData.authorities);
-                console.log(roleContext)
                 setUserRole(roleContext);
                 setLoggedIn(true);
                 navigate("/")

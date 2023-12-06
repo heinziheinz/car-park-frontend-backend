@@ -122,7 +122,6 @@ export const UserRoleContext = React.createContext();
 function App() {
     const [loggedIn, setLoggedIn] = useState(false);
     const [userRole, setUserRole] = useState('USER');
-    console.log(loggedIn)
     return (
         < LogginInContext.Provider value={{loggedIn, setLoggedIn}}>
             <UserRoleContext.Provider value={{userRole, setUserRole}}>

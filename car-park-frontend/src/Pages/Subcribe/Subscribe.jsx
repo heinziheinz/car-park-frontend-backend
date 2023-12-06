@@ -1,10 +1,9 @@
-import {useEffect, useState} from "react";
-import {Buffer} from "buffer";
-import {jwtTokenFetch} from "../../Utilities/jwtTokenFetch.js";
+import {useState} from "react";
 import {useNavigate} from "react-router-dom";
 import Form from "./../../Components/Form/Form.jsx";
 import {initializeInputFieldsForKalender} from "./initializeInputFieldsForCalender.js"
 import {checkIfAllValuesAreDefined} from "./checkIfAllValuesAreDefined.js";
+import {fetchAuthenticated} from "../../Utilities/api.js";
 
 const Subscribe = () => {
     const navigate = useNavigate();
@@ -20,24 +19,16 @@ const Subscribe = () => {
     const handleSubmit = async (event) => {
         event.preventDefault();
         const allowedToSubmit = checkIfAllValuesAreDefined(inputValue);
-        if(!allowedToSubmit){
+        if (!allowedToSubmit) {
             return;
         }
-        const options = {
-            method: "POST",
-            body: JSON.stringify(inputValue)
-        };
-        const auth = Buffer.from(inputValue.username + ":" + inputValue.password)
-            .toString("base64");
-        const headers = {
-            "Content-Type": "application/json"
-        };
-
         try {
-            const data = await jwtTokenFetch("/users", options, headers);
+            const data = await fetchAuthenticated("/users", {
+                method: "POST",
+                body: JSON.stringify(inputValue)
+            });
             console.log(data);
             if (data.ok) {
-                const myData = await data.json();
                 navigate("/login")
             } else {
                 throw new Error("CarHouseError");
@@ -47,13 +38,7 @@ const Subscribe = () => {
             console.error(err)
         }
     }
-    useEffect(() => {
-        console.log(inputValue)
-    }, [inputValue]);
-
     const onChangeHandler = (event) => {
-        console.log(event.target.name)
-        console.log(event.target.value)
         setInputValue({
             ...inputValue,
             [event.target.name]: event.target.value,
