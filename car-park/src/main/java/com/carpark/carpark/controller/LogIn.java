@@ -40,6 +40,6 @@ public class LogIn {
         cookie.setPath("/");
         response.addCookie(cookie);
         User user = userRepository.findByName(authentication.getName()).orElseThrow(EntityNotFoundException::new);
-        return new LogInUserJWT(jwtGenerator.generate(authentication), user.getId(), user.getName(), user.getAuthorities());
+        return new LogInUserJWT(user.getId(), user.getName(), user.getAuthorities());
     }
 }
