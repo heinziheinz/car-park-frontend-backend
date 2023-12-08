@@ -12,7 +12,6 @@ import java.util.stream.Collectors;
 @Service
 public class FilterCarFromCarHouse {
     public Set<Car> filterCarFromCarHouse(CarHouse carHouse, long carId){
-        System.out.println("carHouse = " + carHouse);
         return carHouse.getCars().stream()
                 .filter((car) -> {
                     return car.getId() != carId;

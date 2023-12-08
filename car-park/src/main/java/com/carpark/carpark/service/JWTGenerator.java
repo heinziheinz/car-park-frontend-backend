@@ -28,7 +28,6 @@ public class JWTGenerator {
                 .map(authority -> authority.startsWith("SCOPE_") ? authority.substring(6) : authority)
                 .collect(Collectors.joining(" "));
 
-        System.out.println("scope = " + scope);
         JwtClaimsSet claims = JwtClaimsSet.builder()
                 .issuer("self")
                 .issuedAt(now)

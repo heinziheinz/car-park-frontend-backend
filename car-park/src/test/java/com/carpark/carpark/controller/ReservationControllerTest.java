@@ -75,12 +75,10 @@ class ReservationControllerTest {
         // Convert the Car object to JSON
         //ObjectMapper objectMapper = new ObjectMapper();
         String carJson = objectMapper.writeValueAsString(car);
-        System.out.println("carJson = " + carJson);
         User user = new User("Karl", LocalDate.of(2022, 10, 22), "Hufgasse 3", "wodödü", Set.of("User"));
         // Convert the User object to JSON
         // String userJson = objectMapper.writeValueAsString(user);
         String userJson = objectMapper.writeValueAsString(user);
-        System.out.println("userJson = " + userJson);
 
 
         String json = "{\"startDate\": \"2023-11-28\", \"endDate\": \"2023-11-30\"}";

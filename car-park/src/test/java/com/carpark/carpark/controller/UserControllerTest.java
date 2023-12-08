@@ -62,8 +62,6 @@ class UserControllerTest {
         String json = "{\"name\": \"Paul\", \"birthdate\": \"2022-10-12\", \"address\": \"Wimbergergasse 2\", \"password\": \"#dsl9324ös\", \"authorities\": [\"USER\"]}";
         mockMvc.perform(post(url).accept(APPLICATION_JSON).contentType(APPLICATION_JSON).content(json))
                 .andExpect(MockMvcResultMatchers.status().isOk());
-        long carPollId = 1;
-        System.out.println("passwordEncoder" + passwordEncoder);
         verify(userService).saveUserEntry(user, passwordEncoder);
     }
 

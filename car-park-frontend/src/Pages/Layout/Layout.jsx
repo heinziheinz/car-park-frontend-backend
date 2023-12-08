@@ -17,7 +17,7 @@ const Layout = () => {
                             <button type="button">Reserve Car</button>
                         </Link>
                         {loggedIn ? <Link to="/logout">
-                            <button type="button">LoginOut</button>
+                            <button type="button">LogOut</button>
                         </Link> : <Link to="/login">
                             <button type="button">LogIn</button>
                         </Link>}

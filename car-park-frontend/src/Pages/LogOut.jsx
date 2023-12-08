@@ -18,7 +18,6 @@ const LogOut = () => {
                     setLoggedIn(false);
                     setUserRole("USER");
                     localStorage.clear();
-                    navigate("/login")
                 }
             } catch (err) {
                 console.error(err);

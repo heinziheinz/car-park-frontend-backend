@@ -37,7 +37,6 @@ public class CarController {
 
     @PostMapping
     Car save(@RequestBody Car car) {
-        System.out.println("car saved= " + car);
         long carPoolId = 1;
         return carReservationService.saveCarService(car, carPoolId);
     }
@@ -89,7 +88,6 @@ public class CarController {
             @PathVariable LocalDate startDate,
             @PathVariable LocalDate endDate
     ) throws RescourceNotFoundException {
-        System.out.println("carHouseName = " + carHouseName);
         return carReservationService.getAvailableCarsByCarHouseName(carHouseName, startDate, endDate);
     }
 

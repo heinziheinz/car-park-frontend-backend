@@ -45,9 +45,6 @@ public class UserService {
     }
 
     public User saveUserEntry(User user, PasswordEncoder passwordEncoder) {
-        System.out.println("user.getAuthorities()");
-        System.out.println(user);
-        System.out.println(user.getAuthorities() == null);
         Set<String> authority;
 
         if (user.getAuthorities() == null) {

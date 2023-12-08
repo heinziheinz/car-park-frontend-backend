@@ -13,8 +13,6 @@ import jakarta.servlet.http.Cookie;
 public class LogOut {
     @GetMapping
     SuccessfullyLogOut LogOutUser(HttpServletResponse response) {
-        // Create a new cookie with the same name and set its max age to 0
-        System.out.println(" LOGOUT ");
         Cookie cookie = new Cookie("Bearer", "");
         cookie.setHttpOnly(true);
         cookie.setMaxAge(0);

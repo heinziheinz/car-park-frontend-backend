@@ -38,7 +38,6 @@ public class ReservationController {
 
     @PutMapping("/{id}")
     Reservation update(@PathVariable long id, @RequestBody UpdateReservationDTO updatedReservation) {
-        System.out.println("updatedReservation = " + updatedReservation);
         return reservationService.updateReservationEntry(id, updatedReservation);
     }
 

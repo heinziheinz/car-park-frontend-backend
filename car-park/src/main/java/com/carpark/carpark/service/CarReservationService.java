@@ -133,8 +133,6 @@ public class CarReservationService {
 
     public List<Car> getAvailableCarsByCarHouseName(String carHouseName, LocalDate startDate, LocalDate endDate) {
         CarHouse carHouse = findCarHouseByName(carHouseName);
-        System.out.println("carHouse22 = " + carHouse);
-        //return findAvailableCars(startDate, endDate, carHouse);
         return carRepository.findAvailableCarsPlusCarHouse(startDate, endDate, carHouse);
     }
 
