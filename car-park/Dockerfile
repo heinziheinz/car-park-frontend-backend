@@ -14,5 +14,5 @@ RUN  mvn package
 COPY target/*.jar app.jar
 
 FROM eclipse-temurin:17-jdk-alpine
-COPY --from=bulidstage /target/app.jar .
+COPY --from=bulidstage app.jar .
 ENTRYPOINT ["java","-jar","/app.jar"]
