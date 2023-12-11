@@ -55,7 +55,6 @@ class CarHouseServiceTest {
         Assertions.assertEquals(carHouseExpected, actual);
         //Nur zum test
         //Assertions.assertNotEquals(carHouseExpected, actual);
-        //try
 
     }
 
