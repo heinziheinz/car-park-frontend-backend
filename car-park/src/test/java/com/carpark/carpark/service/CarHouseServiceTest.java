@@ -53,6 +53,9 @@ class CarHouseServiceTest {
 
         CarHouse actual = carHouseService.removeCarFromCarHouse(carHouseId, carPoolId , carId);
         Assertions.assertEquals(carHouseExpected, actual);
+        //Nur zum test
+        Assertions.assertNotEquals(carHouseExpected, actual);
+
     }
 
     @Test
@@ -77,5 +80,6 @@ class CarHouseServiceTest {
 
         Assertions.assertEquals(carHouseExpected, actual);
     }
+
 
 }
