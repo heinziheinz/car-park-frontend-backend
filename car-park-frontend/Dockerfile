@@ -1,12 +1,13 @@
-FROM node:19-alpine as BUILD_IMAGE
-FROM node:19-alpine
-WORKDIR /usr/src/app
+FROM node:19-alpine as build
 
-COPY ./package.json .
+COPY package*.json ./
+COPY vite.config.js ./
+COPY index.html ./
+COPY ./src /src/
 
-RUN npm i
+RUN npm install --silent
 
-COPY . .
+RUN npm run build
 
-
-CMD ["npm", "run", "dev"]
+FROM nginx:alpine
+COPY --from=build /dist /usr/share/nginx/html
