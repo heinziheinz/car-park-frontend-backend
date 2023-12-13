@@ -3,7 +3,7 @@ spring:
     hibernate:
       ddl-auto: create
   datasource:
-    url: jdbc:postgresql:b8155ef116ff3997ca6c14eb2103399a
+    url: jdbc:postgresql:/b8155ef116ff3997ca6c14eb2103399a
     driverClassName: org.postgresql.Driver
 rsa:
   private-key: classpath:/etc/secrets/private-key
