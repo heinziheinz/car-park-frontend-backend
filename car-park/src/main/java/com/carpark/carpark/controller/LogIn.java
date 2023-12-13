@@ -6,13 +6,12 @@ import com.carpark.carpark.repository.UserRepository;
 import com.carpark.carpark.service.JWTGenerator;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import jakarta.servlet.http.HttpServletResponse;
-
-
 
 
 @RestController
@@ -31,8 +30,11 @@ public class LogIn {
     }
 
     @GetMapping
-    LogInUserJWT jwt(Authentication authentication,  HttpServletResponse response) {
+    LogInUserJWT jwt(Authentication authentication, HttpServletResponse response, HttpServletRequest request) {
         String jwt = jwtGenerator.generate(authentication);
+
+        System.out.println("request.getLocalName(); " + request.getLocalName());
+        System.out.println("request.getLocalAddr(); " + request.getLocalAddr() );
         Cookie cookie = new Cookie("Bearer", jwt);
         cookie.setHttpOnly(true);
         cookie.setMaxAge(-1);
