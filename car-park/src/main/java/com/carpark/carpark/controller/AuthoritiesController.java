@@ -12,6 +12,7 @@ import java.util.List;
 @RestController
 @RequestMapping("authorities")
 public class AuthoritiesController {
+    //
     private final AuthorityRepository authorityRepository;
 
     public AuthoritiesController(AuthorityRepository authorityRepository) {
