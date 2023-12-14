@@ -37,6 +37,9 @@ import java.util.List;
 @EnableConfigurationProperties(RsaKeyProperties.class)
 public class SecurityConfiguration {
 
+    @Value("${cors.allowed-origin-patterns}")
+    private String allowedOriginPatterns;
+
     private final CustomCookieBearerTokenResolver customCookieBearerTokenResolver;
 
     public SecurityConfiguration(CustomCookieBearerTokenResolver customCookieBearerTokenResolver) {
@@ -92,7 +95,7 @@ public class SecurityConfiguration {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         // the only other origins we want to allow are localhost for development purposes
-        configuration.setAllowedOriginPatterns(List.of("http://localhost:5173"));
+        configuration.setAllowedOriginPatterns(List.of(allowedOriginPatterns));
         configuration.setAllowedMethods(List.of("GET", "POST","PUT", "DELETE"));
         configuration.setAllowedHeaders(List.of("*"));
         configuration.setAllowCredentials(true);
