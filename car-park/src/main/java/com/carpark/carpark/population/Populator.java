@@ -38,23 +38,24 @@ public class Populator {
             AuthorityRepository authorityRepository
     ) {
         return args -> {
-            if (userRepository.count() > 0 || carRepository.count() > 0 || carPoolRepository.count() > 0) {
+            if (userRepository.count() > 0 || carRepository.count() > 0 || carPoolRepository.count() > 1) {
                 System.out.println("Database is already populated. Skipping initialization.");
                 return;
             }
-
+            System.out.println("WEITER, WEITER, WEITER");
+//
             CarPool carPool = cerateCarPool(carPoolRepository);
             createUsers(userRepository, passwordEncoder);
-//            List<Car> listCars = createCars(carRepository);
-//            List<Car> carlist = carRepository.findAll();
-//            Set<Car> setOfCars1 = new HashSet<>(listCars);
-//            carlist.forEach((car) -> {
-//                car.setCarPool(carPool);
-//
-//            });
-//            carPool.setCars(setOfCars1);
-//            carPoolRepository.save(carPool);
-//            carRepository.saveAll(carlist);
+            List<Car> listCars = createCars(carRepository);
+            List<Car> carlist = carRepository.findAll();
+            Set<Car> setOfCars1 = new HashSet<>(listCars);
+            carlist.forEach((car) -> {
+                car.setCarPool(carPool);
+
+            });
+            carPool.setCars(setOfCars1);
+            carPoolRepository.save(carPool);
+            carRepository.saveAll(carlist);
             //TODO: cars don`t get set in CarPool
 
 //            carRepository.saveAll(listCars);
