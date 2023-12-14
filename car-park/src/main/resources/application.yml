@@ -1,0 +1,13 @@
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: ${SPRING_HYBERNATE_DDL_AUTO}
+  datasource:
+    url: ${SPRING_DATASOURCE_URL}
+    driverClassName: ${SPRING_DATASOURCE_DRIVERCLASSNAME}
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
+rsa:
+  private-key: classpath:certificates/private.pem
+  public-key: classpath:certificates/public.pem
+
