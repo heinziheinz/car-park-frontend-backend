@@ -38,6 +38,11 @@ public class Populator {
             AuthorityRepository authorityRepository
     ) {
         return args -> {
+            if (userRepository.count() > 0 || carRepository.count() > 0 || carPoolRepository.count() > 0) {
+                System.out.println("Database is already populated. Skipping initialization.");
+                return;
+            }
+
             CarPool carPool = cerateCarPool(carPoolRepository);
             createUsers(userRepository, passwordEncoder);
             List<Car> listCars = createCars(carRepository);
